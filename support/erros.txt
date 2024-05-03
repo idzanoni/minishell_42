@@ -1,0 +1,24 @@
+comando: 
+	ls > | output.txt
+retorno:
+	bash: syntax error near unexpected token `|'
+
+comando:
+
+retorno:
+
+
+_________________
+Ctrl+D 
+pode ser usado para sair do programa ou indicar que você terminou 
+de inserir entrada.
+Ctrl+C
+Este comando é usado para enviar um sinal de interrupção (SIGINT) 
+para o processo em execução no terminal. 
+Ctrl+\ 
+Este comando é usado para enviar um sinal de desistência (SIGQUIT)
+para o processo em execução no terminal.
+
+| (pipe)
+redireciona a saída de um comando para a entrada de outro comando
+
