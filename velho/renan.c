@@ -6,7 +6,7 @@
 /*   By: izanoni <izanoni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 16:20:10 by izanoni           #+#    #+#             */
-/*   Updated: 2024/05/03 15:06:35 by izanoni          ###   ########.fr       */
+/*   Updated: 2024/05/06 16:02:05 by izanoni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,3 @@ char  *full_path(char *command, char **envp)
 {
 	
 }
-ok ki
