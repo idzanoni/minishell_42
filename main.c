@@ -99,7 +99,7 @@ char *find_path(char *splited_prompt, char **envp)
 		path = ft_strjoin(splited_path[i], "/");
 		path = ft_strjoin(path, splited_prompt);
 		//path = ft_strjoin("/bin/", splited_prompt);
-		if (!access(path, F_OK))
+		if (access(path, F_OK) == 0)
 			return(path);
 		i++;
 	}
