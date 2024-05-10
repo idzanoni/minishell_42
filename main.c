@@ -31,9 +31,9 @@ void	minishell(char **envp)
 
 	while (42)
 	{
-		prompt = readline("Shellzinho:");
-		check = input_check(prompt);
-		if (check != 0)
+		prompt = readline("Shellzinho:"); //recebe o prompt deigitado pelo usuario;
+		check = input_check(prompt); //primeira verificação estrutural
+		if (check != 0) //retorno de erro da verificação
 		{
 			if (check == 2)
 				continue ; //reset de while
@@ -41,9 +41,9 @@ void	minishell(char **envp)
 				break ;
 		}
 		// heredoc();
-		prompt_pipe = ft_split(prompt, '|');
+		prompt_pipe = ft_split(prompt, '|'); //split para separar pipes
 		// command_sep();
-		if (prompt_pipe[1])
+		if (prompt_pipe[1]) //caso o split tenha retornado
 		{
 			mult_command(prompt_pipe, envp);
 		}		
@@ -69,7 +69,7 @@ int	input_check(char *prompt)
 	return(0);
 }
 
-/* void mult_command()
+/* void mult_command() //essa tá melhor estruturada do que a tá ativa
 {
 	while(command > 0)
 	{
@@ -89,7 +89,7 @@ int	input_check(char *prompt)
 	wait_child();
 } */
 
-void	mult_command(char **prompt_pipe, char **envp)
+void	mult_command(char **prompt_pipe, char **envp) //só executa 2 comandos, pra entender melhor multiplos comandos
 {
 	int	pipe_fds[2];
 	int	fork_mult;
@@ -98,29 +98,29 @@ void	mult_command(char **prompt_pipe, char **envp)
 	fork_mult = fork();
 	if (fork_mult == 0)
 	{
-		dup2(pipe_fds[1], 1);
+		dup2(pipe_fds[1], 1);//troca o fd recebido pelo fd 1 (out)
 		close(pipe_fds[0]);
 		close(pipe_fds[1]);
 		make_command(prompt_pipe[0], envp);
 		exit(0);
 	}
-	wait(NULL);
+	wait(NULL);//espera o primeiro processo acabar
 	fork_mult = fork();
 	if (fork_mult == 0)
 	{
-		dup2(pipe_fds[0], 0);
+		dup2(pipe_fds[0], 0);//troca o fd recebido pelo fd 0 (in)
 		close(pipe_fds[0]);
 		close(pipe_fds[1]);
 		make_command(prompt_pipe[1], envp);
 		exit(0);
 	}
-	wait(NULL);
+	wait(NULL);//espera antes de fechar
 	close(pipe_fds[0]);
 	close(pipe_fds[1]);
 }
 
 
-char	**remove_redirect(char **splited_prompt)
+char	**remove_redirect(char **splited_prompt) //contar, alocar e remover
 {
 	int 	count_line;
 	int 	redirect_count;
@@ -129,7 +129,7 @@ char	**remove_redirect(char **splited_prompt)
 	count_line = 0;
 	redirect_count = 0;
 
-	while(splited_prompt[count_line] != NULL)
+	while(splited_prompt[count_line] != NULL)//contar para mallocar
 	{
 		if(splited_prompt[count_line][0] == '<' || splited_prompt[count_line][0] == '>')
 			redirect_count++;
@@ -138,7 +138,7 @@ char	**remove_redirect(char **splited_prompt)
 	return_redirect = malloc((redirect_count + 1 ) * sizeof(char*));
 	count_line = 0;
 	redirect_count = 0;
-	while(splited_prompt[count_line] != NULL)
+	while(splited_prompt[count_line] != NULL)//alocar em cada malloc
 	{
 		if(splited_prompt[count_line][0] == '<' || splited_prompt[count_line][0] == '>')
 		{
@@ -149,7 +149,7 @@ char	**remove_redirect(char **splited_prompt)
 	}
 	return_redirect[redirect_count] = NULL;
 	count_line = 0;
-    while (splited_prompt[count_line] != NULL)
+    while (splited_prompt[count_line] != NULL)//apagar do prompt
     {
         if(splited_prompt[count_line][0] == '<' || splited_prompt[count_line][0] == '>')
         {
@@ -170,8 +170,8 @@ t_fds	check_redirect(char **redirect)
 	int	redirect_count;
 	t_fds command_fd;
 
-	command_fd.fd_in = 0;
-	command_fd.fd_out = 1;
+	command_fd.fd_in = 0;//entrada padrão
+	command_fd.fd_out = 1;//saida padrão
 	redirect_count = 0;
 	while (redirect[redirect_count] != NULL)
 	{
@@ -266,7 +266,7 @@ int	is_builtin(char *splited_prompt)
 	free;
 }
  */
-char	*return_value(char **envp, char *var)
+char	*return_value(char **envp, char *var) //grep
 {
 	char	*value;
 	int		len_var;
