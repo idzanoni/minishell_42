@@ -6,7 +6,7 @@
 /*   By: izanoni <izanoni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 16:46:48 by izanoni           #+#    #+#             */
-/*   Updated: 2024/05/15 19:19:14 by izanoni          ###   ########.fr       */
+/*   Updated: 2024/05/15 19:41:00 by izanoni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,10 @@ enum e_special_characters
 */
 
 void	minishell(char **envp);
-void	check_prompt(char *prompt);
+int	check_prompt(char *prompt);
+int	check_quotes(char *prompt);
+int check_empty(char *prompt);
+int check_redirect(char *prompt);
 
 /************************************************************************
  *																		*
@@ -69,9 +72,12 @@ int	check_prompt(char *prompt)
 	int		checker;
 	
 	//check_empty(prompt); // Comando está certo, não tem mensagem de erro
-	checker = check_quotes(prompt)
+	checker = check_quotes(prompt);
 	if (checker == -1)
+	{
 		printf("erro aspas\n"); // Se der ruim, tem que mostrar mensagem de erro
+		return(-1);
+	}
 	//check_redirect(prompt); // Se der ruim, tem que mostrar mensagem de erro
 	return(0);
 }
@@ -98,6 +104,7 @@ int check_redirect(char *prompt)
 		}
 		count++;
 	}
+	return(0);
 }
 /* int	check_quotes(char *prompt)
 {
