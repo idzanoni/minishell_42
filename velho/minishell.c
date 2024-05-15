@@ -6,7 +6,7 @@
 /*   By: izanoni <izanoni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 16:21:07 by izanoni           #+#    #+#             */
-/*   Updated: 2024/05/03 15:52:36 by izanoni          ###   ########.fr       */
+/*   Updated: 2024/05/15 18:41:03 by izanoni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,25 +55,17 @@ int main(int ac, char **av, char **envp)
 	while (promptdado[i] != '\0')
 	{
 		while (promptdado[i] == 32)
-		{
 			i++;
-		}
 		while (promptdado[i] != 32 && promptdado[i] != '\0')
 		{
 			if (promptdado[i] == 34)
 			{
-				printf("%c", promptdado[i]);
 				i++;
 				while (promptdado[i] != 34)
-				{
-					printf("%c", promptdado[i]);
 					i++;
-				}
 			}
-			printf("%c", promptdado[i]);
 			i++;
 		}
-		printf("\n");
 	}
 	if (aspas == 0)
 		printf("fechô\n");
@@ -137,4 +129,42 @@ char *strnchar(char *str, char c)
 	// execve(path, command, env);
 	return (0);
 } */
-
+int	check_quotes(char *prompt)
+{
+	int i;
+	
+	i= 0;
+	while(prompt[i] != '\0')
+	{
+		if (prompt[i] == 34 || prompt[i] == 39)
+		{
+			if (prompt[i] == 34)
+			{
+				i++;
+				while (prompt[i] != 34 && prompt[i] != '\0')
+					i++;
+				if (prompt[i] == 34)
+					aspas = 0;
+				else
+					aspas = 1;
+			}
+			if (prompt[i] == 39)
+			{
+				i++;
+				while (prompt[i] != 39 && prompt[i] != '\0')
+					i++;
+				if (prompt[i] == 39)
+					aspas = 0;
+				else
+					aspas = 1;
+			}
+		}
+		if (prompt[i] == '\0')
+			break ;
+		i++;
+	}
+	if (aspas == 0)
+		return (0);
+	if (aspas == 1)
+		return(-1);
+}
