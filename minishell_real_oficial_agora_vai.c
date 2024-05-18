@@ -11,6 +11,8 @@
 /* ************************************************************************** */
 
 #include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 
@@ -28,10 +30,13 @@ enum e_special_characters
 */
 
 void	minishell(char **envp);
-int	check_prompt(char *prompt);
-int	check_quotes(char *prompt);
-int check_empty(char *prompt);
-int check_redirect(char *prompt);
+int		check_prompt(char *prompt);
+int		check_quotes(char *prompt);
+int		check_empty(char *prompt);
+int		check_redirect(char *prompt);
+int		only_space(char *prompt);
+int		check_pipes(char *prompt);
+char	*norme_string(char *prompt);
 
 /************************************************************************
  *																		*
@@ -48,46 +53,116 @@ int check_redirect(char *prompt);
 void	minishell(char **envp)
 {
 	char	*prompt;
+	char	*norme_prompt_result;
 
 	while (1)
 	{
-		prompt = readline("shellzinho: ");
+		prompt = readline("shellzinho: "); // readline malloca (tem que dar free)
 		if (!prompt)
 		{
 			break ;
 		}
 		else
 		{
-			if (check_prompt(prompt))
+			if (check_prompt(prompt) < 0)
 			{
+				printf ("error\n");
 				//string vazia ( só \0, aspas, dados completos > < >> <<  | )
-			
+				continue ; //reset do while
 			}
+			//norme_prompt = norme_string(prompt);
 		}
+		norme_prompt_result = norme_string(prompt);
+		printf("%s\n", norme_prompt_result);
+		(void)envp;
 		printf("----\n");
 	}
 }
 
+char	*norme_string(char *prompt)
+{
+	int		count;
+	char	*result;
+	int 	size_prompt;
+	int		count_result;
+	
+	count = 0;
+	count_result = 0;
+	size_prompt = strlen(prompt);
+	while (prompt[count] != '\0')
+	{
+		if(prompt[count] == '>'|| prompt[count] == '<' || prompt[count] == '|')
+			size_prompt = size_prompt + 2;
+		count++;
+	}
+	result = malloc((size_prompt + 1) * sizeof(char));
+	if (result == NULL)
+		return (NULL);
+	count = 0;
+	// result = echo oi >%$$&&$%$$@
+	// prompt = echo oi>>file|ls
+	while (prompt[count] != '\0')
+	{
+		if (prompt[count] == '>'|| prompt[count] == '<' || prompt[count] == '|')
+		{
+			result[count_result] = ' '; // result que esta recebendo o novo valor
+			count_result++;
+			result[count_result] = prompt[count];
+			if (prompt[count + 1] == '>' || prompt[count + 1] == '<')
+			{
+				count++;
+				count_result++;
+				result[count_result] = prompt[count];
+				count_result++;
+				result[count_result] = ' ';
+				count++;
+				count_result++;
+			}
+			else
+			{
+				count_result++;
+				result[count_result] = ' ';
+				count_result++;
+				count++;
+			}
+		}
+		else
+		{
+			result[count_result] = prompt[count];
+			count++;
+			count_result++;
+		}
+	}
+	while (result[count_result] != '\0')
+	{
+		result[count_result] = '\0';
+		count_result++;
+	} 
+	return (result);
+}
+
 int	check_prompt(char *prompt)
 {
-	if (!check_empty(prompt)) // check_empty == 0 ?
-		return (-1); // Comando está certo, não tem mensagem de erro
-	add_history(prompt);
-	if (!check_quotes(prompt))
+	if (check_empty(prompt))
 		return (-1);
-	//check_redirect(prompt);
-	 // Se der ruim, tem que mostrar mensagem de erro
-	return(0);
+	add_history(prompt);
+	if (only_space(prompt))
+		return (-1);
+	if (check_quotes(prompt))
+		return (-1);
+	if (check_redirect(prompt))
+		return (-1);
+	if (check_pipes(prompt))
+		return (-1);
+	return (0);
 }
-int check_empty(char *prompt)
+
+int	check_empty(char *prompt)
 {
-	if(prompt[0] == '\0')
-	{	
-		//printf("Error empty\n");
-		return(-1);
-	}
+	if (prompt[0] == '\0')
+		return (-1);
 	else
-		return(0);
+		return (0);
 }
 
 int	only_space(char *prompt)
@@ -104,7 +179,7 @@ int	only_space(char *prompt)
 	return (-1);
 }  
 
-int check_redirect(char *prompt)
+int	check_redirect(char *prompt)
 {
 	int		count;
 	char	quote;
@@ -166,8 +241,60 @@ int	check_quotes(char *prompt)
 	return(quotes);
 }
 
+int	check_pipes(char *prompt)
+{
+	/***
+		// errado
+		|
+		| echo oi
+		echo oi |
+		| |
+		echo oi "> file | ls" | ls |      
+		           | echo oi
+		echo oi |        | ls
+
+		// correto
+		ls | echo
+		ls | > file
+		ls|>file
+		echo | echo | << file | echo
+		"ls"|"  "|ls
+	 */
+
+	int 	count;
+	char	quote;
+
+	count = 0;
+	while (prompt[count] == ' ' || prompt[count] == '	')
+		count++;
+	if (prompt[count] == '|')
+		return (-1);
+	while(prompt[count] != '\0')
+	{
+		if (prompt[count] == 34 || prompt[count] == 39)
+		{
+			quote = prompt[count];
+			while (prompt[count] != quote)
+				count ++;
+		}
+		if (prompt[count] == '|')
+		{
+			count++;
+			while (prompt[count] == ' ' || prompt[count] == '	')
+				count++;
+			if (prompt[count] == '\0' || prompt[count] == '|')
+				return (-1);
+		}
+		else
+			count++;
+	}
+	return (0);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
+	(void)argc;
+	(void)argv;
 	minishell(envp);
 	return (0);
 }
