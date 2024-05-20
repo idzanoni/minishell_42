@@ -12,6 +12,7 @@ echo oi |        | ls
 echo "oi" 'mundo
 echo 'o" 'i"
 echo "c"'o'"m'"'o' "v"'ai 'm"u"n''''"d'"ão''"?
+echo "oi    mundo">file|ls
 
 		// errado
 		|

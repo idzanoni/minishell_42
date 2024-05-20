@@ -10,33 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-
-
-/*
-#define DOUBLE_QUOTES '"'
-#define SINGLE_QUOTES '\''
-
-enum e_special_characters
-{
-	JANEIRO = 1,
-	SINGLE_QUOTE = '\'',
-	DOUBLE_QUOTE = '"'
-};
-*/
-
-void	minishell(char **envp);
-int		check_prompt(char *prompt);
-int		check_quotes(char *prompt);
-int		check_empty(char *prompt);
-int		check_redirect(char *prompt);
-int		only_space(char *prompt);
-int		check_pipes(char *prompt);
-char	*norme_string(char *prompt);
+#include "minishell.h"
 
 /************************************************************************
  *																		*
@@ -66,7 +40,7 @@ void	minishell(char **envp)
 		{
 			if (check_prompt(prompt) < 0)
 			{
-				printf ("error\n");
+				printf("error\n");
 				//string vazia ( só \0, aspas, dados completos > < >> <<  | )
 				continue ; //reset do while
 			}
@@ -77,6 +51,7 @@ void	minishell(char **envp)
 		(void)envp;
 		printf("----\n");
 	}
+	
 }
 
 char	*norme_string(char *prompt)
@@ -88,7 +63,7 @@ char	*norme_string(char *prompt)
 	
 	count = 0;
 	count_result = 0;
-	size_prompt = strlen(prompt);
+	size_prompt = strlen(prompt); // usar ft_strlen
 	while (prompt[count] != '\0')
 	{
 		if(prompt[count] == '>'|| prompt[count] == '<' || prompt[count] == '|')
@@ -133,11 +108,12 @@ char	*norme_string(char *prompt)
 			count_result++;
 		}
 	}
-	while (result[count_result] != '\0')
+	/* while (result[count_result] != '\0')
 	{
 		result[count_result] = '\0';
 		count_result++;
-	} 
+	} */
+	result[count_result] = '\0';
 	return (result);
 }
 
@@ -218,10 +194,11 @@ int	check_quotes(char *prompt)
 {
 	int i;
 	int quotes;
+	int	checker;
 	
-	quotes = 0;
+	checker = 0;
 	i = -1;
-	while(prompt[++i] != '\0')
+	while (prompt[++i] != '\0')
 	{
 		if (prompt[i] == 34 || prompt[i] == 39)
 		{
@@ -233,12 +210,12 @@ int	check_quotes(char *prompt)
 				while (prompt[++i] != 39 && prompt[i] != '\0')
 					;
 			if (prompt[i] != quotes)
-				quotes = -1;
+				checker = -1;
 		}
 		if (prompt[i] == '\0')
 			break ;
 	}
-	return(quotes);
+	return (checker);
 }
 
 int	check_pipes(char *prompt)
@@ -290,6 +267,19 @@ int	check_pipes(char *prompt)
 	}
 	return (0);
 }
+
+//char	**new_split(char *prompt)
+//{
+	/***
+	 TODO: 
+	contar "palavras"
+	  - checar aspas
+	criar o primeiro malloc
+	mallocar cada "palavra"
+	  - checar aspas
+
+	*/
+//}
 
 int	main(int argc, char **argv, char **envp)
 {
