@@ -1,5 +1,6 @@
 
-FILES		=	$(addsuffix .c, minishell_real_oficial_agora_vai)
+FILES		=	$(addsuffix .c, minishell_real_oficial_agora_vai \
+					check_things free_all new_split)
 
 FLAGS		=	-Wall -Wextra -Werror
 
