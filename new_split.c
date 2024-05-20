@@ -45,46 +45,46 @@ int	count_word(char *prompt)
 	}
 	return (word);
 }
-// tô aqui
-char	*get_word(char *prompt, int count)
+
+char	*get_word(char *prompt, int *count)
 { 
 	int		word;
-    char	*word_splited; 
-
+    char	*word_splited;
+	
 	word = 0;
-	if (prompt[count] == 34)
+	if (prompt[*count] == 34)
 	{
-		word = count;
-		while (prompt[count] != 34 && prompt[count] != '\0')
-			count++;
-		word = (count + 1) - word;
+		word = *count;
+		while (prompt[*count] != 34 && prompt[*count] != '\0')
+			(*count)++;// *count = *count + 1;
+		word = (*count + 3) - word;
 		word_splited = malloc((word + 1) * sizeof(char *));
 		if (!word_splited)
 			return (NULL);
 	}
-	else if (prompt[count] == 39)
+	else if (prompt[*count] == 39)
 	{
-		word = count;
-		while (prompt[count] != 39 && prompt[count] != '\0')
-			count++;
-		word = (count + 1) - word;
+		word = *count;
+		while (prompt[*count] != 39 && prompt[*count] != '\0')
+			(*count)++;
+		word = (*count + 3) - word;
 		word_splited = malloc((word + 1) * sizeof(char *));
 		if (!word_splited)
 			return (NULL);
 	}
-	else if (prompt[count] != '\0')
+	else if (prompt[*count] != '\0')
 	{
-		word = count;
-		while (prompt[count] != ' ' && prompt[count] != '\t' && prompt[count] != '\0')
-			count++;
-		word = count - word;
+		word = *count;
+		while (prompt[*count] != ' ' && prompt[*count] != '\t' && prompt[*count] != '\0')
+			(*count)++;
+		word = *count - word;
 		word_splited = malloc((word + 1) * sizeof(char *));
 		if (!word_splited)
 			return (NULL);
 	}
-	word_splited[word + 1] = '\0';
+	word_splited[word--] = '\0';
 	while (word >= 0)
-		word_splited[word--] = prompt[count--];
+		word_splited[word--] = prompt[(*count)--];
     return (word_splited);
 }
 
@@ -107,10 +107,9 @@ char	**new_split(char *prompt)
 	{
 		while (prompt[count] == ' ' || prompt[count] == '\t')
 			count++;
-		count++;
 		if (prompt[count] != '\0')
 		{
-			splited_promp[i] = get_word(prompt, count);
+			splited_promp[i] = get_word(prompt, &count);
 			if (splited_promp[i] == NULL)
 			{
 				free_all(splited_promp);
