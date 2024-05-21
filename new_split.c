@@ -4,13 +4,13 @@
 prompt = "     echo	 oi mundo"
 prompt = "     echo	 oi mundo | ls"
 prompt = "     echo	 oi mundo | ls              "
-prompt = "     echo		\"oi		mundo\" | ls"
-prompt = "     echo		\"oi		mundo\" | ls              "
-prompt = " > file  echo	\"oi		mundo\" | ls  < other"
-prompt = " > file  echo	\"oi		mundo\" | ls < other      "
-prompt = " > file  echo	\"oi		mundo\" | ls < other | cat | echo << word > file"
-prompt = " > file  echo	\"oi		mundo\" | ls < other | cat | echo << word > file    "
-prompt = " > file  echo	\"oi		mundo\" | ls < other | cat | echo \"<< word >\" file    "
+prompt = "     echo		"oi		mundo" | ls"
+prompt = "     echo		"oi		mundo" | ls              "
+prompt = " > file  echo "oi     mundo" | ls  < other"
+prompt = " > file  echo	"oi		mundo" | ls < other      "
+prompt = " > file  echo	"oi		mundo" | ls < other | cat | echo << word > file"
+prompt = " > file  echo	"oi		mundo" | ls < other | cat | echo << word > file    "
+prompt = " > file  echo	"oi		mundo" | ls < other | cat | echo "<< word >" file    "
 echo"oi"
 echooi
 */
@@ -18,7 +18,8 @@ echooi
 int	count_word(char *prompt)
 {
 	int	count; 
-	int	word; 
+	int	word;
+ 
 
 	count = 0;
 	word = 0;
@@ -50,14 +51,16 @@ char	*get_word(char *prompt, int *count)
 { 
 	int		word;
     char	*word_splited;
+	int		temp;
 	
 	word = 0;
 	if (prompt[*count] == 34)
 	{
 		word = *count;
+		(*count)++;
 		while (prompt[*count] != 34 && prompt[*count] != '\0')
-			(*count)++;// *count = *count + 1;
-		word = (*count + 3) - word;
+			*count = *count + 1;
+		word = (*count + 1) - word;
 		word_splited = malloc((word + 1) * sizeof(char *));
 		if (!word_splited)
 			return (NULL);
@@ -65,9 +68,10 @@ char	*get_word(char *prompt, int *count)
 	else if (prompt[*count] == 39)
 	{
 		word = *count;
+		(*count)++;
 		while (prompt[*count] != 39 && prompt[*count] != '\0')
-			(*count)++;
-		word = (*count + 3) - word;
+			*count = *count + 1;
+		word = (*count + 1) - word;
 		word_splited = malloc((word + 1) * sizeof(char *));
 		if (!word_splited)
 			return (NULL);
@@ -76,15 +80,16 @@ char	*get_word(char *prompt, int *count)
 	{
 		word = *count;
 		while (prompt[*count] != ' ' && prompt[*count] != '\t' && prompt[*count] != '\0')
-			(*count)++;
-		word = *count - word;
+			*count = *count + 1;
+		word = (*count + 1) - word;
 		word_splited = malloc((word + 1) * sizeof(char *));
 		if (!word_splited)
 			return (NULL);
 	}
 	word_splited[word--] = '\0';
+	temp = *count;
 	while (word >= 0)
-		word_splited[word--] = prompt[(*count)--];
+		word_splited[word--] = prompt[temp--];
     return (word_splited);
 }
 
