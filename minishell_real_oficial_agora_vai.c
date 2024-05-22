@@ -65,7 +65,12 @@ void	minishell(char **envp)
 			continue ;
 		}		
 		//print_matrix(splited_prompt);
-		command_exec(splited_prompt, envp);
+		if(find_pipe(splited_prompt) == 1)
+		{
+			
+		}
+		else
+			command_exec(splited_prompt, envp);
 		(void)envp;
 		printf("----\n");
 	
