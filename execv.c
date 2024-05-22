@@ -130,13 +130,15 @@ void	more_command(char **splited_prompt, char **envp)
 {
 	int count_pipes;
 	int i;
+	int j;
 	int fds[2];
-	int	fds_0;
+	int	fd_bkp;
 	int	*fork_return;
 	char	**current_command;
 
 	count_pipes = 0;
 	i = 0;
+	j = 0;
 	while(splited_prompt[i] != NULL)
 	{
 		if(splited_prompt[i][0] == '|')
@@ -145,24 +147,48 @@ void	more_command(char **splited_prompt, char **envp)
 	}
 	// abrir todos os pipes e executar
 	//count_pipes = count_pipes + 1;
+	fd_bkp = STDIN_FILENO;
 	while(count_pipes >= 0)
 	{
-		pipe(fds);
-		
-		current_command = get_command(splited_prompt);
-		if (current_command == NULL)
-			continue ;
-		close (fds[0]);
-		dup2 (fds_0, STDIN_FILENO);
-		dup2 (fds[1], STDOUT_FILENO);
-		if (fds_0 != 0)
-			close (fds_0);
-		close (fds[1]);
-		command_exec(current_command, envp);
-		count_pipes--;
+		if (count_pipes > 0)
+			pipe(fds);
+		fork_return[j] = fork();
+		if (fork_return[j] == 0)
+		{
+			current_command = get_command(splited_prompt);
+			if (current_command == NULL)
+				continue ;
+			if (count_pipes > 0)
+				close (fds[0]);
+			dup2 (fd_bkp, STDIN_FILENO);
+			if (count_pipes > 0)
+				dup2 (fds[1], STDOUT_FILENO);
+			if (fd_bkp != 0)
+				close (fd_bkp);
+			if (fd_bkp != 0)
+				close (fds[1]);
+			command_exec(current_command, envp);
+			exit(142);
+		}
+		else
+		{
+			if (fd_bkp != STDIN_FILENO)
+				close (fd_bkp);
+			fd_bkp = fds[0];
+			if (count_pipes > 0)
+				close (fds[1]);
+			count_pipes--;
+			j++;
+		}
 	}
-	
+	i = 0;
+	while (fork_return[i] != -42)
+	{
+		waitpid(fork_return[i], NULL, 0);
+		i++
+	}
 	// esperar todos os comandos
+	
 }
 
 char **get_command(char **splited_prompt)
