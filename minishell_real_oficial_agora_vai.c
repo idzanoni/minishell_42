@@ -56,6 +56,7 @@ void	minishell(char **envp)
 		norme_prompt_result = norme_string(prompt);
 		splited_prompt = new_split(norme_prompt_result);
 		print_matrix(splited_prompt);
+		command_exec(splited_prompt, envp);
 		(void)envp;
 		printf("----\n");
 	}

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: izanoni <izanoni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rleite-s <rleite-s@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 15:56:25 by izanoni           #+#    #+#             */
-/*   Updated: 2023/05/24 17:12:37 by izanoni          ###   ########.fr       */
+/*   Updated: 2024/05/21 18:29:38 by rleite-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
+#include "minishell.h"
 
-static int	count_words(char const *s, char c)
+int	count_words1(char const *s, char c)
 {
 	int	count;
 
@@ -29,7 +29,7 @@ static int	count_words(char const *s, char c)
 	return (count);
 }
 
-static char	*get_word(char const *s, char c)
+char	*get_word1(char const *s, char c)
 {
 	char	*word;
 	int		len;
@@ -54,7 +54,7 @@ char	**ft_split(char const *s, char c)
 
 	if (!s)
 		return (NULL);
-	nb_words = count_words(s, c);
+	nb_words = count_words1(s, c);
 	splited_str = (char **)malloc((nb_words + 1) * sizeof(char *));
 	if (!splited_str)
 		return (NULL);
@@ -64,7 +64,7 @@ char	**ft_split(char const *s, char c)
 		while (*s == c)
 			s++;
 		if (*s != '\0')
-			splited_str[i++] = get_word(s, c);
+			splited_str[i++] = get_word1(s, c);
 		while (*s != '\0' && *s != c)
 			s++;
 	}
