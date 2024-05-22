@@ -44,5 +44,6 @@ char	*get_word1(char const *s, char c);
 int		count_words1(char const *s, char c);
 char	*ft_strjoin(char const *s1, char const *s2);
 void	*ft_memmove(void *dest, const void *src, size_t n);
+char	*ft_strchr(const char *s, int c);
 
 #endif

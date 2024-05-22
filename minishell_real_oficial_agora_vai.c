@@ -54,13 +54,37 @@ void	minishell(char **envp)
 			//norme_prompt = norme_string(prompt);
 		}
 		norme_prompt_result = norme_string(prompt);
+		if (norme_prompt_result == NULL)
+		{
+			printf("error");
+			continue ;
+		}
 		splited_prompt = new_split(norme_prompt_result);
-		print_matrix(splited_prompt);
+		{
+			printf("error");
+			continue ;
+		}		
+		//print_matrix(splited_prompt);
 		command_exec(splited_prompt, envp);
 		(void)envp;
 		printf("----\n");
+	
 	}
 	
+}
+
+int find_pipe(char **splited_prompt)
+{
+	int i;
+
+	i = 0;
+	while(splited_prompt[i] != NULL)
+	{
+		if (splited_prompt[i][0] == '|')
+			return (1);
+		i++;
+	}
+	return(0);
 }
 
 char	*norme_string(char *prompt)
