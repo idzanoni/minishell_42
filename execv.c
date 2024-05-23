@@ -148,6 +148,9 @@ void	more_command(char **splited_prompt, char **envp)
 	// abrir todos os pipes e executar
 	//count_pipes = count_pipes + 1;
 	fd_bkp = STDIN_FILENO;
+	fork_return = malloc((count_pipes + 2) * sizeof(int));
+	if (!fork_return)
+	{}
 	while(count_pipes >= 0)
 	{
 		if (count_pipes > 0)
@@ -185,7 +188,7 @@ void	more_command(char **splited_prompt, char **envp)
 	while (fork_return[i] != -42)
 	{
 		waitpid(fork_return[i], NULL, 0);
-		i++
+		i++;
 	}
 	// esperar todos os comandos
 	

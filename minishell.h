@@ -13,6 +13,8 @@
 /*
 #define DOUBLE_QUOTES '"'
 #define SINGLE_QUOTES '\''
+#define STDIN_FILENO '0'
+#define STDOUT_FILENO '1'
 
 enum e_special_characters
 {
@@ -45,5 +47,9 @@ int		count_words1(char const *s, char c);
 char	*ft_strjoin(char const *s1, char const *s2);
 void	*ft_memmove(void *dest, const void *src, size_t n);
 char	*ft_strchr(const char *s, int c);
+int		find_pipe(char **splited_prompt);
+char	**get_command(char **splited_prompt);
+void	more_command(char **splited_prompt, char **envp);
+
 
 #endif
