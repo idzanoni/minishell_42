@@ -2,7 +2,7 @@
 
 void	command_exec(char **splited_prompt, char **envp)
 {
-	int 	fork_return;
+	int		fork_return;
 	char	*path;
 
 	fork_return = fork();
@@ -10,6 +10,7 @@ void	command_exec(char **splited_prompt, char **envp)
 		return ;
 	if (fork_return == 0)
 	{
+		rl_clear_history();
 		path = find_path(splited_prompt[0], envp);
 		if (path == NULL)
 		{
@@ -18,6 +19,8 @@ void	command_exec(char **splited_prompt, char **envp)
 			exit(142);
 		}
 		execve(path, splited_prompt, envp);
+		free_all(splited_prompt);
+		free(path);
 		exit(142);
 	}
 	else
@@ -158,7 +161,9 @@ void	more_command(char **splited_prompt, char **envp)
 		fork_return[j] = fork();
 		if (fork_return[j] == 0)
 		{
+			rl_clear_history();
 			current_command = get_command(splited_prompt);
+			free_all (splited_prompt);
 			if (current_command == NULL)
 				continue ;
 			if (count_pipes > 0)

@@ -49,29 +49,35 @@ void	minishell(char **envp)
 			{
 				printf("error\n");
 				//string vazia ( só \0, aspas, dados completos > < >> <<  | )
+				free (prompt);
 				continue ; //reset do while
 			}
 			//norme_prompt = norme_string(prompt);
 		}
 		norme_prompt_result = norme_string(prompt);
+		free (prompt);
 		if (norme_prompt_result == NULL)
 		{
-			printf("error");
+			printf("error\n");
 			continue ;
 		}
 		splited_prompt = new_split(norme_prompt_result);
+		if (!splited_prompt)
 		{
-			printf("error");
+			printf("error\n");
+			free (norme_prompt_result);
 			continue ;
-		}		
+		}
+		free (norme_prompt_result);
 		//print_matrix(splited_prompt);
 		if(find_pipe(splited_prompt) == 1)
 		{
-			
+			more_command(splited_prompt, envp);
 		}
 		else
 			command_exec(splited_prompt, envp);
 		(void)envp;
+		free_all (splited_prompt);
 		printf("----\n");
 	
 	}
@@ -153,5 +159,6 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	minishell(envp);
+	rl_clear_history();
 	return (0);
 }
