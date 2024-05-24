@@ -76,12 +76,52 @@ void	minishell(char **envp)
 		}
 		else
 			command_exec(splited_prompt, envp);
-		(void)envp;
 		free_all (splited_prompt);
 		printf("----\n");
-	
 	}
-	
+}
+
+#define EXIT "exit"
+#define ECHO "echo"
+#define PWD "pwd"
+#define ENV "env"
+#define CD "cd"
+#define EXPORT "export"
+#define UNSET "unset"
+
+int	check_builtin(char *splited_prompt)
+{
+	if (!ft_memcmp(splited_prompt, EXIT, ft_strlen(EXIT)))
+		return (1);
+	if (!ft_memcmp(splited_prompt, ENV, ft_strlen(ENV)))
+		return (2);
+	if (!ft_memcmp(splited_prompt, ECHO, ft_strlen(ECHO)))
+		return (3);
+	if (!ft_memcmp(splited_prompt, PWD, ft_strlen(PWD)))
+		return (4);
+	if (!ft_memcmp(splited_prompt, CD, ft_strlen(CD)))
+		return (5);
+	if (!ft_memcmp(splited_prompt, EXPORT, ft_strlen(EXPORT)))
+		return (6);
+	if (!ft_memcmp(splited_prompt, UNSET, ft_strlen(UNSET)))
+		return (7);
+	else
+		return (0);
+}
+
+void	bt_or_exec(char **splited_prompt, char **envp)
+{
+	int bt_check;
+
+	// Expandir variáveis
+	// Validar redirects
+	bt_check = check_builtin(splited_prompt[0]);
+	if (bt_check > 0)
+	{
+		// executar builtin
+	}
+	else
+		command_exec(splited_prompt, envp);
 }
 
 int find_pipe(char **splited_prompt)
