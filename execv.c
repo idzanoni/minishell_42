@@ -175,7 +175,8 @@ void	more_command(char **splited_prompt, char **envp)
 				close (fd_bkp);
 			if (fd_bkp != 0)
 				close (fds[1]);
-			command_exec(current_command, envp);
+			//command_exec(current_command, envp);
+			bt_or_exec(current_command, envp);
 			exit(142);
 		}
 		else

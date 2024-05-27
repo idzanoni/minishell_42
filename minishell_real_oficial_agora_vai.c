@@ -75,7 +75,7 @@ void	minishell(char **envp)
 			more_command(splited_prompt, envp);
 		}
 		else
-			command_exec(splited_prompt, envp);
+			bt_or_exec(splited_prompt, envp);
 		free_all (splited_prompt);
 		printf("----\n");
 	}
@@ -113,7 +113,8 @@ void	bt_or_exec(char **splited_prompt, char **envp)
 {
 	int bt_check;
 
-	// Expandir variáveis
+	find_redirect(char **splited_prompt);
+	// Expandir variáveis;
 	// Validar redirects
 	bt_check = check_builtin(splited_prompt[0]);
 	if (bt_check > 0)
@@ -122,6 +123,38 @@ void	bt_or_exec(char **splited_prompt, char **envp)
 	}
 	else
 		command_exec(splited_prompt, envp);
+}
+
+t_fds find_redirec(char **splited_prompt)
+{
+	t_fds fd_redirect;
+	int count;
+
+	fd_redirect.fd_in = STDIN_FILENO;
+	fd_redirect.fd_out = STDOUT_FILENO;
+	count = 0;
+	while (splited_prompt[count] != NULL)
+	{
+		if (splited_prompt[count][0] == '>')
+		{
+			if (fd_redirect.fd_out != STDOUT_FILENO)
+				close (fd_redirect.fd_out);
+			if (splited_prompt[count][1] == '>')
+				fd_redirect.fd_out = open (splited_prompt[count + 1], O_CREAT | O_WRONLY | O_APPEND, 0644);
+			else
+				fd_redirect.fd_out = open (splited_prompt[count + 1], O_CREAT | O_WRONLY | O_TRUNC, 0644);
+		}
+		else if (splited_prompt[count][0] == '<')
+		{
+			if (fd_redirect.fd_in != STDIN_FILENO)
+				close (fd_redirect.fd_in);
+			if (splited_prompt[count][1] == '<')
+			{}
+			else
+				fd_redirect.fd_in = open (splited_prompt[count + 1], O_RDONLY);
+			
+		}
+	}
 }
 
 int find_pipe(char **splited_prompt)

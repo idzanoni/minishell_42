@@ -1,0 +1,13 @@
+* built-in
+* heredoc
+* redirect
+* expansao de variaveis
+* signals
+* leaks
+
+
+- testes
+- norma 
+- pipes
+- comandos simples
+- built-ins

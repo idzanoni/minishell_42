@@ -8,14 +8,16 @@
 #include <readline/history.h>
 #include <unistd.h>
 #include <sys/wait.h>
+#include <fcntl.h>					
 
 
-/*
+
+
 #define DOUBLE_QUOTES '"'
 #define SINGLE_QUOTES '\''
 #define STDIN_FILENO '0'
 #define STDOUT_FILENO '1'
-
+/*
 enum e_special_characters
 {
 	JANEIRO = 1,
@@ -23,6 +25,11 @@ enum e_special_characters
 	DOUBLE_QUOTE = '"'
 };
 */
+typedef struct sfd_in_out
+{
+	int fd_in;
+	int fd_out;
+}  sfd_in_out t_fds;
 
 void	minishell(char **envp);
 int		check_prompt(char *prompt);
@@ -39,17 +46,22 @@ void	free_all(char **malloc_string);
 void    command_exec(char **splited_prompt, char **envp);
 char	*find_path(char *splited_prompt, char **envp);
 char	*return_value(char **envp, char *var);
-size_t	ft_strlen(const char *s);
-char	*ft_strnstr(const char *big, const char *little, size_t len);
 char	**ft_split(char const *s, char c);
 char	*get_word1(char const *s, char c);
 int		count_words1(char const *s, char c);
-char	*ft_strjoin(char const *s1, char const *s2);
-void	*ft_memmove(void *dest, const void *src, size_t n);
-char	*ft_strchr(const char *s, int c);
 int		find_pipe(char **splited_prompt);
 char	**get_command(char **splited_prompt);
 void	more_command(char **splited_prompt, char **envp);
+void	bt_or_exec(char **splited_prompt, char **envp);
 
+
+
+// functions.c
+char	*ft_strnstr(const char *big, const char *little, size_t len);
+char	*ft_strjoin(char const *s1, char const *s2);
+size_t	ft_strlen(const char *s);
+void	*ft_memmove(void *dest, const void *src, size_t n);
+char	*ft_strchr(const char *s, int c);
+int		ft_memcmp(const void *s1, const void *s2, size_t n);
 
 #endif
