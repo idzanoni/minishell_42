@@ -25,11 +25,11 @@ enum e_special_characters
 	DOUBLE_QUOTE = '"'
 };
 */
-typedef struct sfd_in_out
+typedef struct s_fd_in_out
 {
 	int fd_in;
 	int fd_out;
-}  sfd_in_out t_fds;
+} t_fds;
 
 void	minishell(char **envp);
 int		check_prompt(char *prompt);
@@ -53,6 +53,9 @@ int		find_pipe(char **splited_prompt);
 char	**get_command(char **splited_prompt);
 void	more_command(char **splited_prompt, char **envp);
 void	bt_or_exec(char **splited_prompt, char **envp);
+t_fds	find_redirect(char **splited_prompt);
+void	free_redirect(char **splited_prompt);
+
 
 
 

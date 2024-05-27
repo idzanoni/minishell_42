@@ -111,11 +111,14 @@ int	check_builtin(char *splited_prompt)
 
 void	bt_or_exec(char **splited_prompt, char **envp)
 {
-	int bt_check;
+	int		bt_check;
+	t_fds	fd_redirect;
 
-	find_redirect(char **splited_prompt);
-	// Expandir variáveis;
 	// Validar redirects
+	fd_redirect = find_redirect (splited_prompt);
+	free_redirect(splited_prompt);
+
+	// Expandir variáveis;
 	bt_check = check_builtin(splited_prompt[0]);
 	if (bt_check > 0)
 	{
@@ -123,6 +126,32 @@ void	bt_or_exec(char **splited_prompt, char **envp)
 	}
 	else
 		command_exec(splited_prompt, envp);
+}
+
+void	free_redirect(char **splited_prompt)
+{
+	int	count;
+	int	i;
+
+	count = 0;
+	i = 0;
+	while(splited_prompt[count] != NULL)
+	{
+		if(splited_prompt[count][0] == '<' || splited_prompt[count][0] == '>')
+		{
+			free(splited_prompt[count]);
+			count++;
+			free(splited_prompt[count]);
+			i = count;
+			while (splited_prompt[i] != NULL)
+			{
+				splited_prompt[i - 1] = splited_prompt[i + 1];
+				i++;
+			}		
+			count = count - 2;
+		}
+		count++;
+	}
 }
 
 t_fds find_redirec(char **splited_prompt)
@@ -152,9 +181,10 @@ t_fds find_redirec(char **splited_prompt)
 			{}
 			else
 				fd_redirect.fd_in = open (splited_prompt[count + 1], O_RDONLY);
-			
 		}
+		count++;
 	}
+	return(fd_redirect);
 }
 
 int find_pipe(char **splited_prompt)
