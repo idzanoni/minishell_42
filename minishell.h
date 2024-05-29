@@ -10,17 +10,12 @@
 #include <sys/wait.h>
 #include <fcntl.h>					
 
-
-
-
 #define DOUBLE_QUOTES '"'
 #define SINGLE_QUOTES '\''
-#define STDIN_FILENO '0'
-#define STDOUT_FILENO '1'
+
 /*
 enum e_special_characters
 {
-	JANEIRO = 1,
 	SINGLE_QUOTE = '\'',
 	DOUBLE_QUOTE = '"'
 };
@@ -43,7 +38,7 @@ char	**new_split(char *prompt);
 char	*get_word(char *prompt, int *count);
 int		count_word(char *prompt);
 void	free_all(char **malloc_string);
-void    command_exec(char **splited_prompt, char **envp);
+void    command_exec(char **splited_prompt, char **envp, t_fds fd_redirect);
 char	*find_path(char *splited_prompt, char **envp);
 char	*return_value(char **envp, char *var);
 char	**ft_split(char const *s, char c);
@@ -66,5 +61,6 @@ size_t	ft_strlen(const char *s);
 void	*ft_memmove(void *dest, const void *src, size_t n);
 char	*ft_strchr(const char *s, int c);
 int		ft_memcmp(const void *s1, const void *s2, size_t n);
+char	*ft_strdup(const char *s);
 
 #endif

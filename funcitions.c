@@ -122,3 +122,25 @@ int	ft_memcmp(const void *s1, const void *s2, size_t n)
 	}
 	return (0);
 }
+
+char	*ft_strdup(const char *s)
+{
+	char	*copy;
+	size_t	i;
+	size_t	size;
+
+	if (s == NULL)
+		return (NULL);
+	size = ft_strlen(s);
+	copy = (char *)malloc((size + 1) * sizeof(char));
+	if (!copy)
+		return (NULL);
+	i = 0;
+	while (i < size)
+	{
+		copy[i] = s[i];
+		i++;
+	}
+	copy[i] = '\0';
+	return (copy);
+}

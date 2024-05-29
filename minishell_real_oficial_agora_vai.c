@@ -125,7 +125,11 @@ void	bt_or_exec(char **splited_prompt, char **envp)
 		// executar builtin
 	}
 	else
-		command_exec(splited_prompt, envp);
+		command_exec(splited_prompt, envp, fd_redirect);
+	if (fd_redirect.fd_out != STDOUT_FILENO)
+		close (fd_redirect.fd_out);
+	if (fd_redirect.fd_in != STDIN_FILENO)
+		close (fd_redirect.fd_in);
 }
 
 void	free_redirect(char **splited_prompt)
@@ -154,7 +158,7 @@ void	free_redirect(char **splited_prompt)
 	}
 }
 
-t_fds find_redirec(char **splited_prompt)
+t_fds find_redirect(char **splited_prompt)
 {
 	t_fds fd_redirect;
 	int count;

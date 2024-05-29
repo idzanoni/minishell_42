@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void	command_exec(char **splited_prompt, char **envp)
+void	command_exec(char **splited_prompt, char **envp, t_fds fd_redirect)
 {
 	int		fork_return;
 	char	*path;
@@ -17,6 +17,16 @@ void	command_exec(char **splited_prompt, char **envp)
 			printf("command not found\n");
 			free_all(splited_prompt);
 			exit(142);
+		}
+		if (fd_redirect.fd_in != STDIN_FILENO)
+		{
+			dup2 (fd_redirect.fd_in, STDIN_FILENO);
+			close (fd_redirect.fd_in);
+		}
+		if (fd_redirect.fd_out != STDOUT_FILENO)
+		{
+			dup2 (fd_redirect.fd_out, STDOUT_FILENO);
+			close (fd_redirect.fd_out);
 		}
 		execve(path, splited_prompt, envp);
 		free_all(splited_prompt);
@@ -169,11 +179,11 @@ void	more_command(char **splited_prompt, char **envp)
 			if (count_pipes > 0)
 				close (fds[0]);
 			dup2 (fd_bkp, STDIN_FILENO);
-			if (count_pipes > 0)
-				dup2 (fds[1], STDOUT_FILENO);
 			if (fd_bkp != 0)
 				close (fd_bkp);
-			if (fd_bkp != 0)
+			if (count_pipes > 0)
+				dup2 (fds[1], STDOUT_FILENO);
+			if (count_pipes > 0)
 				close (fds[1]);
 			//command_exec(current_command, envp);
 			bt_or_exec(current_command, envp);
