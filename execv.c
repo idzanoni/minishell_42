@@ -139,107 +139,108 @@ R         R W    R W     R W           R W                    W
 
  */
 
-void	more_command(char **splited_prompt, char **envp)
+void    more_command(char **splited_prompt, char **envp)
 {
-	int count_pipes;
-	int i;
-	int j;
-	int fds[2];
-	int	fd_bkp;
-	int	*fork_return;
-	char	**current_command;
+    int count_pipes;
+    int i;
+    int j;
+    int fds[2];
+    int    fd_bkp;
+    int    *fork_return;
+    char    **current_command;
 
-	count_pipes = 0;
-	i = 0;
-	j = 0;
-	while(splited_prompt[i] != NULL)
-	{
-		if(splited_prompt[i][0] == '|')
-			count_pipes++;
-		i++;
-	}
-	// abrir todos os pipes e executar
-	//count_pipes = count_pipes + 1;
-	fd_bkp = STDIN_FILENO;
-	fork_return = malloc((count_pipes + 2) * sizeof(int));
-	if (!fork_return)
-	{}
-	while(count_pipes >= 0)
-	{
-		if (count_pipes > 0)
-			pipe(fds);
-		fork_return[j] = fork();
-		if (fork_return[j] == 0)
-		{
-			rl_clear_history();
-			current_command = get_command(splited_prompt);
-			free_all (splited_prompt);
-			if (current_command == NULL)
-				continue ;
-			if (count_pipes > 0)
-				close (fds[0]);
-			dup2 (fd_bkp, STDIN_FILENO);
-			if (fd_bkp != 0)
-				close (fd_bkp);
-			if (count_pipes > 0)
-				dup2 (fds[1], STDOUT_FILENO);
-			if (count_pipes > 0)
-				close (fds[1]);
-			//command_exec(current_command, envp);
-			bt_or_exec(current_command, envp);
-			exit(142);
-		}
-		else
-		{
-			if (fd_bkp != STDIN_FILENO)
-				close (fd_bkp);
-			fd_bkp = fds[0];
-			if (count_pipes > 0)
-				close (fds[1]);
-			count_pipes--;
-			j++;
-		}
-	}
-	i = 0;
-	while (fork_return[i] != -42)
-	{
-		waitpid(fork_return[i], NULL, 0);
-		i++;
-	}
-	// esperar todos os comandos
-	
+    count_pipes = 0;
+    i = 0;
+    j = 0;
+    while(splited_prompt[i] != NULL)
+    {
+        if(splited_prompt[i][0] == '|')
+            count_pipes++;
+        i++;
+    }
+    fd_bkp = STDIN_FILENO;
+    fork_return = malloc((count_pipes + 2) * sizeof(int));
+    if (!fork_return)
+    {}
+    while(count_pipes >= 0)
+    {
+        if (count_pipes > 0)
+            pipe(fds);
+        fork_return[j] = fork();
+        if (fork_return[j] == 0)
+        {
+            rl_clear_history();
+            free(fork_return);
+            current_command = get_command(splited_prompt);
+            free_all (splited_prompt);
+            if (count_pipes > 0) // Mudei apenas para que fique mais visual o que ocorre no comando
+            {
+                dup2 (fds[1], STDOUT_FILENO);
+                close (fds[1]);
+                close (fds[0]);
+            }
+            dup2 (fd_bkp, STDIN_FILENO);
+            if (fd_bkp != 0) // Idem por aqui
+                close (fd_bkp);
+            bt_or_exec(current_command, envp);
+            close(STDIN_FILENO); // Esse close
+            close(STDOUT_FILENO); // E esse aqui, são para evitar fds abertos
+            free_all(current_command);
+            exit(142);
+        }
+        else
+        {
+            free_all(get_command(splited_prompt)); // Precisa desse free no pai
+            if (fd_bkp != STDIN_FILENO)
+                close (fd_bkp);
+            fd_bkp = fds[0];
+            if (count_pipes > 0)
+                close (fds[1]);
+            count_pipes--;
+            j++;
+        }
+    }
+    fork_return[j] = -42; // Colocar o "rabba zero" do array
+    i = 0;
+    while (fork_return[i] != -42)
+    {
+        waitpid(fork_return[i], NULL, 0);
+        i++;
+    }
+    free(fork_return); // free no array (não precisamos mais dele agora)
 }
 
 char **get_command(char **splited_prompt)
 {
-	int i;
-	int count_lines;
-	char **command;
-	
-	i = 0;
-	count_lines = 0;
-	while(splited_prompt[i] != NULL)
-	{
-		if(splited_prompt[i][0] == '|')
-			break ;
-		count_lines++;
-		i++;
-	}
-	command = malloc ((count_lines + 1) * sizeof(char *));
-	if (!command)
-		return (NULL);
-	i = 0;
-	while (i < count_lines)
-	{
-		command[i] = splited_prompt[i];
-		i++;
-	}
-	command[i] = NULL;
-	i = 0;
-	while (splited_prompt[count_lines] != NULL)
-	{
-		splited_prompt[i++] = splited_prompt[++count_lines];
-	}
-	splited_prompt[i] = NULL;
-	return (command);
+    int i;
+    int count_lines;
+    char **command;
+    
+    i = 0;
+    count_lines = 0;
+    while(splited_prompt[i] != NULL)
+    {
+        if(splited_prompt[i][0] == '|')
+            break ;
+        count_lines++;
+        i++;
+    }
+    command = malloc ((count_lines + 1) * sizeof(char *));
+    if (!command)
+        return (NULL);
+    free(splited_prompt[i]); // Dar free no pipe (sem isso dá leak)
+    i = 0;
+    while (i < count_lines)
+    {
+        command[i] = splited_prompt[i];
+        i++;
+    }
+    command[i] = NULL;
+    i = 0;
+    while (splited_prompt[count_lines] != NULL)
+    {
+        splited_prompt[i++] = splited_prompt[++count_lines];
+    }
+    splited_prompt[i] = NULL;
+    return (command);
 }

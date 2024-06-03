@@ -47,50 +47,51 @@ int	count_word(char *prompt)
 	return (word);
 }
 
-char	*get_word(char *prompt, int *count)
+char    *get_word(char *prompt, int *count)
 { 
-	int		word;
-    char	*word_splited;
-	int		temp;
-	
-	word = 0;
-	if (prompt[*count] == 34)
-	{
-		word = *count;
-		(*count)++;
-		while (prompt[*count] != 34 && prompt[*count] != '\0')
-			*count = *count + 1;
-		word = (*count + 1) - word;
-		word_splited = malloc((word + 1) * sizeof(char *));
-		if (!word_splited)
-			return (NULL);
-	}
-	else if (prompt[*count] == 39)
-	{
-		word = *count;
-		(*count)++;
-		while (prompt[*count] != 39 && prompt[*count] != '\0')
-			*count = *count + 1;
-		word = (*count + 1) - word;
-		word_splited = malloc((word + 1) * sizeof(char *));
-		if (!word_splited)
-			return (NULL);
-	}
-	else if (prompt[*count] != '\0')
-	{
-		word = *count;
-		while (prompt[*count] != ' ' && prompt[*count] != '\t' && prompt[*count] != '\0')
-			*count = *count + 1;
-		word = (*count) - word;
-		(*count)--;
-		word_splited = malloc((word + 1) * sizeof(char *));
-		if (!word_splited)
-			return (NULL);
-	}
-	word_splited[word--] = '\0';
-	temp = *count;
-	while (word >= 0)
-		word_splited[word--] = prompt[temp--];
+    int        word;
+        char            *word_splited;
+    int        temp;
+    
+    word = 0;
+    word_splited = NULL; // inicialização que precisa (só apontou aqui na 42)
+    if (prompt[*count] == 34)
+    {
+        word = *count;
+        (*count)++;
+        while (prompt[*count] != 34 && prompt[*count] != '\0')
+            *count = *count + 1;
+        word = (*count + 1) - word;
+        word_splited = malloc((word + 1) * sizeof(char)); // removi o char *
+        if (!word_splited)
+            return (NULL);
+    }
+    else if (prompt[*count] == 39)
+    {
+        word = *count;
+        (*count)++;
+        while (prompt[*count] != 39 && prompt[*count] != '\0')
+            *count = *count + 1;
+        word = (*count + 1) - word;
+        word_splited = malloc((word + 1) * sizeof(char)); // removi o char *
+        if (!word_splited)
+            return (NULL);
+    }
+    else if (prompt[*count] != '\0')
+    {
+        word = *count;
+        while (prompt[*count] != ' ' && prompt[*count] != '\t' && prompt[*count] != '\0')
+            *count = *count + 1;
+        word = (*count) - word;
+        (*count)--;
+        word_splited = malloc((word + 1) * sizeof(char)); // removi o char *
+        if (!word_splited)
+            return (NULL);
+    }
+    word_splited[word--] = '\0';
+    temp = *count;
+    while (word >= 0)
+        word_splited[word--] = prompt[temp--];
     return (word_splited);
 }
 
