@@ -122,7 +122,7 @@ void	bt_or_exec(char **splited_prompt, char **envp)
 	bt_check = check_builtin(splited_prompt[0]);
 	if (bt_check > 0)
 	{
-		// executar builtin
+		bt_echo(splited_prompt);
 	}
 	else
 		command_exec(splited_prompt, envp, fd_redirect);

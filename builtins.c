@@ -1,4 +1,6 @@
-void	bt_echo(char *splited_prompt, t_fds command_fd)
+#include "minishell.h"
+
+void	bt_echo(char **splited_prompt)
 {
     int count;
     int n;
@@ -18,14 +20,14 @@ void	bt_echo(char *splited_prompt, t_fds command_fd)
             }
             else
             {
-                ft_putstr_fd(splited_prompt[count], command_fd)
+                ft_putstr_fd(splited_prompt[count], 1);
                 count++;   
                 val++;
             }
         }
         else
         {
-            ft_putstr_fd(splited_prompt[count], command_fd)
+            ft_putstr_fd(splited_prompt[count], 1);
             count++;
 			val++;  
         }
@@ -36,10 +38,6 @@ void	bt_echo(char *splited_prompt, t_fds command_fd)
 
 
 char	*bt_cd(char *splited_prompt, t_fds command_fd);
-{
-
-}
-
 char	*bt_pwd(char *splited_prompt, t_fds command_fd);
 char	*bt_export(char *splited_prompt, t_fds command_fd);
 char	*bt_unset(char *splited_prompt, t_fds command_fd);
