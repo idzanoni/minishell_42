@@ -31,7 +31,7 @@ int	check_pipes(char *prompt)
 	}
 	return (0);
 }
-}
+
 int	check_quotes(char *prompt)
 {
 	int i;

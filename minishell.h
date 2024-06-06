@@ -51,7 +51,8 @@ void	bt_or_exec(char **splited_prompt, char **envp);
 t_fds	find_redirect(char **splited_prompt);
 void	free_redirect(char **splited_prompt);
 void	bt_echo(char **splited_prompt);
-void	ft_putstr_fd(char *s, int fd)
+void	ft_putstr_fd(char *s, int fd);
+void    bt_pwd(void);
 
 
 // functions.c

@@ -33,12 +33,20 @@ void	bt_echo(char **splited_prompt)
         }
     }
     if(n == 0)
-        write(1, '\n', 1);
+        write(1, "\n", 1);
 }
 
 
+void    bt_pwd(void)
+{
+    char    *path;
+    
+    path = getcwd(NULL, 0);
+    ft_putstr_fd(path, 1);
+    ft_putstr_fd("\n", 1);
+}
+
 char	*bt_cd(char *splited_prompt, t_fds command_fd);
-char	*bt_pwd(char *splited_prompt, t_fds command_fd);
 char	*bt_export(char *splited_prompt, t_fds command_fd);
 char	*bt_unset(char *splited_prompt, t_fds command_fd);
 char	*bt_env(char *splited_prompt, t_fds command_fd);
