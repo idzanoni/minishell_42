@@ -1,4 +1,4 @@
-char *put_expand(char **envp, char  *splited_prompt)
+char *put_expand(char **envp, char  *splited _prompt)
 {
 	int     count;
 	int 	var_count

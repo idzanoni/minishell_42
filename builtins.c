@@ -47,7 +47,21 @@ void    bt_pwd(void)
 }
 
 char	*bt_cd(char *splited_prompt, t_fds command_fd);
-char	*bt_export(char *splited_prompt, t_fds command_fd);
+{
+    
+}
+char	*bt_export(char *splited_prompt, t_fds command_fd)
+{
+    // Verificar se tem ou não tem argumentos
+    // Se tiver zero argumentos, printa igual o export printa no bash
+
+    // Se tem argumentos
+        // Validar o que foi digitado
+            // EXEMPLO: VAR=42 (tem que validar que VAR é um nome de variável válido)
+        // Verificar se a variável existe no envp
+            // Se não existir, adiciona no envp o que foi digitado (VAR=42)
+            // Se existir... executa e dá uma olhada no que acontece
+}
 char	*bt_unset(char *splited_prompt, t_fds command_fd);
 char	*bt_env(char *splited_prompt, t_fds command_fd);
 char	*bt_exit(char *splited_prompt, t_fds command_fd);
