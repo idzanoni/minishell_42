@@ -157,3 +157,38 @@ void	ft_putstr_fd(char *s, int fd)
 		i++;
 	}
 }
+
+int	ft_isalpha(int i)
+{
+	if ((i >= 65 && i <= 90) || (i >= 97 && i <= 122))
+		return (1);
+	else
+		return (0);
+}
+
+int	ft_isalnum(int i)
+{
+	if ((i >= 48 && i <= 57) || (i >= 65 && i <= 90) || (i >= 97 && i <= 122))
+		return (1);
+	else
+		return (0);
+}
+
+void	*ft_memcpy(void *dest, const void *src, size_t n)
+{
+	char		*cdest;
+	const char	*csrc;
+	size_t		i;
+
+	cdest = (char *)dest;
+	csrc = (const char *)src;
+	if (cdest == NULL && csrc == NULL)
+		return (NULL);
+	i = 0;
+	while (i < n)
+	{
+		cdest[i] = csrc[i];
+		i++;
+	}
+	return (cdest);
+}

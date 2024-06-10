@@ -53,6 +53,9 @@ void	free_redirect(char **splited_prompt);
 void	bt_echo(char **splited_prompt);
 void	ft_putstr_fd(char *s, int fd);
 void    bt_pwd(void);
+int valid_var(char **envp, char *var);
+int localize_envp(char **envp, char *var);
+void	bt_export(char **splited_prompt, char	**envp);
 
 
 // functions.c
@@ -63,5 +66,10 @@ void	*ft_memmove(void *dest, const void *src, size_t n);
 char	*ft_strchr(const char *s, int c);
 int		ft_memcmp(const void *s1, const void *s2, size_t n);
 char	*ft_strdup(const char *s);
+size_t	ft_strlen_2(const char *s);
+int		ft_isalpha(int i);
+int		ft_isalnum(int i);
+void	*ft_memcpy(void *dest, const void *src, size_t n);
+
 
 #endif

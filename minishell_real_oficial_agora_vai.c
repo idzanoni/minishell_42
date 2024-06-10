@@ -126,6 +126,8 @@ void	bt_or_exec(char **splited_prompt, char **envp)
 			bt_echo(splited_prompt);
 		if(bt_check == 4)
 			bt_pwd();
+		if(bt_check == 6)
+			bt_export(splited_prompt, envp);
 	}
 	else
 		command_exec(splited_prompt, envp, fd_redirect);

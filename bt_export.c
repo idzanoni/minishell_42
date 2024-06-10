@@ -1,46 +1,50 @@
 #include "minishell.h"
 
-char	*bt_export(char **splited_prompt, t_fds command_fd)
+void	bt_export(char **splited_prompt, char	**envp)
 {
 
     int	count;
 	int i;
-    char *var;
 	int	envp_count;
 
 	count = 1;
-	i = 1
+	i = 1;
 	envp_count = 0;
     if(splited_prompt[1] == NULL)
     {
-        FUNÇÃO ENV
+        ft_putstr_fd("Não Fiz ainda", 1);
     }
     else
     {
         while(splited_prompt[count] != NULL)
 		{
-			if(ft_isalpha(splited_prompt[count][0] || splited_prompt[count][0] == '_')
+			printf("%d", splited_prompt[count][0]);
+			if(ft_isalpha(splited_prompt[count][0]) == 1 || splited_prompt[count][0] == '_')
 			{
-                i = 1;
 				while(splited_prompt[count][i] != '\0' || splited_prompt[count][i] != '=')
 				{
-					if(ft_isalpha(splited_prompt[count][i] || splited_prompt[count][i] == '_' || 
-					ft_isalnum(splited_prompt[count][i])
-                        i++;
-
+					if(ft_isalpha(splited_prompt[count][i]) == 1 || splited_prompt[count][i] == '_' || ))
+                    {   
+						if(splited_prompt[count][i] != '\0' || splited_prompt[count][i] == '_')
+							break;
+					    i++;
+					}
 					else
                     {
-                        ft_putstr_fd("export: splited_pront[count]: not a valid identifier", 1);
+						if(splited_prompt[count][i] != '\0' || splited_prompt[count][i] == '_')
+							break;
+                        ft_putstr_fd("export: not a valid identifier", 1);
                         break;
                     }
                 }
-                if(valid_var(envp, splited_prompt[count]) = 1)
+				i = 1;
+                if(valid_var(envp, splited_prompt[count]) == 1)
 				{
 					if(splited_prompt[count][i] == '=')
 					{
-						free(envp[localize_envp(envp, splited_prompt[count]]);
-						envp[localize_envp(envp, splited_prompt[count])] = malloc(ft_strlen(splited_prompt[count] + 1 * sizeof[char *]));
-						ft_memcpy(envp[localize_envp(envp, splited_prompt[count])], splited_prompt[count], ft_strlen(splited_prompt[count]))
+						free(envp[localize_envp(envp, splited_prompt[count])]);
+						envp[localize_envp(envp, splited_prompt[count])] = malloc(ft_strlen(splited_prompt[count] + 1 * sizeof(char *)));
+						ft_memcpy(envp[localize_envp(envp, splited_prompt[count])], splited_prompt[count], ft_strlen(splited_prompt[count]));
 					}
 				}
 				else
@@ -48,14 +52,14 @@ char	*bt_export(char **splited_prompt, t_fds command_fd)
 					while(envp[envp_count] != NULL)
 						envp_count++;
 					envp_count++;
-					envp = malloc((envp_count + 1) * sizeof());
-					envp[envp_count] = malloc(ft_strlen[splited_prompt[count]] + 1 * sizeof(char *));
-					ft_memcpy(envp[envp_count], splited_prompt[count], ft_strlen(splited_prompt[count]))
+					envp = malloc((envp_count + 1) * sizeof(char *));
+					envp[envp_count] = malloc(ft_strlen(splited_prompt[count]) + 1 * sizeof(char *));
+					ft_memcpy(envp[envp_count], splited_prompt[count], ft_strlen(splited_prompt[count]));
 				}
 
 			}
 			else
-				ft_putstr_fd("export: splited_pront[count]: not a valid identifier", 1)
+				ft_putstr_fd("export: splited_pront[count]: not a valid identifier", 1);
             count++;
 		}
 			
@@ -68,6 +72,7 @@ char	*bt_export(char **splited_prompt, t_fds command_fd)
     }
 }
 
+
 size_t	ft_strlen_2(const char *s)
 {
 	size_t	i;
@@ -77,6 +82,7 @@ size_t	ft_strlen_2(const char *s)
 		i++;
 	return (i);
 }
+
 
 int valid_var(char **envp, char *var) //grep
 {
@@ -90,12 +96,12 @@ int valid_var(char **envp, char *var) //grep
 	{
 		value = ft_strnstr (envp[i], var, len_var);
 		if (value != NULL)
-            return(1)
+            return(1);
         else    
             return(0);
 		i++;
 	}
-	return (NULL);
+	return(1);
 }
 
 int localize_envp(char **envp, char *var) //grep
@@ -113,4 +119,5 @@ int localize_envp(char **envp, char *var) //grep
             return(i);
 		i++;
 	}
+	return(i);
 }
