@@ -63,6 +63,9 @@ int 	valid_var(t_list	*envp, char *var);
 t_list 	*localize_envp(t_list	*envp, char *var);
 void	bt_export(char **splited_prompt, t_list	*envp);
 t_list	*duplic_envp(char	**envp);
+int		bt_env(t_list *envp);
+char	*bt_unset(char **splited_prompt, t_list	**envp);
+void	delnode(t_list	**envp, t_list	*node);
 
 
 // functions.c
@@ -82,9 +85,7 @@ void	ft_putendl_fd(char *s, int fd);
 void	ft_lstadd_back(t_list **lst, t_list *new);
 t_list	*ft_lstlast(t_list *lst);
 t_list	*ft_lstnew(void *content);
-int	ft_lstsize(t_list *lst);
-
-
+int		ft_lstsize(t_list *lst);
 
 
 

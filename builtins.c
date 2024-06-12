@@ -46,7 +46,26 @@ void    bt_pwd(void)
     ft_putstr_fd("\n", 1);
 }
 
+int	bt_env(t_list *envp)
+{
+	int i;
+
+	while(envp != NULL)
+	{
+		i = 0;
+		while(((char *)envp->content)[i] != '\0')
+		{
+			if (((char *)envp->content)[i] == '=')
+			{
+				ft_putstr_fd((char *)envp->content, 1);
+				break;
+			}
+			i++;
+		}
+		envp = envp->next;
+	}
+	return (0);
+}
+
 char	*bt_cd(char *splited_prompt, t_fds command_fd);
-char	*bt_unset(char *splited_prompt, t_fds command_fd);
-char	*bt_env(char *splited_prompt, t_fds command_fd);
 char	*bt_exit(char *splited_prompt, t_fds command_fd);
