@@ -30,7 +30,7 @@ void	print_matrix(char **matrix)
 		printf("%s\n", matrix[i]);
 }
 
-void	minishell(char **envp)
+void	minishell(t_list *envp)
 {
 	char	*prompt;
 	char	*norme_prompt_result;
@@ -109,7 +109,7 @@ int	check_builtin(char *splited_prompt)
 		return (0);
 }
 
-void	bt_or_exec(char **splited_prompt, char **envp)
+void	bt_or_exec(char **splited_prompt, t_list *envp)
 {
 	int		bt_check;
 	t_fds	fd_redirect;
@@ -266,11 +266,33 @@ char	*norme_string(char *prompt)
 	return (result);
 }
 
+t_list	*duplic_envp(char	**envp)
+{
+	int	count_lines;
+	t_list	*new_envp;
+
+	new_envp = NULL;
+	count_lines = 0;
+	while(envp[count_lines] != NULL)
+	{
+		if (new_envp == NULL)
+			new_envp = ft_lstnew(ft_strdup(envp[count_lines]));
+		else
+			ft_lstadd_back(&new_envp, ft_lstnew(ft_strdup(envp[count_lines])));
+		count_lines++;
+	}
+	return(new_envp);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	(void)argc;
 	(void)argv;
-	minishell(envp);
+	t_list *new_envp;
+
+	new_envp = duplic_envp(envp);
+
+	minishell(new_envp);
 	rl_clear_history();
 	return (0);
 }

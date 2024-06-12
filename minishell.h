@@ -26,7 +26,13 @@ typedef struct s_fd_in_out
 	int fd_out;
 } t_fds;
 
-void	minishell(char **envp);
+typedef struct s_list
+{
+	void			*content;
+	struct s_list	*next;
+}					t_list;
+
+void	minishell(t_list	*envp);
 int		check_prompt(char *prompt);
 int		check_quotes(char *prompt);
 int		check_empty(char *prompt);
@@ -38,24 +44,25 @@ char	**new_split(char *prompt);
 char	*get_word(char *prompt, int *count);
 int		count_word(char *prompt);
 void	free_all(char **malloc_string);
-void    command_exec(char **splited_prompt, char **envp, t_fds fd_redirect);
-char	*find_path(char *splited_prompt, char **envp);
-char	*return_value(char **envp, char *var);
+void    command_exec(char **splited_prompt, t_list	*envp, t_fds fd_redirect);
+char	*find_path(char *splited_prompt, t_list	*envp);
+char	*return_value(t_list	*envp, char *var);
 char	**ft_split(char const *s, char c);
 char	*get_word1(char const *s, char c);
 int		count_words1(char const *s, char c);
 int		find_pipe(char **splited_prompt);
 char	**get_command(char **splited_prompt);
-void	more_command(char **splited_prompt, char **envp);
-void	bt_or_exec(char **splited_prompt, char **envp);
+void	more_command(char **splited_prompt, t_list	*envp);
+void	bt_or_exec(char **splited_prompt, t_list *envp);
 t_fds	find_redirect(char **splited_prompt);
 void	free_redirect(char **splited_prompt);
 void	bt_echo(char **splited_prompt);
 void	ft_putstr_fd(char *s, int fd);
 void    bt_pwd(void);
-int valid_var(char **envp, char *var);
-int localize_envp(char **envp, char *var);
-void	bt_export(char **splited_prompt, char	**envp);
+int 	valid_var(t_list	*envp, char *var);
+t_list 	*localize_envp(t_list	*envp, char *var);
+void	bt_export(char **splited_prompt, t_list	*envp);
+t_list	*duplic_envp(char	**envp);
 
 
 // functions.c
@@ -70,6 +77,15 @@ size_t	ft_strlen_2(const char *s);
 int		ft_isalpha(int i);
 int		ft_isalnum(int i);
 void	*ft_memcpy(void *dest, const void *src, size_t n);
+size_t	ft_strlcpy(char *dest, const char *src, size_t size);
+void	ft_putendl_fd(char *s, int fd);
+void	ft_lstadd_back(t_list **lst, t_list *new);
+t_list	*ft_lstlast(t_list *lst);
+t_list	*ft_lstnew(void *content);
+int	ft_lstsize(t_list *lst);
+
+
+
 
 
 #endif

@@ -1,6 +1,25 @@
 #include "minishell.h"
 
-void	command_exec(char **splited_prompt, char **envp, t_fds fd_redirect)
+char    **execve_envp(t_list *envp)
+{
+    char    **other_envp;
+    t_list  *tmp;
+    int i;
+
+    tmp = envp;
+    i = ft_lstsize(tmp);
+    other_envp = malloc((i + 1) * sizeof(char *));
+    i = 0;
+    while (tmp != NULL)
+    {
+        other_envp[i] = ft_strdup(tmp->content);
+        i++;
+        tmp = tmp->next;
+    }
+    return (other_envp);
+}
+
+void	command_exec(char **splited_prompt, t_list  *envp, t_fds fd_redirect)
 {
 	int		fork_return;
 	char	*path;
@@ -28,7 +47,7 @@ void	command_exec(char **splited_prompt, char **envp, t_fds fd_redirect)
 			dup2 (fd_redirect.fd_out, STDOUT_FILENO);
 			close (fd_redirect.fd_out);
 		}
-		execve(path, splited_prompt, envp);
+		execve(path, splited_prompt, execve_envp(envp));
 		free_all(splited_prompt);
 		free(path);
 		exit(142);
@@ -39,7 +58,7 @@ void	command_exec(char **splited_prompt, char **envp, t_fds fd_redirect)
 	}
 }
 
-char	*find_path(char *splited_prompt, char **envp)
+char	*find_path(char *splited_prompt, t_list *envp)
 {
 	char	*path;
 	char	*path_env;
@@ -74,23 +93,23 @@ char	*find_path(char *splited_prompt, char **envp)
 	return(NULL);	
 }
 
-char	*return_value(char **envp, char *var) //grep
+char	*return_value(t_list    *envp, char *var) //grep
 {
 	char	*value;
 	int		len_var;
-	int		i;
+    t_list  *tmp;
 
-	i = 0;
-	len_var = ft_strlen(var);
-	while (envp[i] != NULL)
+	len_var = ft_strlen_2(var);
+    tmp = envp;
+	while (tmp != NULL)
 	{
-		value = ft_strnstr (envp[i], var, len_var);
+		value = ft_strnstr (tmp->content, var, len_var);
 		if (value != NULL)
 		{
-			if (envp[i][len_var] == '=')
-				return (&envp[i][len_var + 1]);
+			if (((char *)tmp->content)[len_var] == '=')
+				return (&((char *)tmp->content)[len_var + 1]);
 		}
-		i++;
+        tmp = tmp->next;
 	}
 	return (NULL);
 }
@@ -139,7 +158,7 @@ R         R W    R W     R W           R W                    W
 
  */
 
-void    more_command(char **splited_prompt, char **envp)
+void    more_command(char **splited_prompt, t_list  *envp)
 {
     int count_pipes;
     int i;

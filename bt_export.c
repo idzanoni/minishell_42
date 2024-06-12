@@ -1,62 +1,65 @@
 #include "minishell.h"
 
-void	bt_export(char **splited_prompt, char	**envp)
+void	bt_export(char **splited_prompt, t_list	*envp)
 {
 
     int	count;
 	int i;
-	int	envp_count;
+	t_list	*local;
 
 	count = 1;
 	i = 1;
-	envp_count = 0;
     if(splited_prompt[1] == NULL)
     {
-        ft_putstr_fd("Não Fiz ainda", 1);
+		while (envp != NULL)
+		{
+			ft_putstr_fd("declare -x ", 1);
+			ft_putendl_fd(envp->content, 1);
+			envp = envp->next;
+		}
     }
     else
     {
         while(splited_prompt[count] != NULL)
 		{
-			printf("%d", splited_prompt[count][0]);
 			if(ft_isalpha(splited_prompt[count][0]) == 1 || splited_prompt[count][0] == '_')
 			{
-				while(splited_prompt[count][i] != '\0' || splited_prompt[count][i] != '=')
+				while(splited_prompt[count][i] != '\0' && splited_prompt[count][i] != '=')
 				{
-					if(ft_isalpha(splited_prompt[count][i]) == 1 || splited_prompt[count][i] == '_' || ))
+					if(ft_isalnum(splited_prompt[count][i]) == 1 || splited_prompt[count][i] == '_')
                     {   
-						if(splited_prompt[count][i] != '\0' || splited_prompt[count][i] == '_')
-							break;
+						//if(splited_prompt[count][i] != '\0' || splited_prompt[count][i] == '=')
+							//break;
 					    i++;
 					}
 					else
                     {
-						if(splited_prompt[count][i] != '\0' || splited_prompt[count][i] == '_')
-							break;
+						//if(splited_prompt[count][i] != '\0' || splited_prompt[count][i] == '=')
+							//break;
                         ft_putstr_fd("export: not a valid identifier", 1);
                         break;
                     }
                 }
-				i = 1;
                 if(valid_var(envp, splited_prompt[count]) == 1)
 				{
+					printf("%c\n", splited_prompt[count][i]);
+					printf("ESTOU AQUI no if\n");
 					if(splited_prompt[count][i] == '=')
 					{
-						free(envp[localize_envp(envp, splited_prompt[count])]);
-						envp[localize_envp(envp, splited_prompt[count])] = malloc(ft_strlen(splited_prompt[count] + 1 * sizeof(char *)));
-						ft_memcpy(envp[localize_envp(envp, splited_prompt[count])], splited_prompt[count], ft_strlen(splited_prompt[count]));
+						printf("entrei no segundo if\n");
+						local = localize_envp(envp, splited_prompt[count]);
+						free(local->content);
+						printf("estou depois do free\n");
+						local->content = ft_strdup(splited_prompt[count]);
+						printf("estou no final do if\n");
 					}
 				}
 				else
 				{
-					while(envp[envp_count] != NULL)
-						envp_count++;
-					envp_count++;
-					envp = malloc((envp_count + 1) * sizeof(char *));
-					envp[envp_count] = malloc(ft_strlen(splited_prompt[count]) + 1 * sizeof(char *));
-					ft_memcpy(envp[envp_count], splited_prompt[count], ft_strlen(splited_prompt[count]));
-				}
+					ft_lstadd_back(&envp, ft_lstnew(ft_strdup(splited_prompt[count])));
+					printf("%s\n", (char *)localize_envp(envp, splited_prompt[count])->content);
 
+				}
 			}
 			else
 				ft_putstr_fd("export: splited_pront[count]: not a valid identifier", 1);
@@ -84,40 +87,38 @@ size_t	ft_strlen_2(const char *s)
 }
 
 
-int valid_var(char **envp, char *var) //grep
+int valid_var(t_list *envp, char *var) //grep
 {
-	char	*value;
+	int		value;
 	int		len_var;
-	int		i;
+	t_list	*tmp;
 
-	i = 0;
 	len_var = ft_strlen_2(var);
-	while (envp[i] != NULL)
+	tmp = envp;
+	while (tmp != NULL)
 	{
-		value = ft_strnstr (envp[i], var, len_var);
-		if (value != NULL)
+		value = ft_memcmp (tmp->content, var, len_var);
+		if (value == 0)
             return(1);
-        else    
-            return(0);
-		i++;
+		tmp = tmp->next;
 	}
-	return(1);
+	return(0);
 }
 
-int localize_envp(char **envp, char *var) //grep
+t_list *localize_envp(t_list *envp, char *var) //grep
 {
-	char	*value;
+	int		value;
 	int		len_var;
-	int		i;
+	t_list	*tmp;
 
-	i = 0;
 	len_var = ft_strlen_2(var);
-	while (envp[i] != NULL)
+	tmp = envp;
+	while (tmp != NULL)
 	{
-		value = ft_strnstr (envp[i], var, len_var);
-		if (value != NULL)
-            return(i);
-		i++;
+		value = ft_memcmp (tmp->content, var, len_var);
+		if (value == 0)
+            return(tmp);
+		tmp = tmp->next;
 	}
-	return(i);
+	return(NULL);
 }
