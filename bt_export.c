@@ -28,14 +28,10 @@ void	bt_export(char **splited_prompt, t_list	*envp)
 				{
 					if(ft_isalnum(splited_prompt[count][i]) == 1 || splited_prompt[count][i] == '_')
                     {   
-						//if(splited_prompt[count][i] != '\0' || splited_prompt[count][i] == '=')
-							//break;
 					    i++;
 					}
 					else
                     {
-						//if(splited_prompt[count][i] != '\0' || splited_prompt[count][i] == '=')
-							//break;
                         ft_putstr_fd("export: not a valid identifier", 1);
                         break;
                     }
