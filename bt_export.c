@@ -38,22 +38,16 @@ void	bt_export(char **splited_prompt, t_list	*envp)
                 }
                 if(valid_var(envp, splited_prompt[count]) == 1)
 				{
-					printf("%c\n", splited_prompt[count][i]);
-					printf("ESTOU AQUI no if\n");
 					if(splited_prompt[count][i] == '=')
 					{
-						printf("entrei no segundo if\n");
 						local = localize_envp(envp, splited_prompt[count]);
 						free(local->content);
-						printf("estou depois do free\n");
 						local->content = ft_strdup(splited_prompt[count]);
-						printf("estou no final do if\n");
 					}
 				}
 				else
 				{
 					ft_lstadd_back(&envp, ft_lstnew(ft_strdup(splited_prompt[count])));
-					printf("%s\n", (char *)localize_envp(envp, splited_prompt[count])->content);
 
 				}
 			}

@@ -105,6 +105,8 @@ int	check_builtin(char *splited_prompt)
 		return (6);
 	if (!ft_memcmp(splited_prompt, UNSET, ft_strlen(UNSET)))
 		return (7);
+	if (!ft_memcmp(splited_prompt, "$HOME", 1))
+		return(8);
 	else
 		return (0);
 }
@@ -128,6 +130,8 @@ void	bt_or_exec(char **splited_prompt, t_list *envp)
 			bt_pwd();
 		if(bt_check == 6)
 			bt_export(splited_prompt, envp);
+		if(bt_check == 8)
+			expand_var2(envp, splited_prompt);
 	}
 	else
 		command_exec(splited_prompt, envp, fd_redirect);

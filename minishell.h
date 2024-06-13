@@ -66,6 +66,8 @@ t_list	*duplic_envp(char	**envp);
 int		bt_env(t_list *envp);
 char	*bt_unset(char **splited_prompt, t_list	**envp);
 void	delnode(t_list	**envp, t_list	*node);
+char 	*put_expand(t_list *envp, char  *splited_prompt);
+char 	*expand_var2(t_list *envp, char **splited_promp);
 
 
 // functions.c

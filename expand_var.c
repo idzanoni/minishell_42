@@ -72,7 +72,7 @@ char	*put_expand_quotes(char *prompt_line, char **envp)
 }
 
 
-char *expand_var(char **envp, char *splited_promp)
+char *expand_var2(char **envp, char *splited_promp)
 {
 	int count;
 
