@@ -29,7 +29,6 @@ char *expand_var2(t_list *envp, char **splited_prompt)
 			}
 			else if(splited_prompt[count][0] == '$')
 			{	
-				free(splited_prompt[count]);
 				splited_prompt[count] = put_expand(envp, splited_prompt[count]);
 			}
 		}
@@ -48,8 +47,10 @@ char *put_expand(t_list *envp, char  *splited_promp)
 	int		i;
 
 		i = 0;
-		result = malloc(16 * sizeof(char *));
-		var = malloc(6 * sizeof(char *));
+		var_count = 0;
+		count = 0;
+		result = malloc(16 * sizeof(char));
+		var = malloc(6 * sizeof(char));
 		while(splited_promp[count] != '\0')
 		{
 			if(splited_promp[count] == '$')
@@ -67,6 +68,8 @@ char *put_expand(t_list *envp, char  *splited_promp)
 					}
 				}
 			}
+			else
+				count++;
 		}
 		tmp = localize_envp(envp, var);
         count = 0;
