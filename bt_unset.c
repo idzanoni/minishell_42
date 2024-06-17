@@ -3,15 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   bt_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: izanoni <izanoni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 15:59:21 by izanoni           #+#    #+#             */
-/*   Updated: 2024/06/12 19:23:05 by izanoni          ###   ########.fr       */
+/*   Updated: 2024/06/14 16:56:04 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*
+	Variável tem nome válido igual as variáveis no C
+	- Só pode conter letras, números e _
+	- Não pode começar com números
+*/
 char	*bt_unset(char **splited_prompt, t_list	**envp)
 {
 	int		i;
@@ -21,13 +26,19 @@ char	*bt_unset(char **splited_prompt, t_list	**envp)
 	i = 1;
 	while (splited_prompt[i] != NULL)
 	{
+		if (checkname(splited_prompt[i]) != 0)
+		{
+			print_error(splited_prompt[i], ": not a valid identifier\n");
+			i++;
+			continue;
+		}
 		len_var = ft_strlen(splited_prompt[i]);
 		temp_node = *envp;
-		while(temp_node != NULL)
+		while (temp_node != NULL)
 		{
-			if((ft_strnstr((char *)temp_node->content, splited_prompt[i], len_var)) != NULL)
+			if ((ft_strnstr(temp_node->content, splited_prompt[i], len_var)) != NULL)
 			{
-				if (((char *)temp_node->content)[len_var] == '=' || ((char *)temp_node->content)[len_var] == '\0')
+				if ((temp_node->content)[len_var] == '=' || (temp_node->content)[len_var] == '\0')
 				{
 					delnode(envp, temp_node);
 					break ;
@@ -63,4 +74,42 @@ void	delnode(t_list	**envp, t_list	*node)
 			free (node);
 		}
 	}
+}
+
+/* Exemplos
+""
+@kkkkkk
+V@R
+teste
+ap4en45_um4_var
+_serassi?
+73573
+7este
+4vari@vel_v@lid@
+*/
+int checkname(char *splited_prompt)
+{
+	int i;
+	
+	i = 0;
+	if (ft_isdigit (splited_prompt[i]) == 1)
+		return (1);
+	while (splited_prompt[i] != '\0')
+	{
+		if (ft_isalnum(splited_prompt[i]) != 1 && splited_prompt[i] != '_')
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+//'var' message
+void	print_error(char *var, char *message)
+{
+	int len;
+	char temp[5000];
+
+	len = ft_strlen(var) + ft_strlen(message) + 2;
+	temp 
+	write(,,ft_strlen());
 }

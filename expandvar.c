@@ -49,8 +49,8 @@ char *put_expand(t_list *envp, char  *splited_promp)
 		i = 0;
 		var_count = 0;
 		count = 0;
-		result = malloc(16 * sizeof(char));
-		var = malloc(6 * sizeof(char));
+		result = calloc(60 , sizeof(char));
+		var = calloc(7 , sizeof(char));
 		while(splited_promp[count] != '\0')
 		{
 			if(splited_promp[count] == '$')
@@ -60,7 +60,7 @@ char *put_expand(t_list *envp, char  *splited_promp)
 					count++;
 				else
 				{
-					while(splited_promp[count] != ' ' &&  splited_promp[count] != '\0')
+					while( splited_promp[count] != '\0')
 					{
 						var[var_count] = splited_promp[count];
 						var_count++;
@@ -85,7 +85,7 @@ char *put_expand(t_list *envp, char  *splited_promp)
 					count++;
                 }		
 			}
-            i++;
+            	i++;
         }
 		result[count] = '\0';
 		printf("%s", result);

@@ -3,14 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rleite-s <rleite-s@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/11 15:56:25 by izanoni           #+#    #+#             */
-/*   Updated: 2024/05/21 18:29:38 by rleite-s         ###   ########.fr       */
+/*   Created: 2024/06/17 12:36:19 by mgonzaga          #+#    #+#             */
+/*   Updated: 2024/06/17 18:14:47 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+
 #include "minishell.h"
+
+void new_prompt(char *prompt)
+{
+	int count;
+	
+	count = 0;
+	while(prompt[count] != '\0')
+	{
+		if(prompt[count] == '"')
+		{
+			count++;
+			while(prompt[count] != '"')
+				count++;
+			count++;
+		}
+		while(prompt[count] != ' ')
+			count++;
+		if(prompt[count] == ' ')
+			prompt[count] = -42;
+		count++;	
+	}
+	return(prompt);
+}
 
 int	count_words1(char const *s, char c)
 {
@@ -54,6 +78,7 @@ char	**ft_split(char const *s, char c)
 
 	if (!s)
 		return (NULL);
+	printf("%s", s);
 	nb_words = count_words1(s, c);
 	splited_str = (char **)malloc((nb_words + 1) * sizeof(char *));
 	if (!splited_str)

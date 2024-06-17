@@ -1,7 +1,7 @@
 NAME = minishell
 
 FILES = $(addsuffix .c, minishell_real_oficial_agora_vai \
-		check_things free_all new_split execv funcitions ft_split builtins bt_export expandvar) 
+		check_things free_all execv funcitions ft_split builtins bt_export expandvar new_split) 
 
 FLAGS = -Wall -Wextra -Werror -g3
 

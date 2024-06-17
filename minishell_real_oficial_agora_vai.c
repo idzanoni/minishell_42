@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_real_oficial_agora_vai.c                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: izanoni <izanoni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 16:46:48 by izanoni           #+#    #+#             */
-/*   Updated: 2024/05/17 19:28:45 by izanoni          ###   ########.fr       */
+/*   Updated: 2024/06/17 18:15:57 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ void	minishell(t_list *envp)
 			printf("error\n");
 			continue ;
 		}
+		funcao
 		splited_prompt = new_split(norme_prompt_result);
 		if (!splited_prompt)
 		{
@@ -223,7 +224,7 @@ char	*norme_string(char *prompt)
 	
 	count = 0;
 	count_result = 0;
-	size_prompt = strlen(prompt); // usar ft_strlen
+	size_prompt = ft_strlen(prompt); // usar ft_strlen
 	while (prompt[count] != '\0')
 	{
 		if(prompt[count] == '>'|| prompt[count] == '<' || prompt[count] == '|')

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   bt_export.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/17 12:37:07 by mgonzaga          #+#    #+#             */
+/*   Updated: 2024/06/17 13:39:13 by mgonzaga         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	bt_export(char **splited_prompt, t_list	*envp)
@@ -55,14 +67,7 @@ void	bt_export(char **splited_prompt, t_list	*envp)
 				ft_putstr_fd("export: splited_pront[count]: not a valid identifier", 1);
             count++;
 		}
-			
-            // Validar o que foi digitado
-                // EXEMPLO: VAR=42 (tem que validar que VAR é um nome de variável válido)
-            // Verificar se a variável existe no envp
-                // Se não existir, adiciona no envp o que foi digitado (VAR=42)
-                // Se existir... executa e dá uma olhada no que acontece
-
-    }
+	}
 }
 
 

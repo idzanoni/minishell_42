@@ -28,7 +28,7 @@ typedef struct s_fd_in_out
 
 typedef struct s_list
 {
-	void			*content;
+	char		*content;
 	struct s_list	*next;
 }					t_list;
 
@@ -40,7 +40,6 @@ int		check_redirect(char *prompt);
 int		only_space(char *prompt);
 int		check_pipes(char *prompt);
 char	*norme_string(char *prompt);
-char	**new_split(char *prompt);
 char	*get_word(char *prompt, int *count);
 int		count_word(char *prompt);
 void	free_all(char **malloc_string);
@@ -68,6 +67,8 @@ char	*bt_unset(char **splited_prompt, t_list	**envp);
 void	delnode(t_list	**envp, t_list	*node);
 char 	*put_expand(t_list *envp, char  *splited_prompt);
 char 	*expand_var2(t_list *envp, char **splited_promp);
+char	**new_split(char *prompt);
+
 
 
 // functions.c
