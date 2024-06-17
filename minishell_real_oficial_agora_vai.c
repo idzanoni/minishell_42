@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 16:46:48 by izanoni           #+#    #+#             */
-/*   Updated: 2024/06/17 18:15:57 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/06/17 18:29:52 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,8 @@ void	minishell(t_list *envp)
 			printf("error\n");
 			continue ;
 		}
-		funcao
-		splited_prompt = new_split(norme_prompt_result);
+		new_prompt(norme_prompt_result);
+		splited_prompt = ft_split(norme_prompt_result, -42);
 		if (!splited_prompt)
 		{
 			printf("error\n");

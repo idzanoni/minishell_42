@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 12:36:19 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/06/17 18:14:47 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/06/17 19:05:59 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,20 +20,24 @@ void new_prompt(char *prompt)
 	count = 0;
 	while(prompt[count] != '\0')
 	{
-		if(prompt[count] == '"')
+		if(prompt[count] == '"' || prompt[count] == '\'')
 		{
 			count++;
-			while(prompt[count] != '"')
+			while(prompt[count] != '"' && prompt[count] != '\'')
 				count++;
 			count++;
 		}
-		while(prompt[count] != ' ')
-			count++;
-		if(prompt[count] == ' ')
-			prompt[count] = -42;
-		count++;	
+		else
+		{
+			while(prompt[count] != ' ' && prompt[count] != '\0' && prompt[count] != '	')
+				count++;
+			if (prompt[count] == ' ' || prompt[count] == '	')
+			{
+				prompt[count] = -42;
+				count++;
+			}
+		}
 	}
-	return(prompt);
 }
 
 int	count_words1(char const *s, char c)
@@ -78,7 +82,7 @@ char	**ft_split(char const *s, char c)
 
 	if (!s)
 		return (NULL);
-	printf("%s", s);
+	printf("é o que veio: %s\n", s);
 	nb_words = count_words1(s, c);
 	splited_str = (char **)malloc((nb_words + 1) * sizeof(char *));
 	if (!splited_str)

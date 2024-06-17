@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 15:59:21 by izanoni           #+#    #+#             */
-/*   Updated: 2024/06/14 16:56:04 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/06/17 19:48:59 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,9 +107,32 @@ int checkname(char *splited_prompt)
 void	print_error(char *var, char *message)
 {
 	int len;
-	char temp[5000];
+	int count;
+	char *temp;
 
+	count = 0;
 	len = ft_strlen(var) + ft_strlen(message) + 2;
-	temp 
-	write(,,ft_strlen());
+	temp = malloc((len+2) * sizeof(char));
+	if (!temp)
+		return;
+	len = 0;
+	temp[count] = '\'';
+	while (var[len] != '\0')
+	{
+		count++;
+		temp[count] = var[len];
+		len++;
+	}
+	temp[count++] = '\'';
+	len = 0;
+	while(message[len] != '\0')
+	{
+		temp[count] = message[len];
+		count++;
+		len++;
+	}
+	temp[count] = '\n';
+	temp[++count] = '\0';
+	write(2,temp,ft_strlen(temp));
+	free(temp);
 }

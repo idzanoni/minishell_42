@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 12:37:23 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/06/17 13:39:13 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/06/17 19:22:17 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ void    bt_pwd(void)
     path = getcwd(NULL, 0);
     ft_putstr_fd(path, 1);
     ft_putstr_fd("\n", 1);
+    free(path);
 }
 
 int	bt_env(t_list *envp)

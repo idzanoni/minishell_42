@@ -67,7 +67,7 @@ char	*bt_unset(char **splited_prompt, t_list	**envp);
 void	delnode(t_list	**envp, t_list	*node);
 char 	*put_expand(t_list *envp, char  *splited_prompt);
 char 	*expand_var2(t_list *envp, char **splited_promp);
-char	**new_split(char *prompt);
+void	new_prompt(char *prompt);
 
 
 
