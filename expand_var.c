@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 19:21:15 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/06/17 19:44:14 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/06/18 16:00:42 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,6 @@ char	*really_expand(char *splited_prompt, char	**envp)
 		if(splited_prompt[0] == '$')
 		{
 			i = ft_strlen(splited_prompt);
-			
-			
 		}
 	}
 }

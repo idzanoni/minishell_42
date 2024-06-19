@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins.c                                         :+:      :+:    :+:   */
+/*   bt_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/17 12:37:23 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/06/17 19:22:17 by mgonzaga         ###   ########.fr       */
+/*   Created: 2024/06/18 19:18:17 by mgonzaga          #+#    #+#             */
+/*   Updated: 2024/06/18 19:18:35 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "minishel.h"
 
 void	bt_echo(char **splited_prompt)
 {
@@ -47,38 +47,3 @@ void	bt_echo(char **splited_prompt)
     if(n == 0)
         write(1, "\n", 1);
 }
-
-
-void    bt_pwd(void)
-{
-    char    *path;
-    
-    path = getcwd(NULL, 0);
-    ft_putstr_fd(path, 1);
-    ft_putstr_fd("\n", 1);
-    free(path);
-}
-
-int	bt_env(t_list *envp)
-{
-	int i;
-
-	while(envp != NULL)
-	{
-		i = 0;
-		while(((char *)envp->content)[i] != '\0')
-		{
-			if (((char *)envp->content)[i] == '=')
-			{
-				ft_putstr_fd((char *)envp->content, 1);
-				break;
-			}
-			i++;
-		}
-		envp = envp->next;
-	}
-	return (0);
-}
-
-char	*bt_cd(char *splited_prompt, t_fds command_fd);
-char	*bt_exit(char *splited_prompt, t_fds command_fd);
