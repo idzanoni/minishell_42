@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 12:36:50 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/06/17 13:39:13 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/06/19 19:38:34 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -287,4 +287,54 @@ int	ft_lstsize(t_list *lst)
 		i++;
 	}
 	return (i);
+}
+
+char	*ft_strjoin(char const *s1, char const *s2)
+{
+	char	*ptr;
+	size_t	r1;
+	size_t	r2;
+	size_t	t;
+
+	if (s1 == NULL && s2 == NULL)
+		return (NULL);
+	r1 = ft_strlen (s1);
+	r2 = ft_strlen (s2);
+	t = r1 + r2;
+	ptr = malloc((t + 1) * sizeof(char));
+	if (!ptr)
+		return (NULL);
+	ft_memmove(ptr, s1, r1);
+	ft_memmove(&ptr[r1], s2, r2);
+	ptr[t] = '\0';
+	return (ptr);
+}
+
+char	*ft_substr(char const *s, unsigned int start, size_t len)
+{
+	char			*substring;
+	unsigned int	i;
+	size_t			slen;
+	size_t			sublen;
+
+	slen = ft_strlen(s);
+	if (!s || start >= slen)
+	{
+		return (ft_strdup(""));
+	}
+	if (start + len <= slen)
+		sublen = len;
+	else
+		sublen = slen - start;
+	substring = (char *)malloc((sublen + 1) * sizeof(char));
+	if (!substring)
+		return (NULL);
+	i = 0;
+	while (s[start + i] != '\0' && i < sublen)
+	{
+		substring[i] = s[start + i];
+		i++;
+	}
+	substring[i] = '\0';
+	return (substring);
 }

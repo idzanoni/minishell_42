@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 16:46:48 by izanoni           #+#    #+#             */
-/*   Updated: 2024/06/18 17:41:44 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/06/19 18:21:48 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,14 +82,6 @@ void	minishell(t_list *envp)
 	}
 }
 
-#define EXIT "exit"
-#define ECHO "echo"
-#define PWD "pwd"
-#define ENV "env"
-#define CD "cd"
-#define EXPORT "export"
-#define UNSET "unset"
-
 int	check_builtin(char *splited_prompt)
 {
 	if (!ft_memcmp(splited_prompt, EXIT, ft_strlen(EXIT)))
@@ -140,65 +132,6 @@ void	bt_or_exec(char **splited_prompt, t_list *envp)
 		close (fd_redirect.fd_out);
 	if (fd_redirect.fd_in != STDIN_FILENO)
 		close (fd_redirect.fd_in);
-}
-
-void	free_redirect(char **splited_prompt)
-{
-	int	count;
-	int	i;
-
-	count = 0;
-	i = 0;
-	while(splited_prompt[count] != NULL)
-	{
-		if(splited_prompt[count][0] == '<' || splited_prompt[count][0] == '>')
-		{
-			free(splited_prompt[count]);
-			count++;
-			free(splited_prompt[count]);
-			i = count;
-			while (splited_prompt[i] != NULL)
-			{
-				splited_prompt[i - 1] = splited_prompt[i + 1];
-				i++;
-			}		
-			count = count - 2;
-		}
-		count++;
-	}
-}
-
-t_fds find_redirect(char **splited_prompt)
-{
-	t_fds fd_redirect;
-	int count;
-
-	fd_redirect.fd_in = STDIN_FILENO;
-	fd_redirect.fd_out = STDOUT_FILENO;
-	count = 0;
-	while (splited_prompt[count] != NULL)
-	{
-		if (splited_prompt[count][0] == '>')
-		{
-			if (fd_redirect.fd_out != STDOUT_FILENO)
-				close (fd_redirect.fd_out);
-			if (splited_prompt[count][1] == '>')
-				fd_redirect.fd_out = open (splited_prompt[count + 1], O_CREAT | O_WRONLY | O_APPEND, 0644);
-			else
-				fd_redirect.fd_out = open (splited_prompt[count + 1], O_CREAT | O_WRONLY | O_TRUNC, 0644);
-		}
-		else if (splited_prompt[count][0] == '<')
-		{
-			if (fd_redirect.fd_in != STDIN_FILENO)
-				close (fd_redirect.fd_in);
-			if (splited_prompt[count][1] == '<')
-			{}
-			else
-				fd_redirect.fd_in = open (splited_prompt[count + 1], O_RDONLY);
-		}
-		count++;
-	}
-	return(fd_redirect);
 }
 
 int find_pipe(char **splited_prompt)

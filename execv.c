@@ -106,8 +106,10 @@ char	*return_value(t_list    *envp, char *var) //grep
 		value = ft_strnstr (tmp->content, var, len_var);
 		if (value != NULL)
 		{
-			if (((char *)tmp->content)[len_var] == '=')
-				return (&((char *)tmp->content)[len_var + 1]);
+			if (tmp->content[len_var] == '=')
+				return (&tmp->content[len_var + 1]);
+			if (tmp->content[len_var] == '\0')
+				return (&tmp->content[len_var]);
 		}
         tmp = tmp->next;
 	}

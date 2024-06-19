@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 19:21:15 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/06/18 16:00:42 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/06/19 20:03:00 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,74 @@ char	*really_expand(char *splited_prompt, char	**envp)
 	{
 		if(splited_prompt[0] == '$')
 		{
-			i = ft_strlen(splited_prompt);
+			splited_prompt = malloc_var(splited_prompt, envp)
 		}
 	}
 }
 
-char	*malloc_var()
+char *malloc_var(char	*input, t_list	*envp)
+{
+	int	len;
+	int	var_len;
+	int	i;
+	char	*result;
+	char 	*substr;
+	int j;
+
+	i = 0;
+	j = 0;
+	len = ft_strlen(input);
+	while(input[i] != '\0')
+	{
+		if(input[i] == '\'')
+		{
+			i++;
+			while (input[i] != '\'')
+				i++;
+			i++;
+		}
+		
+		if(input[i] == '$' && input[i + 1] != ' ')
+		{
+			if(ft_isalpha(input[i]) == 1 || input[i] == '_')
+			{
+				var_len = i;
+				while(ft_isalnum(input[var_len] != 1 && input[var_len] != '_' && input[var_len] != '\0'))
+				{
+					var_len++;
+				}
+				substr= ft_substr(input, i, var_len - i + 1);
+				if (substr == NULL)
+				{}
+				i = var_len;
+				len = len - ft_strlen(substr);
+				len = len + ft_strlen(return_value(envp, substr));
+			}
+		}
+		else
+			i++;
+			
+	}
+	result = calloc(len + 1, sizeof(char));
+	if(result == NULL)
+		return();
+	i = 0;
+
+	while(input[i] != '\0')
+	{
+
+		if(input[i] != '$')
+		{
+			result[j] = input[i];
+			j++;
+			i++;
+		}
+		else
+		{
+			if(ft_isdigit(input[i + 1]) ==)
+		}
+
+	}
+
+}
 
