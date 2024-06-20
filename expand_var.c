@@ -6,7 +6,7 @@
 /*   By: izanoni <izanoni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 19:21:15 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/06/20 20:10:08 by izanoni          ###   ########.fr       */
+/*   Updated: 2024/06/20 20:26:11 by izanoni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,7 +152,7 @@ char *malloc_var(char	*input, t_env_list	*envp)
 		{
 			i++;
 			var_len = i;
-			while(ft_isalnum(input[var_len] != 1 && input[var_len] != '_' && input[var_len] != '\0'))
+			while(ft_isalnum(input[var_len]) == 1 && input[var_len] == '_' && input[var_len] != '\0')
 			{
 				var_len++;
 			}
