@@ -12,3 +12,22 @@
 - pipes
 - comandos simples
 - built-ins
+
+bt_cd.c \
+bt_env.c \
+bt_export.c \
+bt_unset.c \
+error.c \
+expand_var.c \
+free_all.c \
+funcitions.c \
+new_split.c \
+bt_echo.c \
+bt_exit.c \
+bt_pwd.c \
+check_things.c \
+execv.c \
+expandvar.c \
+ft_split.c \
+minishell_real_oficial_agora_vai.c \
+redirect.c

@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   execv.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: izanoni <izanoni@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/20 17:13:41 by izanoni           #+#    #+#             */
+/*   Updated: 2024/06/20 18:51:17 by izanoni          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-char    **execve_envp(t_list *envp)
+char    **execve_envp(t_env_list *envp)
 {
     char    **other_envp;
-    t_list  *tmp;
+    t_env_list  *tmp;
     int i;
 
     tmp = envp;
@@ -19,7 +31,7 @@ char    **execve_envp(t_list *envp)
     return (other_envp);
 }
 
-void	command_exec(char **splited_prompt, t_list  *envp, t_fds fd_redirect)
+void	command_exec(char **splited_prompt, t_env_list  *envp, t_fds fd_redirect)
 {
 	int		fork_return;
 	char	*path;
@@ -58,7 +70,7 @@ void	command_exec(char **splited_prompt, t_list  *envp, t_fds fd_redirect)
 	}
 }
 
-char	*find_path(char *splited_prompt, t_list *envp)
+char	*find_path(char *splited_prompt, t_env_list *envp)
 {
 	char	*path;
 	char	*path_env;
@@ -93,11 +105,11 @@ char	*find_path(char *splited_prompt, t_list *envp)
 	return(NULL);	
 }
 
-char	*return_value(t_list    *envp, char *var) //grep
+char	*return_value(t_env_list    *envp, char *var) //grep
 {
 	char	*value;
 	int		len_var;
-    t_list  *tmp;
+    t_env_list  *tmp;
 
 	len_var = ft_strlen_2(var);
     tmp = envp;
@@ -160,7 +172,7 @@ R         R W    R W     R W           R W                    W
 
  */
 
-void    more_command(char **splited_prompt, t_list  *envp)
+void    more_command(char **splited_prompt, t_env_list  *envp)
 {
     int count_pipes;
     int i;

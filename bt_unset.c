@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bt_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
+/*   By: izanoni <izanoni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 15:59:21 by izanoni           #+#    #+#             */
-/*   Updated: 2024/06/19 18:21:48 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/06/20 17:25:58 by izanoni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@
 	- Só pode conter letras, números e _
 	- Não pode começar com números
 */
-char	*bt_unset(char **splited_prompt, t_list	**envp)
+char	*bt_unset(char **splited_prompt, t_env_list	**envp)
 {
 	int		i;
 	int		len_var;
-	t_list	*temp_node;
+	t_env_list	*temp_node;
 
 	i = 1;
 	while (splited_prompt[i] != NULL)
@@ -48,11 +48,12 @@ char	*bt_unset(char **splited_prompt, t_list	**envp)
 		}
 		i++;
 	}
+	return(0);
 }
 
-void	delnode(t_list	**envp, t_list	*node)
+void	delnode(t_env_list	**envp, t_env_list	*node)
 {
-	t_list *temp;
+	t_env_list *temp;
 
 	temp = *envp;
 	if (node == *envp)
@@ -92,7 +93,7 @@ int check_name(char *splited_prompt)
 	int i;
 	
 	i = 0;
-	if (ft_isdigit (splited_prompt[i]) == 1)
+	if (ft_isdigit(splited_prompt[i]) == 1)
 		return (1);
 	while (splited_prompt[i] != '\0')
 	{

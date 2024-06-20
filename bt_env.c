@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   bt_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
+/*   By: izanoni <izanoni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 19:16:05 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/06/18 19:16:59 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/06/20 17:26:00 by izanoni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishel.h"
+#include "minishell.h"
 
-int	bt_env(t_list *envp)
+int	bt_env(t_env_list *envp)
 {
 	int i;
 

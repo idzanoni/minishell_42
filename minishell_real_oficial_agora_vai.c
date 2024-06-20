@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_real_oficial_agora_vai.c                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
+/*   By: izanoni <izanoni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 16:46:48 by izanoni           #+#    #+#             */
-/*   Updated: 2024/06/19 18:21:48 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/06/20 20:10:05 by izanoni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	print_matrix(char **matrix)
 		printf("%s\n", matrix[i]);
 }
 
-void	minishell(t_list *envp)
+void	minishell(t_env_list *envp)
 {
 	char	*prompt;
 	char	*norme_prompt_result;
@@ -104,7 +104,7 @@ int	check_builtin(char *splited_prompt)
 		return (0);
 }
 
-void	bt_or_exec(char **splited_prompt, t_list *envp)
+void	bt_or_exec(char **splited_prompt, t_env_list *envp)
 {
 	int		bt_check;
 	t_fds	fd_redirect;
@@ -112,8 +112,7 @@ void	bt_or_exec(char **splited_prompt, t_list *envp)
 	// Validar redirects
 	fd_redirect = find_redirect (splited_prompt);
 	free_redirect(splited_prompt);
-
-	// Expandir variáveis;
+	expand_var(splited_prompt, envp);
 	bt_check = check_builtin(splited_prompt[0]);
 	if (bt_check > 0)
 	{
@@ -123,8 +122,10 @@ void	bt_or_exec(char **splited_prompt, t_list *envp)
 			bt_pwd();
 		if(bt_check == 6)
 			bt_export(splited_prompt, envp);
-		if(bt_check == 8)
-			expand_var2(envp, splited_prompt);
+		if(bt_check == 7)
+			bt_unset(splited_prompt, &envp);
+		if(bt_check == 5)
+			bt_cd(splited_prompt, envp);
 	}
 	else
 		command_exec(splited_prompt, envp, fd_redirect);
@@ -204,10 +205,10 @@ char	*norme_string(char *prompt)
 	return (result);
 }
 
-t_list	*duplic_envp(char	**envp)
+t_env_list	*duplic_envp(char	**envp)
 {
 	int	count_lines;
-	t_list	*new_envp;
+	t_env_list	*new_envp;
 
 	new_envp = NULL;
 	count_lines = 0;
@@ -226,7 +227,7 @@ int	main(int argc, char **argv, char **envp)
 {
 	(void)argc;
 	(void)argv;
-	t_list *new_envp;
+	t_env_list *new_envp;
 
 	new_envp = duplic_envp(envp);
 

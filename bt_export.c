@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   bt_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
+/*   By: izanoni <izanoni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 12:37:07 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/06/19 14:50:09 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/06/20 18:51:06 by izanoni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	bt_export(char **splited_prompt, t_list	*envp)
+void	bt_export(char **splited_prompt, t_env_list	*envp)
 {
 
     int	count;
 	int i;
-	t_list	*local;
+	t_env_list	*local;
 
 	count = 1;
 	i = 1;
@@ -82,11 +82,11 @@ size_t	ft_strlen_2(const char *s)
 }
 
 
-int valid_var(t_list *envp, char *var) //grep
+int valid_var(t_env_list *envp, char *var) //grep
 {
 	int		value;
 	int		len_var;
-	t_list	*tmp;
+	t_env_list	*tmp;
 
 	len_var = ft_strlen_2(var);
 	tmp = envp;
@@ -100,11 +100,11 @@ int valid_var(t_list *envp, char *var) //grep
 	return(0);
 }
 
-t_list *localize_envp(t_list *envp, char *var) //grep
+t_env_list *localize_envp(t_env_list *envp, char *var) //grep
 {
 	int		value;
 	int		len_var;
-	t_list	*tmp;
+	t_env_list	*tmp;
 
 	len_var = ft_strlen_2(var);
 	tmp = envp;

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   bt_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
+/*   By: izanoni <izanoni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 19:18:17 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/06/18 19:18:35 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/06/20 15:34:06 by izanoni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishel.h"
+#include "minishell.h"
 
 void	bt_echo(char **splited_prompt)
 {
