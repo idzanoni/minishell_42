@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bt_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: izanoni <izanoni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 12:37:07 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/06/20 18:51:06 by izanoni          ###   ########.fr       */
+/*   Updated: 2024/06/21 15:15:04 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,8 +92,8 @@ int valid_var(t_env_list *envp, char *var) //grep
 	tmp = envp;
 	while (tmp != NULL)
 	{
-		value = ft_memcmp (tmp->content, var, len_var);
-		if (value == 0)
+		value = ft_strncmp (tmp->content, var, ft_strlen(tmp->content));
+		if (value == 0 || value == '=')
             return(1);
 		tmp = tmp->next;
 	}

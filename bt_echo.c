@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bt_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: izanoni <izanoni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 19:18:17 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/06/20 15:34:06 by izanoni          ###   ########.fr       */
+/*   Updated: 2024/06/21 13:55:49 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	bt_echo(char **splited_prompt)
         else
         {
             ft_putstr_fd(splited_prompt[count], 1);
+            write(1, " ", 1);
             count++;
 			val++;  
         }

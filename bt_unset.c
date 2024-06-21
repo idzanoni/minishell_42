@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bt_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: izanoni <izanoni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 15:59:21 by izanoni           #+#    #+#             */
-/*   Updated: 2024/06/20 17:25:58 by izanoni          ###   ########.fr       */
+/*   Updated: 2024/06/21 19:09:26 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@
 	- Só pode conter letras, números e _
 	- Não pode começar com números
 */
-char	*bt_unset(char **splited_prompt, t_env_list	**envp)
+int	bt_unset(char **splited_prompt, t_env_list	**envp)
 {
-	int		i;
-	int		len_var;
+	int			i;
+	int			len_var;
 	t_env_list	*temp_node;
 
 	i = 1;
