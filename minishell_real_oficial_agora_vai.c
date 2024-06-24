@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_real_oficial_agora_vai.c                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: izanoni <izanoni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 16:46:48 by izanoni           #+#    #+#             */
-/*   Updated: 2024/06/20 20:10:05 by izanoni          ###   ########.fr       */
+/*   Updated: 2024/06/24 13:32:26 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,6 @@
  *																		*
  ***********************************************************************/
 
-void	print_matrix(char **matrix)
-{
-	for (int i = 0; matrix[i] != NULL; i++)
-		printf("%s\n", matrix[i]);
-}
 
 void	minishell(t_env_list *envp)
 {
@@ -98,8 +93,6 @@ int	check_builtin(char *splited_prompt)
 		return (6);
 	if (!ft_memcmp(splited_prompt, UNSET, ft_strlen(UNSET)))
 		return (7);
-	if (!ft_memcmp(splited_prompt, "$HOME", 1))
-		return(8);
 	else
 		return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 19:21:15 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/06/21 16:30:55 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/06/24 13:35:00 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ void	mod_quots(char *input)
 			else
 				i++;
 		}
+		printf("%s\n", input);
 }
 
 void	remov_quots(char *input)
@@ -141,11 +142,13 @@ char	*malloc_var(char *input, t_env_list	*envp)
 	len = 0;
 	while(input[i] != '\0')
 	{
-		if(input[i++] == -21)
+		if(input[i] == -21)
 		{
+			i++;
 			while (input[i] != -21 && input[i] != '\0')
 			{
-				result[len++] = input[i];
+				result[len] = input[i];
+				len++;
 				i++;
 			}
 			i++;
@@ -164,14 +167,16 @@ char	*malloc_var(char *input, t_env_list	*envp)
 				var_len = 0;
 				while(substr[var_len] != '\0')
 				{
-					result[len++] = substr[var_len];
+					result[len] = substr[var_len];
+					len++;
 					var_len++;
 				}
 			}
 		}
 		else
 		{
-			result[len++] = input[i];
+			result[len] = input[i];
+			len++;
 			i++;
 		}
 	}

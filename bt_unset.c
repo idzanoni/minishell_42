@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 15:59:21 by izanoni           #+#    #+#             */
-/*   Updated: 2024/06/21 19:09:26 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/06/21 19:15:54 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 	- Só pode conter letras, números e _
 	- Não pode começar com números
 */
-int	bt_unset(char **splited_prompt, t_env_list	**envp)
+char 	*bt_unset(char **splited_prompt, t_env_list	**envp)
 {
 	int			i;
 	int			len_var;

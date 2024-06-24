@@ -1,23 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   bt_pwd.c                                           :+:      :+:    :+:   */
+/*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/18 19:17:20 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/06/24 13:29:19 by mgonzaga         ###   ########.fr       */
+/*   Created: 2024/06/21 19:27:02 by mgonzaga          #+#    #+#             */
+/*   Updated: 2024/06/24 14:16:49 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void    bt_pwd(void)
+void	heredoc(char	*limit)
 {
-	char	*path;
+	char	*comp;
 	
-	path = getcwd(NULL, 0);
-	ft_putstr_fd(path, 1);
-	ft_putstr_fd("\n", 1);
-	free(path);
+	while(ft_memcmp(limit, comp, ft_strlen(limit)) != 0)
+	{
+		comp = readline("heredoc:");
+		
+		//ft_putstr_fd(comp, 1);
+	}
 }

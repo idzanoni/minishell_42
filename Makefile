@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: izanoni <izanoni@student.42.fr>            +#+  +:+       +#+         #
+#    By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/20 17:13:45 by izanoni           #+#    #+#              #
-#    Updated: 2024/06/20 20:10:04 by izanoni          ###   ########.fr        #
+#    Updated: 2024/06/24 14:03:26 by mgonzaga         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,8 @@ FILES = $(addsuffix .c, bt_cd\
 			minishell_real_oficial_agora_vai \
 			redirect \
 			funcitions \
-			expand_var)
+			expand_var\
+			heredoc)
 			
 OBJ = $(FILES:%.c=%.o)			
 

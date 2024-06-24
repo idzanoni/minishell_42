@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execv.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: izanoni <izanoni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 17:13:41 by izanoni           #+#    #+#             */
-/*   Updated: 2024/06/20 18:51:17 by izanoni          ###   ########.fr       */
+/*   Updated: 2024/06/24 14:15:31 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ char    **execve_envp(t_env_list *envp)
         i++;
         tmp = tmp->next;
     }
+    other_envp[i] = NULL;
     return (other_envp);
 }
 
@@ -97,6 +98,7 @@ char	*find_path(char *splited_prompt, t_env_list *envp)
 		if (access(path, F_OK) == 0)
 		{	
 			free_all(splited_path);
+            printf("%s\n", path);
 			return (path);
 		}
 		i++;
@@ -128,49 +130,6 @@ char	*return_value(t_env_list    *envp, char *var) //grep
 	return (NULL);
 }
 
-/****
- pipe(int[2])
- int fd0 = open(file, O_RDONLY);
- int fd1 = open(file, O_WRONLY);
- int[fd0, fd1]      int[fd0, fd1]
- fork()
- if (fork_ret == 0)
- {
-	int[0]
-	int[1]
- }
-
- int[0]
- int[1]
-
- int pipes[2];
-
- pipe(pipes);
- fork()
-
- if ( == 0)
- {
-	pipes[0]
-	pipes[1]
- }
- else
- {
-	pipes[0]
-	pipes[1]
- }
-
- echo oi | ls | cat | grep word | echo como estamos
-0 ---------->---->------>---->---------------------> 1
-
-0 echo oi | ls | cat | grep word | echo como estamos 1
-
-0 echo oi 3|4 ls 5|6 cat 7|8 grep word 9|10 echo como estamos 1
-
-
-R         R W    R W     R W           R W                    W
-0 echo oi 3|4 ls 5|6 cat 7|8 grep word 9|10 echo como estamos 1
-
- */
 
 void    more_command(char **splited_prompt, t_env_list  *envp)
 {

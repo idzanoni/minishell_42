@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_things.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: izanoni <izanoni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 17:12:45 by izanoni           #+#    #+#             */
-/*   Updated: 2024/06/20 17:14:26 by izanoni          ###   ########.fr       */
+/*   Updated: 2024/06/24 14:12:51 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ int	only_space(char *prompt)
 	count = 0;
 	while (prompt[count] != '\0')
 	{
-		if (prompt[count] != ' ' || prompt[count] != '\t') 
+		if (prompt[count] != ' ' && prompt[count] != '\t') 
 			return(0);
 		count++;
 	}
