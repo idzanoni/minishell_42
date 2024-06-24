@@ -6,7 +6,7 @@
 #    By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/20 17:13:45 by izanoni           #+#    #+#              #
-#    Updated: 2024/06/24 14:03:26 by mgonzaga         ###   ########.fr        #
+#    Updated: 2024/06/24 15:25:07 by mgonzaga         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,7 +45,7 @@ $(NAME): $(OBJ)
 	$(CC) $(FLAGS) $(OBJ) $(LIBFT)/libft.a -l readline -o $(NAME)
 
 libs:
-	@make -C $(LIBFT)
+	@make -C $(LIBFT) --silent
 
 v: all
 	valgrind --leak-check=full --show-leak-kinds=all --trace-children=yes --trace-children-skip=''*/bin/*,*/sbin/*'' --keep-debuginfo=yes \

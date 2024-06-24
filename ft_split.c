@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 12:36:19 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/06/24 11:11:33 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/06/24 15:27:05 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void new_prompt(char *prompt)
 		}
 		else
 		{
-			while(prompt[count] != ' ' && prompt[count] != '\0' && prompt[count] != '	' && prompt[count] != quote)
+			while(prompt[count] != ' ' && prompt[count] != '\0' && prompt[count] != '	')
 				count++;
 			if (prompt[count] == ' ' || prompt[count] == '	')
 			{

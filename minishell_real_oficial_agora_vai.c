@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 16:46:48 by izanoni           #+#    #+#             */
-/*   Updated: 2024/06/24 13:32:26 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/06/24 18:38:36 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,26 @@
  *																		*
  ***********************************************************************/
 
+void	print_matrix(char **matrix)
+{
+	for (int i = 0; matrix[i] != NULL; i++)
+		printf("%s\n", matrix[i]);
+}
+
+void    free_list(t_env_list *envp)
+{
+    t_env_list    *current_node;
+    t_env_list    *next_node;
+
+    current_node = envp;
+    while (current_node != NULL)
+    {
+        next_node = current_node->next;
+        free(current_node->content);
+        free(current_node);
+        current_node = next_node;
+    }
+}
 
 void	minishell(t_env_list *envp)
 {
@@ -36,6 +56,7 @@ void	minishell(t_env_list *envp)
 		prompt = readline("shellzinho: "); // readline malloca (tem que dar free)
 		if (!prompt)
 		{
+			free_list(envp);
 			break ;
 		}
 		else
@@ -58,6 +79,7 @@ void	minishell(t_env_list *envp)
 		}
 		new_prompt(norme_prompt_result);
 		splited_prompt = ft_split(norme_prompt_result, -42);
+		print_matrix(splited_prompt);
 		if (!splited_prompt)
 		{
 			printf("error\n");
@@ -66,6 +88,8 @@ void	minishell(t_env_list *envp)
 		}
 		free (norme_prompt_result);
 		//print_matrix(splited_prompt);
+		if(check_heredoc(splited_prompt) == 1)
+			heredoc(splited_prompt);
 		if(find_pipe(splited_prompt) == 1)
 		{
 			more_command(splited_prompt, envp);
@@ -77,6 +101,29 @@ void	minishell(t_env_list *envp)
 	}
 }
 
+int check_heredoc(char	**prompt)
+{
+	int count;
+	int lines;
+
+	lines = 0;
+	count = 0;
+	while(prompt[lines] != NULL)
+	{
+		if(prompt[lines][0] == '<' && (prompt[lines][1] == '<'))
+		{
+			count++;
+			lines++;
+		}
+		else
+			lines++;
+	}
+		if(count > 0)
+			return(1);
+		else
+			return(0);
+	}
+	
 int	check_builtin(char *splited_prompt)
 {
 	if (!ft_memcmp(splited_prompt, EXIT, ft_strlen(EXIT)))
@@ -106,22 +153,27 @@ void	bt_or_exec(char **splited_prompt, t_env_list *envp)
 	fd_redirect = find_redirect (splited_prompt);
 	free_redirect(splited_prompt);
 	expand_var(splited_prompt, envp);
-	bt_check = check_builtin(splited_prompt[0]);
-	if (bt_check > 0)
-	{
-		if(bt_check == 3)
-			bt_echo(splited_prompt);
-		if(bt_check == 4)
-			bt_pwd();
-		if(bt_check == 6)
-			bt_export(splited_prompt, envp);
-		if(bt_check == 7)
-			bt_unset(splited_prompt, &envp);
-		if(bt_check == 5)
-			bt_cd(splited_prompt, envp);
+	if(splited_prompt != NULL && splited_prompt[0] != NULL)
+	{	
+		bt_check = check_builtin(splited_prompt[0]);
+		if (bt_check > 0)
+		{
+			if(bt_check == 3)
+				bt_echo(splited_prompt);
+			if(bt_check == 4)
+				bt_pwd();
+			if(bt_check == 6)
+				bt_export(splited_prompt, envp);
+			if(bt_check == 7)
+				bt_unset(splited_prompt, &envp);
+			if(bt_check == 5)
+				bt_cd(splited_prompt, envp);
+			if(bt_check == 0)
+				ft_putstr_fd("nao tem comando", 1);
+		}
+		else
+			command_exec(splited_prompt, envp, fd_redirect);
 	}
-	else
-		command_exec(splited_prompt, envp, fd_redirect);
 	if (fd_redirect.fd_out != STDOUT_FILENO)
 		close (fd_redirect.fd_out);
 	if (fd_redirect.fd_in != STDIN_FILENO)

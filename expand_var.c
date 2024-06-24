@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 19:21:15 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/06/24 13:35:00 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/06/24 15:28:24 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,14 +68,14 @@ void	remov_quots(char *input)
 		if(input[i] == -21)
 		{
 			ft_memmove(&input[i], &input[i + 1], ft_strlen(&input[i]));
-			while(input[i] != -21)
+			while(input[i] != -21 && input[i] != '\0')
 				i++;
 			ft_memmove(&input[i], &input[i + 1], ft_strlen(&input[i]));
 		}
 		else if(input[i] == -41)
 		{
 			ft_memmove(&input[i], &input[i + 1], ft_strlen(&input[i]));
-			while(input[i] != -41)
+			while(input[i] != -41 && input[i] != '\0')
 				i++;
 			ft_memmove(&input[i], &input[i + 1], ft_strlen(&input[i]));
 		}
@@ -138,7 +138,7 @@ char	*malloc_var(char *input, t_env_list	*envp)
 
 	i = 0;
 	len = malloc_len(input, envp);
-	result = calloc(len, sizeof(char));
+	result = calloc(len + 1, sizeof(char));
 	len = 0;
 	while(input[i] != '\0')
 	{

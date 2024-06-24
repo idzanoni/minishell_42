@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 17:13:50 by izanoni           #+#    #+#             */
-/*   Updated: 2024/06/24 14:03:05 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/06/24 18:01:39 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,8 @@ void expand_var(char **splited_prompt, t_env_list *envp);
 void	remov_quots(char *input);
 char *malloc_var(char	*input, t_env_list	*envp);
 int malloc_len(char	*input, t_env_list	*envp);
-void	heredoc(char	*limit);
+void	heredoc(char	**limit);
+int check_heredoc(char	**prompt);
 
 
 
