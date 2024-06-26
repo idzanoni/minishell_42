@@ -1,7 +1,7 @@
 .vscode/
 /velho
 /support
-to_do
 *.o
 minishell
 logs
+.gitignore

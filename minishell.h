@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 17:13:50 by izanoni           #+#    #+#             */
-/*   Updated: 2024/06/24 18:01:39 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/06/26 16:12:58 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 #include <unistd.h>
 #include <sys/wait.h>
 #include <fcntl.h>	
+#include <signal.h>
 
 # include "./libft/libft.h"
 
@@ -74,6 +75,7 @@ t_env_list	*duplic_envp(char **envp);
 char	*put_expand(t_env_list *envp, char *splited_prompt);
 char	*expand_var2(t_env_list *envp, char **splited_promp);
 void	new_prompt(char *prompt);
+int  pipes_count(char **prompt);
 
 //redirect
 t_fds	find_redirect(char **splited_prompt);
@@ -132,7 +134,9 @@ int malloc_len(char	*input, t_env_list	*envp);
 void	heredoc(char	**limit);
 int check_heredoc(char	**prompt);
 
-
+// signals
+void	handle_signals(void);
+void	ctrl_c(int sig);
 
 
 #endif

@@ -3,14 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   funcitions.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: izanoni <izanoni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 12:36:50 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/06/20 18:48:13 by izanoni          ###   ########.fr       */
+/*   Updated: 2024/06/26 15:23:32 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-
 
 #include "minishell.h"
 

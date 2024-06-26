@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 16:46:48 by izanoni           #+#    #+#             */
-/*   Updated: 2024/06/24 18:38:36 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/06/26 19:12:55 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void	minishell(t_env_list *envp)
 			printf("error\n");
 			continue ;
 		}
-		new_prompt(norme_prompt_result);
+		//new_prompt(norme_prompt_result);
 		splited_prompt = ft_split(norme_prompt_result, -42);
 		print_matrix(splited_prompt);
 		if (!splited_prompt)
@@ -275,6 +275,7 @@ int	main(int argc, char **argv, char **envp)
 	t_env_list *new_envp;
 
 	new_envp = duplic_envp(envp);
+	handle_signals();
 
 	minishell(new_envp);
 	rl_clear_history();

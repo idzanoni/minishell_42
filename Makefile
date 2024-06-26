@@ -6,7 +6,7 @@
 #    By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/20 17:13:45 by izanoni           #+#    #+#              #
-#    Updated: 2024/06/24 15:25:07 by mgonzaga         ###   ########.fr        #
+#    Updated: 2024/06/26 19:10:49 by mgonzaga         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,19 +24,19 @@ FILES = $(addsuffix .c, bt_cd\
 			bt_unset \
 			error \
 			free_all \
-			new_split \
 			bt_echo \
 			bt_exit \
 			bt_pwd \
 			check_things \
 			execv \
-			ft_split \
 			minishell_real_oficial_agora_vai \
 			redirect \
+			expand_var \
 			funcitions \
-			expand_var\
-			heredoc)
-			
+			signals \
+			heredoc \
+			)
+			 
 OBJ = $(FILES:%.c=%.o)			
 
 all: libs $(NAME)

@@ -1,0 +1,36 @@
+* built-in
+* heredoc
+* redirect
+* expansao de variaveis
+* signals
+* leaks
+* mensagem de erro
+
+
+- testes
+- norma 
+- pipes
+- comandos simples
+- built-ins
+
+bt_cd \
+bt_env \
+bt_export \
+bt_unset \
+error \
+free_all \
+funcitions \
+new_split \
+bt_echo \
+bt_exit \
+bt_pwd \
+check_things \
+execv \
+expandvar \
+ft_split \
+minishell_real_oficial_agora_vai \
+redirect \
+funcitions \
+expand_var \
+signals \
+heredoc \
