@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 12:37:07 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/06/21 15:15:04 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/06/28 18:17:01 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,43 +14,43 @@
 
 void	bt_export(char **splited_prompt, t_env_list	*envp)
 {
-
-    int	count;
-	int i;
+	int			count;
+	int			i;
 	t_env_list	*local;
 
 	count = 1;
 	i = 1;
-    if(splited_prompt[1] == NULL)
-    {
+	if (splited_prompt[1] == NULL)
+	{
 		while (envp != NULL)
 		{
 			ft_putstr_fd("declare -x ", 1);
 			ft_putendl_fd(envp->content, 1);
 			envp = envp->next;
 		}
-    }
-    else
-    {
-        while(splited_prompt[count] != NULL)
+	}
+	else
+	{
+		while (splited_prompt[count] != NULL)
 		{
-			if(ft_isalpha(splited_prompt[count][0]) == 1 || splited_prompt[count][0] == '_')
+			if (ft_isalpha(splited_prompt[count][0]) == 1
+			|| splited_prompt[count][0] == '_')
 			{
-				while(splited_prompt[count][i] != '\0' && splited_prompt[count][i] != '=')
+				while (splited_prompt[count][i] != '\0'
+				&& splited_prompt[count][i] != '=')
 				{
-					if(ft_isalnum(splited_prompt[count][i]) == 1 || splited_prompt[count][i] == '_')
-                    {   
-					    i++;
-					}
+					if (ft_isalnum(splited_prompt[count][i]) == 1
+					|| splited_prompt[count][i] == '_')
+						i++;
 					else
-                    {
-                        ft_putstr_fd("export: not a valid identifier", 1);
-                        break;
-                    }
-                }
-                if(valid_var(envp, splited_prompt[count]) == 1)
+					{
+						ft_putstr_fd("export: not a valid identifier", 1);
+						break ;
+					}
+				}
+				if (valid_var(envp, splited_prompt[count]) == 1)
 				{
-					if(splited_prompt[count][i] == '=')
+					if (splited_prompt[count][i] == '=')
 					{
 						local = localize_envp(envp, splited_prompt[count]);
 						free(local->content);
@@ -58,18 +58,14 @@ void	bt_export(char **splited_prompt, t_env_list	*envp)
 					}
 				}
 				else
-				{
-					ft_lstadd_back(&envp, ft_lstnew(ft_strdup(splited_prompt[count])));
-
-				}
+					ft_lstadd_back (&envp, ft_lstnew(ft_strdup(splited_prompt[count])));
 			}
 			else
-				ft_putstr_fd("export: splited_pront[count]: not a valid identifier", 1);
-            count++;
+				ft_putstr_fd ("not a valid identifier", 1);
+			count++;
 		}
 	}
 }
-
 
 size_t	ft_strlen_2(const char *s)
 {
@@ -81,29 +77,26 @@ size_t	ft_strlen_2(const char *s)
 	return (i);
 }
 
-
-int valid_var(t_env_list *envp, char *var) //grep
+int	valid_var(t_env_list *envp, char *var)
 {
-	int		value;
-	int		len_var;
+	int			value;
 	t_env_list	*tmp;
 
-	len_var = ft_strlen_2(var);
 	tmp = envp;
 	while (tmp != NULL)
 	{
 		value = ft_strncmp (tmp->content, var, ft_strlen(tmp->content));
 		if (value == 0 || value == '=')
-            return(1);
+			return (1);
 		tmp = tmp->next;
 	}
-	return(0);
+	return (0);
 }
 
-t_env_list *localize_envp(t_env_list *envp, char *var) //grep
+t_env_list	*localize_envp(t_env_list *envp, char *var)
 {
-	int		value;
-	int		len_var;
+	int			value;
+	int			len_var;
 	t_env_list	*tmp;
 
 	len_var = ft_strlen_2(var);
@@ -112,8 +105,8 @@ t_env_list *localize_envp(t_env_list *envp, char *var) //grep
 	{
 		value = ft_memcmp (tmp->content, var, len_var);
 		if (value == 0)
-            return(tmp);
+			return (tmp);
 		tmp = tmp->next;
 	}
-	return(NULL);
+	return (NULL);
 }

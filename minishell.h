@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 17:13:50 by izanoni           #+#    #+#             */
-/*   Updated: 2024/06/26 16:12:58 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/06/28 15:15:53 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,10 @@ typedef struct s_env_list
 	struct s_env_list	*next;
 }	t_env_list;
 
+
+typedef struct s_minishell    t_minishell;
+
+
 //minishell
 void	minishell(t_env_list *envp);
 char	*norme_string(char *prompt);
@@ -74,8 +78,9 @@ void	ft_putstr_fd(char *s, int fd);
 t_env_list	*duplic_envp(char **envp);
 char	*put_expand(t_env_list *envp, char *splited_prompt);
 char	*expand_var2(t_env_list *envp, char **splited_promp);
-void	new_prompt(char *prompt);
 int  pipes_count(char **prompt);
+void new_prompt(char *prompt);
+
 
 //redirect
 t_fds	find_redirect(char **splited_prompt);
@@ -131,8 +136,10 @@ void expand_var(char **splited_prompt, t_env_list *envp);
 void	remov_quots(char *input);
 char *malloc_var(char	*input, t_env_list	*envp);
 int malloc_len(char	*input, t_env_list	*envp);
-void	heredoc(char	**limit);
+void	heredoc(char	**limit, t_env_list *envp);
 int check_heredoc(char	**prompt);
+void    initialize_with_empty_strings(char **heredoc_name, int size);
+char    *get_heredoc_name(void);
 
 // signals
 void	handle_signals(void);

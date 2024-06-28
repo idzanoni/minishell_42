@@ -6,7 +6,7 @@
 #    By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/20 17:13:45 by izanoni           #+#    #+#              #
-#    Updated: 2024/06/26 19:10:49 by mgonzaga         ###   ########.fr        #
+#    Updated: 2024/06/28 17:36:15 by mgonzaga         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,9 +32,10 @@ FILES = $(addsuffix .c, bt_cd\
 			minishell_real_oficial_agora_vai \
 			redirect \
 			expand_var \
-			funcitions \
+			t_list_funcitions \
 			signals \
 			heredoc \
+			ft_split\
 			)
 			 
 OBJ = $(FILES:%.c=%.o)			

@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 15:38:22 by izanoni           #+#    #+#             */
-/*   Updated: 2024/06/24 18:22:25 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/06/27 13:47:11 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ void	free_redirect(char **splited_prompt)
 
 	count = 0;
 	i = 0;
-	while(splited_prompt[count] != NULL)
+	while (splited_prompt[count] != NULL)
 	{
-		if(splited_prompt[count][0] == '<' || splited_prompt[count][0] == '>')
+		if (splited_prompt[count][0] == '<' || splited_prompt[count][0] == '>')
 		{
 			free(splited_prompt[count]);
 			count++;
@@ -38,10 +38,10 @@ void	free_redirect(char **splited_prompt)
 	}
 }
 
-t_fds find_redirect(char **splited_prompt)
+t_fds	find_redirect(char **splited_prompt)
 {
-	t_fds fd_redirect;
-	int count;
+	t_fds	fd_redirect;
+	int		count;
 
 	fd_redirect.fd_in = STDIN_FILENO;
 	fd_redirect.fd_out = STDOUT_FILENO;
@@ -61,14 +61,10 @@ t_fds find_redirect(char **splited_prompt)
 		{
 			if (fd_redirect.fd_in != STDIN_FILENO)
 				close (fd_redirect.fd_in);
-			if (splited_prompt[count][1] == '<')
-			{
-//				heredoc(splited_prompt[count + 1]);
-			}
 			else
 				fd_redirect.fd_in = open (splited_prompt[count + 1], O_RDONLY);
 		}
 		count++;
 	}
-	return(fd_redirect);
+	return (fd_redirect);
 }

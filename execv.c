@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 17:13:41 by izanoni           #+#    #+#             */
-/*   Updated: 2024/06/24 14:15:31 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/06/28 17:00:56 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,9 +98,9 @@ char	*find_path(char *splited_prompt, t_env_list *envp)
 		if (access(path, F_OK) == 0)
 		{	
 			free_all(splited_path);
-            printf("%s\n", path);
 			return (path);
 		}
+        free(path);
 		i++;
 	}
 	free_all(splited_path);

@@ -6,13 +6,13 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 17:12:45 by izanoni           #+#    #+#             */
-/*   Updated: 2024/06/24 14:12:51 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/06/28 17:59:57 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	check_pipes(char *prompt)
+int	check_pipes (char *prompt)
 {
 	int 	count;
 	char	quote;
@@ -22,7 +22,7 @@ int	check_pipes(char *prompt)
 		count++;
 	if (prompt[count] == '|')
 		return (-1);
-	while(prompt[count] != '\0')
+	while (prompt[count] != '\0')
 	{
 		if (prompt[count] == 34 || prompt[count] == 39)
 		{
@@ -46,10 +46,10 @@ int	check_pipes(char *prompt)
 
 int	check_quotes(char *prompt)
 {
-	int i;
-	int quotes;
+	int	i;
+	int	quotes;
 	int	checker;
-	
+
 	checker = 0;
 	i = -1;
 	while (prompt[++i] != '\0')
@@ -78,7 +78,7 @@ int	check_redirect(char *prompt)
 	char	quote;
 
 	count = 0;
-	while(prompt[count] != '\0')
+	while (prompt[count] != '\0')
 	{
 		if (prompt[count] == 34 || prompt[count] == 39)
 		{
@@ -86,11 +86,12 @@ int	check_redirect(char *prompt)
 			while (prompt[count] != quote)
 				count ++;
 		}
-		if(prompt[count] == '>' || prompt[count] == '<')
+		if (prompt[count] == '>' || prompt[count] == '<')
 		{
 			count++;
-			if ((prompt[count] != prompt[count - 1]) && (prompt[count] == '>' || prompt[count] == '<'))
-				return(-1);
+			if ((prompt[count] != prompt[count - 1]) && (prompt[count] == '>'
+			|| prompt[count] == '<'))
+				return (-1);
 			else if (prompt[count] == '>' || prompt[count] == '<')
 				count++;
 			while (prompt[count] == ' ' || prompt[count] == '\t')
@@ -99,27 +100,27 @@ int	check_redirect(char *prompt)
 				|| prompt[count] == '>' || prompt[count] == '<')
 			{
 				printf("error redirect\n");
-				return(-1);
+				return (-1);
 			}
 		}
 		count++;
 	}
-	return(0);
+	return (0);
 }
 
 int	only_space(char *prompt)
 {
-	int count;
+	int	count;
 
 	count = 0;
 	while (prompt[count] != '\0')
 	{
 		if (prompt[count] != ' ' && prompt[count] != '\t') 
-			return(0);
+			return (0);
 		count++;
 	}
 	return (-1);
-}  
+}
 
 int	check_empty(char *prompt)
 {
