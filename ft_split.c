@@ -6,32 +6,31 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 12:36:19 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/06/24 15:27:05 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/01 19:38:34 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "minishell.h"
 
-void new_prompt(char *prompt)
+void	new_prompt(char *prompt)
 {
 	int		count;
 	char	quote;
 
 	count = 0;
-	while(prompt[count] != '\0')
+	while (prompt[count] != '\0')
 	{
-		if(prompt[count] == '"' || prompt[count] == '\'')
+		if (prompt[count] == '"' || prompt[count] == '\'')
 		{
-			quote = prompt[count];
-			count++;
-			while(prompt[count] != quote)
+			quote = prompt[count++];
+			while (prompt[count] != quote)
 				count++;
 			count++;
 		}
 		else
 		{
-			while(prompt[count] != ' ' && prompt[count] != '\0' && prompt[count] != '	')
+			while (prompt[count] != ' ' && prompt[count] != '\0'
+				&& prompt[count] != '	')
 				count++;
 			if (prompt[count] == ' ' || prompt[count] == '	')
 			{
@@ -84,7 +83,6 @@ char	**ft_split(char const *s, char c)
 
 	if (!s)
 		return (NULL);
-	//printf("é o que veio: %s\n", s);
 	nb_words = count_words1(s, c);
 	splited_str = (char **)malloc((nb_words + 1) * sizeof(char *));
 	if (!splited_str)

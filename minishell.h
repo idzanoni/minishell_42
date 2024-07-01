@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 17:13:50 by izanoni           #+#    #+#             */
-/*   Updated: 2024/06/28 15:15:53 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/01 19:31:59 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,9 @@ enum e_special_characters
 	DOUBLE_QUOTE = '"'
 };
 */
+
+extern int g_signal;
+
 typedef struct s_fd_in_out
 {
 	int fd_in;
@@ -55,16 +58,27 @@ typedef struct s_env_list
 }	t_env_list;
 
 
+struct s_minishell
+{
+	char		*input;
+	char		*normalized_prompt;
+	char		**splited_prompt;
+	char        **current_command;
+	t_env_list 	*envp;
+	char        **heredoc_names;
+	char		*current_heredoc;
+	int            exit_status;
+};
 typedef struct s_minishell    t_minishell;
 
 
 //minishell
-void	minishell(t_env_list *envp);
+void	minishell(t_minishell *s_minishell);
 char	*norme_string(char *prompt);
 char	*get_word(char *prompt, int *count);
 int		count_word(char *prompt);
 void	free_all(char **malloc_string);
-void	command_exec(char **splited_prompt, t_env_list *envp, t_fds fd_redirect);
+void	command_exec(t_minishell *s_minishell, t_fds fd_redirect);
 char	*find_path(char *splited_prompt, t_env_list	*envp);
 char	*return_value(t_env_list *envp, char *var);
 char	**ft_split(char const *s, char c);
@@ -72,15 +86,17 @@ char	*get_word1(char const *s, char c);
 int		count_words1(char const *s, char c);
 int		find_pipe(char **splited_prompt);
 char	**get_command(char **splited_prompt);
-void	more_command(char **splited_prompt, t_env_list	*envp);
-void	bt_or_exec(char **splited_prompt, t_env_list *envp);
+void	more_command(t_minishell *s_minishell);
+void	bt_or_exec(t_minishell *s_minishell);
 void	ft_putstr_fd(char *s, int fd);
 t_env_list	*duplic_envp(char **envp);
 char	*put_expand(t_env_list *envp, char *splited_prompt);
 char	*expand_var2(t_env_list *envp, char **splited_promp);
 int  pipes_count(char **prompt);
 void new_prompt(char *prompt);
-
+void	exec_bt(int bt_check, char **splited_prompt, t_env_list *envp);
+int	check_builtin(char *splited_prompt);
+void    free_list(t_env_list *envp);
 
 //redirect
 t_fds	find_redirect(char **splited_prompt);
@@ -136,7 +152,7 @@ void expand_var(char **splited_prompt, t_env_list *envp);
 void	remov_quots(char *input);
 char *malloc_var(char	*input, t_env_list	*envp);
 int malloc_len(char	*input, t_env_list	*envp);
-void	heredoc(char	**limit, t_env_list *envp);
+void	heredoc(t_minishell *s_minishell);
 int check_heredoc(char	**prompt);
 void    initialize_with_empty_strings(char **heredoc_name, int size);
 char    *get_heredoc_name(void);

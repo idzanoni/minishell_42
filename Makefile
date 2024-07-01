@@ -6,7 +6,7 @@
 #    By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/20 17:13:45 by izanoni           #+#    #+#              #
-#    Updated: 2024/06/28 17:36:15 by mgonzaga         ###   ########.fr        #
+#    Updated: 2024/07/01 19:06:48 by mgonzaga         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,15 +27,18 @@ FILES = $(addsuffix .c, bt_cd\
 			bt_echo \
 			bt_exit \
 			bt_pwd \
-			check_things \
-			execv \
-			minishell_real_oficial_agora_vai \
+			check_input \
+			exec_commnad \
+			exec_command2 \
+			init_minishell \
 			redirect \
 			expand_var \
 			t_list_funcitions \
 			signals \
 			heredoc \
 			ft_split\
+			norme_prompt\
+			check_command\
 			)
 			 
 OBJ = $(FILES:%.c=%.o)			

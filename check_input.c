@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_things.c                                     :+:      :+:    :+:   */
+/*   check_input.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 17:12:45 by izanoni           #+#    #+#             */
-/*   Updated: 2024/06/28 17:59:57 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/01 18:40:01 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,8 @@ int	check_redirect(char *prompt)
 	int		count;
 	char	quote;
 
-	count = 0;
-	while (prompt[count] != '\0')
+	count = -1;
+	while (prompt[++count] != '\0')
 	{
 		if (prompt[count] == 34 || prompt[count] == 39)
 		{
@@ -128,20 +128,4 @@ int	check_empty(char *prompt)
 		return (-1);
 	else
 		return (0);
-}
-
-int	check_prompt(char *prompt)
-{
-	if (check_empty(prompt))
-		return (-1);
-	add_history(prompt);
-	if (only_space(prompt))
-		return (-1);
-	if (check_quotes(prompt))
-		return (-1);
-	if (check_redirect(prompt))
-		return (-1);
-	if (check_pipes(prompt))
-		return (-1);
-	return (0);
 }

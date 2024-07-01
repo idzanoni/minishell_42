@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 12:37:07 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/06/28 18:17:01 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/01 19:41:37 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,8 @@ void	bt_export(char **splited_prompt, t_env_list	*envp)
 					}
 				}
 				else
-					ft_lstadd_back (&envp, ft_lstnew(ft_strdup(splited_prompt[count])));
+					ft_lstadd_back (&envp,
+						ft_lstnew(ft_strdup(splited_prompt[count])));
 			}
 			else
 				ft_putstr_fd ("not a valid identifier", 1);

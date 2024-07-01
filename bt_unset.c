@@ -6,18 +6,13 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 15:59:21 by izanoni           #+#    #+#             */
-/*   Updated: 2024/06/28 17:33:06 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/01 14:36:38 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*
-	Variável tem nome válido igual as variáveis no C
-	- Só pode conter letras, números e _
-	- Não pode começar com números
-*/
-char	*bt_unset(char **splited_prompt, t_env_list	**envp)
+char	*bt_unset(char **splited_prompt, t_env_list **envp)
 {
 	int			i;
 	int			len_var;

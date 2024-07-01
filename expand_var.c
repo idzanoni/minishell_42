@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 19:21:15 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/06/28 17:04:42 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/01 19:44:48 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,33 +14,33 @@
 
 void    move_matrix(char **splited_prompt, int start)
 {
-    int    temp_count;
-    
-    temp_count = start;
-    while(splited_prompt[temp_count] != NULL)
-    {
-        splited_prompt[temp_count] = splited_prompt[temp_count + 1];
-        temp_count++;
-    }
+	int    temp_count;
+	
+	temp_count = start;
+	while(splited_prompt[temp_count] != NULL)
+	{
+		splited_prompt[temp_count] = splited_prompt[temp_count + 1];
+		temp_count++;
+	}
 }
 
 void expand_var(char **splited_prompt, t_env_list *envp)
 {
-    int    count;
+	int    count;
 
-    count = 0;
-    while(splited_prompt[count] != NULL)
-    {
-        mod_quots(splited_prompt[count]);
-        splited_prompt[count] = malloc_var(splited_prompt[count], envp);
-        if (splited_prompt[count][0] == '\0')
-        {
-            free(splited_prompt[count]);
-            move_matrix(splited_prompt, count);
-        }
-        remov_quots(splited_prompt[count]);
-        count++;
-    }
+	count = 0;
+	while(splited_prompt[count] != NULL)
+	{
+		mod_quots(splited_prompt[count]);
+		splited_prompt[count] = malloc_var(splited_prompt[count], envp);
+		if (splited_prompt[count][0] == '\0')
+		{
+			free(splited_prompt[count]);
+			move_matrix(splited_prompt, count);
+		}
+		remov_quots(splited_prompt[count]);
+		count++;
+	}
 }
 //"sada""$HOME"'$HOME"'"home'"
 void	mod_quots(char *input)
@@ -139,9 +139,8 @@ int malloc_len(char	*input, t_env_list	*envp)
 		}
 		else
 			i++;
-			
 	}
-	return(len);
+	return (len);
 }
 
 char	*malloc_var (char *input, t_env_list	*envp)
@@ -169,11 +168,13 @@ char	*malloc_var (char *input, t_env_list	*envp)
 			}
 			i++;
 		}
-		else if (input[i] == '$' && (ft_isalpha(input[i + 1]) == 1 || input[i + 1] == '_'))
+		else if (input[i] == '$' && (ft_isalpha(input[i + 1]) == 1
+				|| input[i + 1] == '_'))
 		{
 			i++;
 			var_len = i;
-			while ((ft_isalnum(input[var_len]) == 1 || input[var_len] == '_') && input[var_len] != '\0')
+			while ((ft_isalnum(input[var_len]) == 1 || input[var_len] == '_')
+						&& input[var_len] != '\0')
 				var_len++;
 			substr = ft_substr(input, i, var_len - i);
 			i = var_len;
@@ -200,5 +201,3 @@ char	*malloc_var (char *input, t_env_list	*envp)
 	free(input);
 	return (result);
 }
-
-

@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 15:38:22 by izanoni           #+#    #+#             */
-/*   Updated: 2024/06/27 13:47:11 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/01 19:35:09 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,14 +53,18 @@ t_fds	find_redirect(char **splited_prompt)
 			if (fd_redirect.fd_out != STDOUT_FILENO)
 				close (fd_redirect.fd_out);
 			if (splited_prompt[count][1] == '>')
-				fd_redirect.fd_out = open (splited_prompt[count + 1], O_CREAT | O_WRONLY | O_APPEND, 0644);
+				fd_redirect.fd_out = open (splited_prompt[count + 1],
+						O_CREAT | O_WRONLY | O_APPEND, 0644);
 			else
-				fd_redirect.fd_out = open (splited_prompt[count + 1], O_CREAT | O_WRONLY | O_TRUNC, 0644);
+				fd_redirect.fd_out = open (splited_prompt[count + 1],
+						O_CREAT | O_WRONLY | O_TRUNC, 0644);
 		}
 		else if (splited_prompt[count][0] == '<')
 		{
 			if (fd_redirect.fd_in != STDIN_FILENO)
 				close (fd_redirect.fd_in);
+		//	if (splited_prompt[count][1] == '<')
+		//	{}
 			else
 				fd_redirect.fd_in = open (splited_prompt[count + 1], O_RDONLY);
 		}
