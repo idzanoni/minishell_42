@@ -6,15 +6,15 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 14:10:52 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/07/01 19:18:46 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/02 19:14:32 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void    initialize_with_empty_strings(char **heredoc_name, int size)
+void	initialize_with_empty_strings(char **heredoc_name, int size)
 {
-	int    count;
+	int	count;
 
 	count = 0;
 	while (count < size - 1)
@@ -41,6 +41,8 @@ char    *get_heredoc_name(void)
 	free(string_of_heredoc_number);
 	return (name);
 }
+
+
 
 void    heredoc(t_minishell *s_minishell)
 {
@@ -87,28 +89,29 @@ void    heredoc(t_minishell *s_minishell)
 		else
 		{
 			count++;
-		}
 	}
 	count = 0;
+}
+
 	while(count <= count_command)
 	{
 		printf("heredoc_name[%i] = %s\n", count, s_minishell->heredoc_names[count]);
 		count++;
 	}
-}
 
-int pipes_count(char **prompt)
+
+int	pipes_count(char **prompt)
 {
-	int count;
-	int count_pipes;
+	int	count;
+	int	count_pipes;
 
 	count = 0;
 	count_pipes = 0;
-	while(prompt[count] != NULL)
+	while (prompt[count] != NULL)
 	{
-		if(prompt[count][0] == '|')
+		if (prompt[count][0] == '|')
 			count_pipes++;
 		count++;
 	}
-	return(count_pipes);
+	return (count_pipes);
 }

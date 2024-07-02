@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 19:21:15 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/07/01 19:44:48 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/02 15:51:55 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,35 +42,35 @@ void expand_var(char **splited_prompt, t_env_list *envp)
 		count++;
 	}
 }
-//"sada""$HOME"'$HOME"'"home'"
+
 void	mod_quots(char *input)
 {
 	int	i;
 
 	i = 0;
-		while(input[i] != '\0')
+	while (input[i] != '\0')
+	{
+		if (input[i] == '"')
 		{
-			if(input[i] == '"')
-			{
-				input[i] = -41;
+			input[i] = -41;
+			i++;
+			while (input[i] != '"' && input[i] != '\0')
 				i++;
-				while(input[i] != '"' && input[i] != '\0')
-					i++;
-				input[i] = -41;
-				i++;
-			}
-			else if(input[i] == '\'')
-			{
-				input[i] = -21;
-				i++;
-				while(input[i] != '\'' && input[i] != '\0')
-					i++;
-				input[i] = -21;
-				i++;
-			}
-			else
-				i++;
+			input[i] = -41;
+			i++;
 		}
+		else if (input[i] == '\'')
+		{
+			input[i] = -21;
+			i++;
+			while (input[i] != '\'' && input[i] != '\0')
+				i++;
+			input[i] = -21;
+			i++;
+		}
+		else
+			i++;
+	}
 }
 
 void	remov_quots(char *input)
@@ -78,19 +78,19 @@ void	remov_quots(char *input)
 	int	i;
 
 	i = 0;
-	while(input[i] != '\0')
+	while (input[i] != '\0')
 	{
-		if(input[i] == -21)
+		if (input[i] == -21)
 		{
 			ft_memmove(&input[i], &input[i + 1], ft_strlen(&input[i]));
-			while(input[i] != -21 && input[i] != '\0')
+			while (input[i] != -21 && input[i] != '\0')
 				i++;
 			ft_memmove(&input[i], &input[i + 1], ft_strlen(&input[i]));
 		}
-		else if(input[i] == -41)
+		else if (input[i] == -41)
 		{
 			ft_memmove(&input[i], &input[i + 1], ft_strlen(&input[i]));
-			while(input[i] != -41 && input[i] != '\0')
+			while (input[i] != -41 && input[i] != '\0')
 				i++;
 			ft_memmove(&input[i], &input[i + 1], ft_strlen(&input[i]));
 		}
@@ -101,17 +101,17 @@ void	remov_quots(char *input)
 
 int malloc_len(char	*input, t_env_list	*envp)
 {
-	int	len;
-	int	var_len;
-	int	i;
-	char 	*substr;
-	
+	int		len;
+	int		var_len;
+	int		i;
+	char	*substr;
+
 	i = 0;
 	len = ft_strlen(input);
 	var_len = 0;
-	while(input[i] != '\0')
+	while (input[i] != '\0')
 	{
-		if(input[i] == -21)
+		if (input[i] == -21)
 		{
 			i++;
 			while (input[i] != -21 && input[i] != '\0')
@@ -143,7 +143,7 @@ int malloc_len(char	*input, t_env_list	*envp)
 	return (len);
 }
 
-char	*malloc_var (char *input, t_env_list	*envp)
+char	*malloc_var(char *input, t_env_list	*envp)
 {
 	char	*result;
 	char	*substr;

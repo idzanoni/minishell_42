@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 18:33:42 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/07/01 19:42:52 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/02 19:00:25 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ void	exec_bt(int bt_check, char **splited_prompt, t_env_list *envp)
 	if (bt_check == 5)
 		bt_cd(splited_prompt, envp);
 }
+
+
 
 int	check_builtin(char *splited_prompt)
 {

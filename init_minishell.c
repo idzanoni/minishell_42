@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 16:46:48 by izanoni           #+#    #+#             */
-/*   Updated: 2024/07/01 19:34:15 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/02 17:14:00 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ int    g_signal = 0;
 
 void	minishell(t_minishell *s_minishell)
 {
+
 	while (1)
 	{
 		s_minishell->input = readline("shellzinho: ");
@@ -53,6 +54,13 @@ void	minishell(t_minishell *s_minishell)
 		}
 		new_prompt(s_minishell->normalized_prompt);
 		s_minishell->splited_prompt = ft_split(s_minishell->normalized_prompt, -42);
+		int	count;
+		count = 0;
+		while(s_minishell->splited_prompt[count] != NULL)
+		{
+			printf("%s\n", s_minishell->splited_prompt[count]);
+			count++;
+		}
 		if (!s_minishell->splited_prompt)
 		{
 			printf("error\n");

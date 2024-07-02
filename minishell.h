@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 17:13:50 by izanoni           #+#    #+#             */
-/*   Updated: 2024/07/01 19:31:59 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/02 18:09:34 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,11 +92,15 @@ void	ft_putstr_fd(char *s, int fd);
 t_env_list	*duplic_envp(char **envp);
 char	*put_expand(t_env_list *envp, char *splited_prompt);
 char	*expand_var2(t_env_list *envp, char **splited_promp);
-int  pipes_count(char **prompt);
-void new_prompt(char *prompt);
+int  	pipes_count(char **prompt);
+void 	new_prompt(char *prompt);
 void	exec_bt(int bt_check, char **splited_prompt, t_env_list *envp);
-int	check_builtin(char *splited_prompt);
-void    free_list(t_env_list *envp);
+int		check_builtin(char *splited_prompt);
+void	free_list(t_env_list *envp);
+void	norme_char(int *count, int *count_result, char	*result, char	*prompt);
+char	*malloc_prompt(char *prompt);
+void get_heredoc_names(t_minishell *s_minishell);
+void process_heredocs(t_minishell *s_minishell);
 
 //redirect
 t_fds	find_redirect(char **splited_prompt);
