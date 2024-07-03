@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
+/*   By: izanoni <izanoni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 17:13:50 by izanoni           #+#    #+#             */
-/*   Updated: 2024/07/02 18:09:34 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/03 16:34:35 by izanoni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,11 +116,15 @@ int		check_pipes(char *prompt);
 
 //bt_unset
 char	*bt_unset(char **splited_prompt, t_env_list	**envp);
+int		should_remove_node(t_env_list *node, char *prompt, int len_var);
+void	process_prompt(char *prompt, t_env_list **envp);
 int		check_name(char *splited_prompt);
 void	delnode(t_env_list	**envp, t_env_list	*node);
 
 //bt_cd
 int		bt_cd(char **splited_prompt, t_env_list *envp);
+int		change_directory(char *dir, t_env_list *envp, char *old_path);
+int		change_to_home_directory(t_env_list *envp, char *old_path);
 void	update_wd(char *new_path , t_env_list *envp, char *old_path);
 
 //bt_export

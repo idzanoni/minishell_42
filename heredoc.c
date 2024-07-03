@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
+/*   By: izanoni <izanoni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 14:10:52 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/07/02 19:14:32 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/03 16:10:33 by izanoni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,16 +89,16 @@ void    heredoc(t_minishell *s_minishell)
 		else
 		{
 			count++;
-	}
+		}
 	count = 0;
-}
 
+}
 	while(count <= count_command)
 	{
 		printf("heredoc_name[%i] = %s\n", count, s_minishell->heredoc_names[count]);
 		count++;
 	}
-
+}
 
 int	pipes_count(char **prompt)
 {
