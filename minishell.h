@@ -6,7 +6,7 @@
 /*   By: izanoni <izanoni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 17:13:50 by izanoni           #+#    #+#             */
-/*   Updated: 2024/07/03 16:34:35 by izanoni          ###   ########.fr       */
+/*   Updated: 2024/07/03 17:44:31 by izanoni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,10 +143,15 @@ int		bt_env(t_env_list *envp);
 
 //bt_echo
 void	bt_echo(char **splited_prompt);
+void print_argument(char *arg, int *val);
+int is_n_flag(char *arg, int val);
+void handle_echo_arguments(char **splited_prompt, int *count, int *n_flag, int *val);
 
 
 //error
 void	print_error(char *var, char *message);
+char *create_error_message(char *var, char *message);
+
 
 // functions.c
 void	ft_lstadd_back(t_env_list **lst, t_env_list *new);

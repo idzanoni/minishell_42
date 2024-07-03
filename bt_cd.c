@@ -6,7 +6,7 @@
 /*   By: izanoni <izanoni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 19:19:29 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/07/03 16:54:49 by izanoni          ###   ########.fr       */
+/*   Updated: 2024/07/03 19:06:48 by izanoni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,29 @@ int change_directory(char *dir, t_env_list *envp, char *old_path)
 	}
 	new_path = getcwd(NULL, 0);
 	update_wd(new_path, envp, old_path);
-	return 0;
+	return (0);
+}
+
+void	update_wd(char *new_path, t_env_list *envp, char *old_path)
+{
+	t_env_list	*temp_pwd;
+	char		*old_pwd;
+	char		*new_pwd;
+
+	temp_pwd = localize_envp(envp, "OLDPWD");
+	if (temp_pwd)
+	{
+		old_pwd = ft_strjoin("OLDPWD=", old_path);
+		free (temp_pwd->content);
+		temp_pwd->content = old_pwd;
+	}
+	temp_pwd = localize_envp(envp, "PWD");
+	if (temp_pwd)
+	{
+		new_pwd = ft_strjoin("PWD=", new_path);
+		free (temp_pwd->content);
+		temp_pwd->content = new_pwd;
+	}
 }
 
 /* int	bt_cd(char **splited_prompt, t_env_list *envp)
@@ -100,25 +122,3 @@ int change_directory(char *dir, t_env_list *envp, char *old_path)
 	update_wd(new_path, envp, path);
 	return (0);
 } */
-
-void	update_wd(char *new_path, t_env_list *envp, char *old_path)
-{
-	t_env_list	*temp_pwd;
-	char		*old_pwd;
-	char		*new_pwd;
-
-	temp_pwd = localize_envp(envp, "OLDPWD");
-	if (temp_pwd)
-	{
-		old_pwd = ft_strjoin("OLDPWD=", old_path);
-		free (temp_pwd->content);
-		temp_pwd->content = old_pwd;
-	}
-	temp_pwd = localize_envp(envp, "PWD");
-	if (temp_pwd)
-	{
-		new_pwd = ft_strjoin("PWD=", new_path);
-		free (temp_pwd->content);
-		temp_pwd->content = new_pwd;
-	}
-}
