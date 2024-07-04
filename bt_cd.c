@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bt_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: izanoni <izanoni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 19:19:29 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/07/03 19:06:48 by izanoni          ###   ########.fr       */
+/*   Updated: 2024/07/04 14:39:14 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,34 +18,34 @@ int bt_cd(char **splited_prompt, t_env_list *envp)
 
 	if (splited_prompt[1] == NULL)
 	{
-		return change_to_home_directory(envp, path);
+		return (change_to_home_directory(envp, path));
 	}
 	if (splited_prompt[2])
 	{
 		print_error("cd", ": too many arguments");
-		return 1;
+		return (1);
 	}
-	return change_directory(splited_prompt[1], envp, path);
+	return (change_directory(splited_prompt[1], envp, path));
 }
 
-int change_to_home_directory(t_env_list *envp, char *old_path)
+int	change_to_home_directory(t_env_list *envp, char *old_path)
 {
-	char *new_path;
-	
+	char	*new_path;
+
 	new_path = return_value(envp, "HOME");
 	if (!new_path)
 	{
 		print_error("cd", ": HOME not set");
-		return 1;
+		return (1);
 	}
 	if (chdir(new_path) < 0)
 	{
 		perror("cd error");
-		return 1;
+		return (1);
 	}
 	new_path = getcwd(NULL, 0);
 	update_wd(new_path, envp, old_path);
-	return 0;
+	return (0);
 }
 
 int change_directory(char *dir, t_env_list *envp, char *old_path)
@@ -55,7 +55,7 @@ int change_directory(char *dir, t_env_list *envp, char *old_path)
 	if (chdir(dir) < 0)
 	{
 		perror("cd error");
-		return 1;
+		return (1);
 	}
 	new_path = getcwd(NULL, 0);
 	update_wd(new_path, envp, old_path);

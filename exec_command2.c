@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 18:33:42 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/07/02 19:00:25 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/04 15:48:13 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	bt_or_exec(t_minishell *s_minishell)
 	{	
 		bt_check = check_builtin(s_minishell->splited_prompt[0]);
 		if (bt_check > 0)
-			exec_bt(bt_check, s_minishell->splited_prompt, s_minishell->envp);
+			exec_bt(bt_check, s_minishell);
 		else
 			command_exec(s_minishell, fd_redirect);
 	}
@@ -35,21 +35,19 @@ void	bt_or_exec(t_minishell *s_minishell)
 		close (fd_redirect.fd_in);
 }
 
-void	exec_bt(int bt_check, char **splited_prompt, t_env_list *envp)
+void	exec_bt(int bt_check, t_minishell *s_minishell)
 {
 	if (bt_check == 3)
-		bt_echo(splited_prompt);
+		bt_echo(s_minishell->splited_prompt);
 	if (bt_check == 4)
 		bt_pwd();
 	if (bt_check == 6)
-		bt_export(splited_prompt, envp);
+		bt_export(s_minishell);
 	if (bt_check == 7)
-		bt_unset(splited_prompt, &envp);
+		bt_unset(s_minishell->splited_prompt, &s_minishell->envp);
 	if (bt_check == 5)
-		bt_cd(splited_prompt, envp);
+		bt_cd(s_minishell->splited_prompt, s_minishell->envp);
 }
-
-
 
 int	check_builtin(char *splited_prompt)
 {

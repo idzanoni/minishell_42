@@ -6,7 +6,7 @@
 #    By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/20 17:13:45 by izanoni           #+#    #+#              #
-#    Updated: 2024/07/01 19:06:48 by mgonzaga         ###   ########.fr        #
+#    Updated: 2024/07/04 15:57:19 by mgonzaga         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,6 +39,7 @@ FILES = $(addsuffix .c, bt_cd\
 			ft_split\
 			norme_prompt\
 			check_command\
+			envp_funcitions\
 			)
 			 
 OBJ = $(FILES:%.c=%.o)			

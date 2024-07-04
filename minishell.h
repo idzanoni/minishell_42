@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: izanoni <izanoni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 17:13:50 by izanoni           #+#    #+#             */
-/*   Updated: 2024/07/03 17:44:31 by izanoni          ###   ########.fr       */
+/*   Updated: 2024/07/04 16:00:14 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,13 +94,14 @@ char	*put_expand(t_env_list *envp, char *splited_prompt);
 char	*expand_var2(t_env_list *envp, char **splited_promp);
 int  	pipes_count(char **prompt);
 void 	new_prompt(char *prompt);
-void	exec_bt(int bt_check, char **splited_prompt, t_env_list *envp);
+void	exec_bt(int bt_check, t_minishell *s_minishell);
 int		check_builtin(char *splited_prompt);
 void	free_list(t_env_list *envp);
 void	norme_char(int *count, int *count_result, char	*result, char	*prompt);
 char	*malloc_prompt(char *prompt);
 void get_heredoc_names(t_minishell *s_minishell);
 void process_heredocs(t_minishell *s_minishell);
+;
 
 //redirect
 t_fds	find_redirect(char **splited_prompt);
@@ -128,10 +129,14 @@ int		change_to_home_directory(t_env_list *envp, char *old_path);
 void	update_wd(char *new_path , t_env_list *envp, char *old_path);
 
 //bt_export
-void	bt_export(char **splited_prompt, t_env_list	*envp);
-int		valid_var(t_env_list *envp, char *var);
+void		bt_export(t_minishell	*s_minishell);
+int			valid_var(t_env_list *envp, char *var);
 t_env_list	*localize_envp(t_env_list	*envp, char *var);
-size_t	ft_strlen_2(const char *s);
+size_t		ft_strlen_2(const char *s);
+void		valid_export_var_name(int *count, int *i, char **splited_prompt);
+void		find_inenvp_export(t_env_list *local, t_minishell *s_minishell, 
+			int *count, int	*i);
+void		export_only(t_minishell *s_minishell);
 
 //bt_pwd
 void	bt_pwd(void);
