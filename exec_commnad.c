@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 17:13:41 by izanoni           #+#    #+#             */
-/*   Updated: 2024/07/02 19:36:11 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/04 20:01:49 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,11 @@ void	command_exec(t_minishell *s_minishell, t_fds fd_redirect)
 	if (fork_return == 0)
 	{
 		rl_clear_history();
-		path = find_path(s_minishell->splited_prompt[0], s_minishell->envp);
+		path = find_path(s_minishell->current_command[0], s_minishell->envp);
 		if (path == NULL)
 		{
 			printf("command not found\n");
-			free_all(s_minishell->splited_prompt);
+			free_all(s_minishell->current_command);
 			exit(142);
 		}
 		if (fd_redirect.fd_in != STDIN_FILENO)
@@ -60,8 +60,10 @@ void	command_exec(t_minishell *s_minishell, t_fds fd_redirect)
 			dup2 (fd_redirect.fd_out, STDOUT_FILENO);
 			close (fd_redirect.fd_out);
 		}
-		execve(path, s_minishell->splited_prompt, execve_envp(s_minishell->envp));
+		execve(path, s_minishell->current_command, execve_envp(s_minishell->envp));
+		free_all(s_minishell->current_command);
 		free_all(s_minishell->splited_prompt);
+		free_list(s_minishell->envp);
 		free(path);
 		exit(142);
 	}
@@ -177,6 +179,7 @@ void    more_command(t_minishell *s_minishell)
 			close(STDIN_FILENO); // Esse close
 			close(STDOUT_FILENO); // E esse aqui, são para evitar fds abertos
 			free_all(s_minishell->current_command);
+			free_list(s_minishell->envp);
 			exit(142);
 		}
 		else

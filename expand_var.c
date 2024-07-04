@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 19:21:15 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/07/02 15:51:55 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/04 19:57:48 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,7 +153,7 @@ char	*malloc_var(char *input, t_env_list	*envp)
 
 	i = 0;
 	len = malloc_len(input, envp);
-	result = calloc(len + 1, sizeof(char));
+	result = calloc(len + 1, sizeof(char)); // Trocar pra ft_calloc
 	len = 0;
 	while (input[i] != '\0')
 	{

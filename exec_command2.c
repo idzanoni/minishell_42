@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 18:33:42 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/07/04 15:48:13 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/04 19:51:36 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,13 @@ void	bt_or_exec(t_minishell *s_minishell)
 	int		bt_check;
 	t_fds	fd_redirect;
 
-	fd_redirect = find_redirect (s_minishell->splited_prompt);
-	free_redirect(s_minishell->splited_prompt);
-	expand_var(s_minishell->splited_prompt, s_minishell->envp);
-	if (s_minishell->splited_prompt != NULL
-		&& s_minishell->splited_prompt[0] != NULL)
+	fd_redirect = find_redirect (s_minishell->current_command);
+	free_redirect(s_minishell->current_command);
+	expand_var(s_minishell->current_command, s_minishell->envp);
+	if (s_minishell->current_command != NULL
+		&& s_minishell->current_command[0] != NULL)
 	{	
-		bt_check = check_builtin(s_minishell->splited_prompt[0]);
+		bt_check = check_builtin(s_minishell->current_command[0]);
 		if (bt_check > 0)
 			exec_bt(bt_check, s_minishell);
 		else

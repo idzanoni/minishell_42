@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 19:18:17 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/07/04 16:04:34 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/04 19:43:16 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	handle_echo_arguments(char **splited_prompt,
 		}
 		else
 		{
-			print_argument(splited_prompt[*count], &val);
+			print_argument(splited_prompt[*count], val);
 			(*count)++;
 		}
 	}
