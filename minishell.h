@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 17:13:50 by izanoni           #+#    #+#             */
-/*   Updated: 2024/07/04 16:00:14 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/10 20:24:32 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ int		check_name(char *splited_prompt);
 void	delnode(t_env_list	**envp, t_env_list	*node);
 
 //bt_cd
-int		bt_cd(char **splited_prompt, t_env_list *envp);
+int		bt_cd(t_minishell *s_minishell);
 int		change_directory(char *dir, t_env_list *envp, char *old_path);
 int		change_to_home_directory(t_env_list *envp, char *old_path);
 void	update_wd(char *new_path , t_env_list *envp, char *old_path);
@@ -147,7 +147,7 @@ void	bt_pwd(void);
 int		bt_env(t_env_list *envp);
 
 //bt_echo
-void	bt_echo(char **splited_prompt);
+void	bt_echo(t_minishell *s_minishell);
 void print_argument(char *arg, int *val);
 int is_n_flag(char *arg, int val);
 void handle_echo_arguments(char **splited_prompt, int *count, int *n_flag, int *val);
@@ -174,6 +174,7 @@ void	heredoc(t_minishell *s_minishell);
 int check_heredoc(char	**prompt);
 void    initialize_with_empty_strings(char **heredoc_name, int size);
 char    *get_heredoc_name(void);
+char *processa_variaveis_ambiente(char *input, t_env_list *envp);
 
 // signals
 void	handle_signals(void);

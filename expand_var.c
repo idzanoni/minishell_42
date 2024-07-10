@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 19:21:15 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/07/04 19:57:48 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/10 20:00:32 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,12 +108,10 @@ int malloc_len(char	*input, t_env_list	*envp)
 
 	i = 0;
 	len = ft_strlen(input);
-	var_len = 0;
 	while (input[i] != '\0')
 	{
-		if (input[i] == -21)
+		if (input[i++] == -21)
 		{
-			i++;
 			while (input[i] != -21 && input[i] != '\0')
 				i++;
 			i++;
@@ -125,9 +123,7 @@ int malloc_len(char	*input, t_env_list	*envp)
 			{
 				var_len = i;
 				while ((ft_isalnum(input[var_len]) == 1 || input[var_len] == '_') && input[var_len] != '\0')
-				{
 					var_len++;
-				}
 				substr = ft_substr(input, i, var_len - i);
 				if (substr == NULL)
 					return(0);
@@ -143,61 +139,121 @@ int malloc_len(char	*input, t_env_list	*envp)
 	return (len);
 }
 
-char	*malloc_var(char *input, t_env_list	*envp)
-{
-	char	*result;
-	char	*substr;
-	int		i;
-	int		len;
-	int		var_len;
+// char	*malloc_var(char *input, t_env_list	*envp)
+// {
+// 	char	*result;
+// 	char	*substr;
+// 	int		i;
+// 	int		len;
+// 	int		var_len;
 
-	i = 0;
-	len = malloc_len(input, envp);
-	result = calloc(len + 1, sizeof(char)); // Trocar pra ft_calloc
-	len = 0;
-	while (input[i] != '\0')
-	{
-		if (input[i] == -21)
-		{
-			i++;
-			while (input[i] != -21 && input[i] != '\0')
-			{
-				result[len] = input[i];
-				len++;
-				i++;
-			}
-			i++;
-		}
-		else if (input[i] == '$' && (ft_isalpha(input[i + 1]) == 1
-				|| input[i + 1] == '_'))
-		{
-			i++;
-			var_len = i;
-			while ((ft_isalnum(input[var_len]) == 1 || input[var_len] == '_')
-						&& input[var_len] != '\0')
-				var_len++;
-			substr = ft_substr(input, i, var_len - i);
-			i = var_len;
-			if (valid_var(envp, substr) == 1)
-			{
-				substr = return_value(envp, substr);
-				var_len = 0;
-				while (substr[var_len] != '\0')
-				{
-					result[len] = substr[var_len];
-					len++;
-					var_len++;
-				}
-			}
-		}
-		else
-		{
-			result[len] = input[i];
-			len++;
-			i++;
-		}
-	}
-	result[len] = '\0';
-	free(input);
-	return (result);
+// 	i = 0;
+// 	len = malloc_len(input, envp);
+// 	result = calloc(len + 1, sizeof(char)); // Trocar pra ft_calloc
+// 	len = 0;
+// 	while (input[i] != '\0')
+// 	{
+// 		if (input[i] == -21)
+// 		{
+// 			i++;
+// 			while (input[i] != -21 && input[i] != '\0')
+// 			{
+// 				result[len] = input[i];
+// 				len++;
+// 				i++;
+// 			}
+// 			i++;
+// 		}
+// 		else if (input[i] == '$' && (ft_isalpha(input[i + 1]) == 1
+// 				|| input[i + 1] == '_'))
+// 		{
+// 			i++;
+// 			var_len = i;
+// 			while ((ft_isalnum(input[var_len]) == 1 || input[var_len] == '_')
+// 						&& input[var_len] != '\0')
+// 				var_len++;
+// 			substr = ft_substr(input, i, var_len - i);
+// 			i = var_len;
+// 			if (valid_var(envp, substr) == 1)
+// 			{
+// 				substr = return_value(envp, substr);
+// 				var_len = 0;
+// 				while (substr[var_len] != '\0')
+// 				{
+// 					result[len] = substr[var_len];
+// 					len++;
+// 					var_len++;
+// 				}
+// 			}
+// 		}
+// 		else
+// 		{
+// 			result[len] = input[i];
+// 			len++;
+// 			i++;
+// 		}
+// 	}
+// 	result[len] = '\0';
+// 	free(input);
+// 	return (result);
+// }
+
+char *processa_variaveis_ambiente(char *input, t_env_list *envp) 
+{
+    char *result;
+    int i = 0;
+    int len = 0;
+    char *substr;
+    int var_len;
+
+    result = calloc(strlen(input) + 1, sizeof(char)); // Alocando memória para result
+
+    while (input[i] != '\0') {
+        if (input[i] == '$' && (ft_isalpha(input[i + 1]) == 1 || input[i + 1] == '_')) {
+            i++;
+            var_len = i;
+            while ((ft_isalnum(input[var_len]) == 1 || input[var_len] == '_') && input[var_len] != '\0') {
+                var_len++;
+            }
+            substr = ft_substr(input, i, var_len - i);
+            i = var_len;
+            if (valid_var(envp, substr) == 1) {
+                substr = return_value(envp, substr);
+                var_len = 0;
+                while (substr[var_len] != '\0') {
+                    result[len] = substr[var_len];
+                    len++;
+                    var_len++;
+                }
+            }
+        } else {
+            result[len] = input[i];
+            len++;
+            i++;
+        }
+    }
+    result[len] = '\0';
+    return result;
+}
+
+
+char *malloc_var(char *input, t_env_list *envp) {
+    char *result;
+
+    // Calcula o comprimento necessário para a string resultante
+    int len = malloc_len(input, envp);
+    
+    // Aloca memória para result usando ft_calloc (substituindo calloc)
+    result = ft_calloc(len + 1, sizeof(char));
+    if (result == NULL) {
+        return NULL; // Tratamento de erro de alocação de memória
+    }
+
+    // Processa variáveis de ambiente na string input
+    result = processa_variaveis_ambiente(input, envp);
+
+    // Libera a memória alocada para input, já que não é mais necessária
+    free(input);
+
+    return result;
 }
