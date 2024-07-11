@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 14:10:52 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/07/10 19:23:26 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/11 19:45:09 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,11 +90,6 @@ void    heredoc(t_minishell *s_minishell)
 			count++;
 	count = 0;
 }
-	while(count <= count_command)
-	{
-		printf("heredoc_name[%i] = %s\n", count, s_minishell->heredoc_names[count]);
-		count++;
-	}
 }
 
 int	pipes_count(char **prompt)

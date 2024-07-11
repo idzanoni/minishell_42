@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 16:46:48 by izanoni           #+#    #+#             */
-/*   Updated: 2024/07/10 19:59:38 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/11 19:49:04 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,62 @@
 
 int    g_signal = 0;
 
-void	minishell(t_minishell *s_minishell)
+void minishell(t_minishell *s_minishell)
+{
+	while (1)
+	{
+		s_minishell->input = readline("shellzinho: ");
+		if (!s_minishell->input)
+		{
+			free_list(s_minishell->envp);
+			break;
+		}
+		process_input(s_minishell);
+	}
+}
+void	process_input(t_minishell *s_minishell)
+{
+	if (check_prompt(s_minishell->input) < 0)
+	{
+		free(s_minishell->input);
+		return;
+	}
+	s_minishell->normalized_prompt = norme_string(s_minishell->input);
+	free(s_minishell->input);
+	if (!s_minishell->normalized_prompt)
+	{
+		print_error("er","ror\n");
+		return;
+	}
+	new_prompt(s_minishell->normalized_prompt);
+	s_minishell->splited_prompt = ft_split(s_minishell->normalized_prompt, -42);
+	free(s_minishell->normalized_prompt);
+	if (!s_minishell->splited_prompt)
+	{
+		print_error("er","ror\n");
+		return;
+	}
+	handle_commands(s_minishell);
+	free_all(s_minishell->splited_prompt);
+}
+
+void handle_commands(t_minishell *s_minishell)
+{
+	if (check_heredoc(s_minishell->splited_prompt) == 1)
+	{
+		heredoc(s_minishell);
+	}
+	if (find_pipe(s_minishell->splited_prompt) == 1)
+		more_command(s_minishell);
+	else
+	{
+		s_minishell->current_command = s_minishell->splited_prompt;
+		s_minishell->splited_prompt = NULL;
+		bt_or_exec(s_minishell);
+	}
+}
+
+/* void	minishell(t_minishell *s_minishell)
 {
 
 	while (1)
@@ -44,7 +99,7 @@ void	minishell(t_minishell *s_minishell)
 				free (s_minishell->input);
 				continue ;
 			}
-		s_minishell->normalized_prompt = norme_string(s_minishell->input);
+			s_minishell->normalized_prompt = norme_string(s_minishell->input);
 		}
 		free (s_minishell->input);
 		if (s_minishell->normalized_prompt == NULL)
@@ -54,13 +109,6 @@ void	minishell(t_minishell *s_minishell)
 		}
 		new_prompt(s_minishell->normalized_prompt);
 		s_minishell->splited_prompt = ft_split(s_minishell->normalized_prompt, -42);
-		int	count;
-		count = 0;
-		while(s_minishell->splited_prompt[count] != NULL)
-		{
-			printf("%s\n", s_minishell->splited_prompt[count]);
-			count++;
-		}
 		if (!s_minishell->splited_prompt)
 		{
 			printf("error\n");
@@ -83,7 +131,7 @@ void	minishell(t_minishell *s_minishell)
 		}
 		free_all (s_minishell->splited_prompt);
 	}
-}
+} */
 
 t_env_list	*duplic_envp(char	**envp)
 {
@@ -103,7 +151,7 @@ t_env_list	*duplic_envp(char	**envp)
 	return (new_envp);
 }
 
-int	main (int argc, char **argv, char **envp)
+int	main(int argc, char **argv, char **envp)
 {
 	(void)argc;
 	(void)argv;

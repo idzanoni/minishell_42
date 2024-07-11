@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 17:13:50 by izanoni           #+#    #+#             */
-/*   Updated: 2024/07/10 20:24:32 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/11 19:39:26 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ typedef struct s_minishell    t_minishell;
 
 //minishell
 void	minishell(t_minishell *s_minishell);
+void handle_commands(t_minishell *s_minishell);
+void process_input(t_minishell *s_minishell);
 char	*norme_string(char *prompt);
 char	*get_word(char *prompt, int *count);
 int		count_word(char *prompt);
@@ -116,7 +118,7 @@ int		only_space(char *prompt);
 int		check_pipes(char *prompt);
 
 //bt_unset
-char	*bt_unset(char **splited_prompt, t_env_list	**envp);
+char	*bt_unset(t_minishell *s_minishell);
 int		should_remove_node(t_env_list *node, char *prompt, int len_var);
 void	process_prompt(char *prompt, t_env_list **envp);
 int		check_name(char *splited_prompt);
@@ -148,10 +150,7 @@ int		bt_env(t_env_list *envp);
 
 //bt_echo
 void	bt_echo(t_minishell *s_minishell);
-void print_argument(char *arg, int *val);
-int is_n_flag(char *arg, int val);
-void handle_echo_arguments(char **splited_prompt, int *count, int *n_flag, int *val);
-
+void	echo_n(int *n, int *count, int *val, char **splited_prompt);
 
 //error
 void	print_error(char *var, char *message);
@@ -174,7 +173,9 @@ void	heredoc(t_minishell *s_minishell);
 int check_heredoc(char	**prompt);
 void    initialize_with_empty_strings(char **heredoc_name, int size);
 char    *get_heredoc_name(void);
-char *processa_variaveis_ambiente(char *input, t_env_list *envp);
+void	malloc_len_process(char	*input, int *len, int *i, t_env_list *envp);
+void	walk_simple_quote(int *i, char *input, char *result, int *len);
+void	put_result(int *i, int *len, char *input, t_env_list *envp, char *result);
 
 // signals
 void	handle_signals(void);

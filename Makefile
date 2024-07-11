@@ -6,7 +6,7 @@
 #    By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/20 17:13:45 by izanoni           #+#    #+#              #
-#    Updated: 2024/07/04 15:57:19 by mgonzaga         ###   ########.fr        #
+#    Updated: 2024/07/11 19:14:52 by mgonzaga         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,6 +33,7 @@ FILES = $(addsuffix .c, bt_cd\
 			init_minishell \
 			redirect \
 			expand_var \
+			expand_var2 \
 			t_list_funcitions \
 			signals \
 			heredoc \

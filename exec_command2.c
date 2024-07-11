@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 18:33:42 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/07/10 20:02:26 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/11 19:29:58 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	exec_bt(int bt_check, t_minishell *s_minishell)
 	if (bt_check == 6)
 		bt_export(s_minishell);
 	if (bt_check == 7)
-		bt_unset(s_minishell->splited_prompt, &s_minishell->envp);
+		bt_unset(s_minishell);
 	if (bt_check == 5)
 	{
 		bt_cd(s_minishell);

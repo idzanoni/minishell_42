@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 17:13:41 by izanoni           #+#    #+#             */
-/*   Updated: 2024/07/04 20:01:49 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/11 14:38:46 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -232,9 +232,7 @@ char **get_command(char **splited_prompt)
 	command[i] = NULL;
 	i = 0;
 	while (splited_prompt[count_lines] != NULL)
-	{
 		splited_prompt[i++] = splited_prompt[++count_lines];
-	}
 	splited_prompt[i] = NULL;
 	return (command);
 }

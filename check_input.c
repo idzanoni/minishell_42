@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 17:12:45 by izanoni           #+#    #+#             */
-/*   Updated: 2024/07/10 17:19:28 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/11 19:35:22 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	check_pipes(char *prompt)
 		{
 			quote = prompt[count];
 			while (prompt[count] != quote)
-				count ++;
+				count++;
 		}
 		if (prompt[count] == '|')
 		{

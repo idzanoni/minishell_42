@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 12:37:07 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/07/04 16:00:52 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/11 19:34:15 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	bt_export(t_minishell	*s_minishell)
 				find_inenvp_export(local, s_minishell, &count, &i);
 			}
 			else
-				ft_putstr_fd ("not a valid identifier", 1);
+				ft_putstr_fd ("export:not a valid identifier", 1);
 			count++;
 		}
 	}
@@ -79,7 +79,7 @@ void	valid_export_var_name(int *count, int *i, char **splited_prompt)
 			(*i)++;
 		else
 		{
-			ft_putstr_fd("export: oi not a valid identifier\n", 1);
+			ft_putstr_fd("export:not a valid identifier\n", 1);
 			break ;
 		}
 	}
