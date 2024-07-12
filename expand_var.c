@@ -6,30 +6,30 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 19:21:15 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/07/11 19:42:44 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/12 18:57:57 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void    move_matrix(char **splited_prompt, int start)
+void	move_matrix(char **splited_prompt, int start)
 {
-	int    temp_count;
-	
+	int	temp_count;
+
 	temp_count = start;
-	while(splited_prompt[temp_count] != NULL)
+	while (splited_prompt[temp_count] != NULL)
 	{
 		splited_prompt[temp_count] = splited_prompt[temp_count + 1];
 		temp_count++;
 	}
 }
 
-void expand_var(char **splited_prompt, t_env_list *envp)
+void	expand_var(char **splited_prompt, t_env_list *envp)
 {
-	int    count;
+	int	count;
 
 	count = 0;
-	while(splited_prompt[count] != NULL)
+	while (splited_prompt[count] != NULL)
 	{
 		mod_quots(splited_prompt[count]);
 		splited_prompt[count] = malloc_var(splited_prompt[count], envp);
@@ -56,8 +56,7 @@ void	mod_quots(char *input)
 			i++;
 			while (input[i] != '"' && input[i] != '\0')
 				i++;
-			input[i] = -41;
-			i++;
+			input[i++] = -41;
 		}
 		else if (input[i] == '\'')
 		{

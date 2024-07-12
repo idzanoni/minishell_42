@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 19:19:29 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/07/12 17:10:00 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/12 18:56:09 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,42 +84,3 @@ void	update_wd(char *new_path, t_env_list *envp, char *old_path)
 		temp_pwd->content = new_pwd;
 	}
 }
-
-/* int	bt_cd(char **splited_prompt, t_env_list *envp)
-{
-	char	*path;
-	char	*new_path;
-
-	path = getcwd(NULL, 0);
-	if (splited_prompt[1] == NULL)
-	{
-		new_path = return_value(envp, "HOME");
-		if (!new_path)
-		{
-			print_error("cd", ": HOME not set");
-			return (1);
-		}
-		if (chdir(new_path) < 0)
-		{
-			perror("cd error");
-			return (1);
-		}
-		new_path = getcwd(NULL, 0);
-	}
-	if (splited_prompt[2])
-	{
-		print_error ("cd", ": too many arguments");
-		return (1);
-	}
-	if (splited_prompt[1] != NULL)
-	{
-		if (chdir(splited_prompt[1]) < 0)
-		{
-			perror("cd error");
-			return (1);
-		}
-		new_path = getcwd(NULL, 0);
-	}
-	update_wd(new_path, envp, path);
-	return (0);
-} */

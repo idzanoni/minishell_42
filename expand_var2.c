@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 19:13:15 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/07/11 19:41:50 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/12 19:57:58 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ char	*malloc_var(char *input, t_env_list	*envp)
 			walk_simple_quote(&i, input, result, &len);
 		else if (input[i] == '$' && (ft_isalpha(input[i + 1]) == 1
 				|| input[i + 1] == '_'))
-			put_result(&i, &len, input, envp, result);
+			put_result(put_substr(&i, input), &len, envp, result);
 		else
 			result[len++] = input[i++];
 	}
@@ -70,19 +70,10 @@ void	walk_simple_quote(int *i, char *input, char *result, int *len)
 	(*i)++;
 }
 
-void	put_result(int *i, int *len, char *input,
-			t_env_list *envp, char *result)
+void	put_result(char *substr, int *len, t_env_list *envp, char *result)
 {
 	int		var_len;
-	char	*substr;
 
-	(*i)++;
-	var_len = (*i);
-	while ((ft_isalnum(input[var_len]) == 1 || input[var_len] == '_')
-		&& input[var_len] != '\0')
-		var_len++;
-	substr = ft_substr(input, (*i), var_len - (*i));
-	(*i) = var_len;
 	if (valid_var(envp, substr) == 1)
 	{
 		substr = return_value(envp, substr);
@@ -94,5 +85,19 @@ void	put_result(int *i, int *len, char *input,
 			var_len++;
 		}
 	}
-	free(substr);
+}
+
+char	*put_substr(int *i, char *input)
+{
+	int		var_len;
+	char	*substr;
+
+	(*i)++;
+	var_len = (*i);
+	while ((ft_isalnum(input[var_len]) == 1 || input[var_len] == '_')
+		&& input[var_len] != '\0')
+		var_len++;
+	substr = ft_substr(input, (*i), var_len - (*i));
+	(*i) = var_len;
+	return (substr);
 }

@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 17:13:50 by izanoni           #+#    #+#             */
-/*   Updated: 2024/07/12 14:44:32 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/12 19:57:58 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,116 +71,131 @@ struct s_minishell
 };
 typedef struct s_minishell    t_minishell;
 
-
-//minishell
-void	minishell(t_minishell *s_minishell);
-void handle_commands(t_minishell *s_minishell);
-void process_input(t_minishell *s_minishell);
-char	*norme_string(char *prompt);
-char	*get_word(char *prompt, int *count);
-int		count_word(char *prompt);
-void	free_all(char **malloc_string);
-void	command_exec(t_minishell *s_minishell, t_fds fd_redirect);
-char	*find_path(char *splited_prompt, t_env_list	*envp);
-char	*return_value(t_env_list *envp, char *var);
-char	**ft_split(char const *s, char c);
-char	*get_word1(char const *s, char c);
-int		count_words1(char const *s, char c);
-int		find_pipe(char **splited_prompt);
-char	**get_command(char **splited_prompt);
-void	more_command(t_minishell *s_minishell);
-void	bt_or_exec(t_minishell *s_minishell);
-void	ft_putstr_fd(char *s, int fd);
-t_env_list	*duplic_envp(char **envp);
-char	*put_expand(t_env_list *envp, char *splited_prompt);
-char	*expand_var2(t_env_list *envp, char **splited_promp);
-int  	pipes_count(char **prompt);
-void 	new_prompt(char *prompt);
-void	exec_bt(int bt_check, t_minishell *s_minishell);
-int		check_builtin(char *splited_prompt);
-void	free_list(t_env_list *envp);
-void	norme_char(int *count, int *count_result, char	*result, char	*prompt);
-char	*malloc_prompt(char *prompt);
-void get_heredoc_names(t_minishell *s_minishell);
-void process_heredocs(t_minishell *s_minishell);
-;
-
-//redirect
-t_fds	find_redirect(char **splited_prompt);
-void	free_redirect(char **splited_prompt);
-
-//check_things
-int		check_prompt(char *prompt);
-int		check_quotes(char *prompt);
-int		check_empty(char *prompt);
-int		check_redirect(char *prompt);
-int		only_space(char *prompt);
-int		check_pipes(char *prompt);
-void ignore_quotes(int *count, char *prompt);
-
-//bt_unset
-char	*bt_unset(t_minishell *s_minishell);
-int		should_remove_node(t_env_list *node, char *prompt, int len_var);
-void	process_prompt(char *prompt, t_env_list **envp);
-int		check_name(char *splited_prompt);
-void	delnode(t_env_list	**envp, t_env_list	*node);
-
 //bt_cd
-int		bt_cd(t_minishell *s_minishell);
-int		change_directory(char *dir, t_env_list *envp, char *old_path);
-int		change_to_home_directory(t_env_list *envp, char *old_path);
-void	update_wd(char *new_path , t_env_list *envp, char *old_path);
+int			bt_cd(t_minishell *s_minishell);
+int			change_to_home_directory(t_env_list *envp, char *old_path);
+int			change_directory(char *dir, t_env_list *envp, char *old_path);
+void		update_wd(char *new_path, t_env_list *envp, char *old_path);
 
-//bt_export
-void		bt_export(t_minishell	*s_minishell);
-int			valid_var(t_env_list *envp, char *var);
-t_env_list	*localize_envp(t_env_list	*envp, char *var);
-size_t		ft_strlen_2(const char *s);
-void		valid_export_var_name(int *count, int *i, char **splited_prompt);
-void		find_inenvp_export(t_env_list *local, t_minishell *s_minishell, 
-			int *count, int	*i);
-void		export_only(t_minishell *s_minishell);
+//bt_echo
+void		bt_echo(t_minishell *s_minishell);
+void		echo_n(int *n, int *count, int *val, char **splited_prompt);
 
-//bt_pwd
-void	bt_pwd(void);
+//bt_env
+int			bt_env(t_env_list *envp);
 
 //bt_exit
 
-//bt_env
-int		bt_env(t_env_list *envp);
+//bt_export
+void		bt_export(t_minishell	*s_minishell);
+void		export_only(t_minishell *s_minishell);
+void		find_inenvp_export(t_env_list *local, t_minishell *s_minishell, int *count, int	*i);
+void		valid_export_var_name(int *count, int *i, char **splited_prompt);
+size_t		ft_strlen_2(const char *s);
 
-//bt_echo
-void	bt_echo(t_minishell *s_minishell);
-void	echo_n(int *n, int *count, int *val, char **splited_prompt);
+//bt_pwd
+void		bt_pwd(void);
+
+//bt_unset
+char		*bt_unset(t_minishell *s_minishell);
+void		process_prompt(char *prompt, t_env_list **envp);
+int			should_remove_node(t_env_list *node, char *prompt, int len_var);
+void		delnode(t_env_list	**envp, t_env_list	*node);
+int			check_name(char *splited_prompt);
+
+//check_command
+int			check_heredoc(char	**prompt);
+int			find_pipe(char **splited_prompt);
+int			check_prompt(char *prompt);
+
+//check_input
+int			check_pipes(char *prompt);
+int			check_quotes(char *prompt);
+int			check_redirect(char *prompt);
+int			only_space(char *prompt);
+int			check_empty(char *prompt);
+
+//envp_funcitions
+t_env_list	*localize_envp(t_env_list *envp, char *var);
+int			valid_var(t_env_list *envp, char *var);
 
 //error
-void	print_error(char *var, char *message);
-char *create_error_message(char *var, char *message);
+void		print_error(char *var, char *message);
+char		*create_error_message(char *var, char *message);
 
+//exec_command2
+void		bt_or_exec(t_minishell *s_minishell);
+void		exec_bt(int bt_check, t_minishell *s_minishell);
+int			check_builtin(char *splited_prompt);
 
-// functions.c
-void	ft_lstadd_back(t_env_list **lst, t_env_list *new);
+//exec_command
+char		**execve_envp(t_env_list *envp);
+void		command_exec(t_minishell *s_minishell, t_fds fd_redirect);
+char		*find_path(char *splited_prompt, t_env_list *envp);
+char		*return_value(t_env_list	*envp, char *var);
+void		more_command(t_minishell *s_minishell);
+char		**get_command(char **splited_prompt);
+
+//expand_var
+void		move_matrix(char **splited_prompt, int start);
+void		expand_var(char **splited_prompt, t_env_list *envp);
+void		mod_quots(char *input);
+void		remov_quots(char *input);
+int			malloc_len(char	*input, t_env_list	*envp);
+
+//expand_var2
+void		malloc_len_process(char	*input, int *len, int *i, t_env_list *envp);
+char		*malloc_var(char *input, t_env_list	*envp);
+void		walk_simple_quote(int *i, char *input, char *result, int *len);
+void		put_result(char *substr, int *len, t_env_list *envp, char *result);
+char		*put_substr(int *i, char *input);
+
+//free_all
+void		free_all(char **malloc_string);
+void		free_list(t_env_list *envp);
+
+//heredoc
+void		initialize_with_empty_strings(char **heredoc_name, int size);
+char		*get_heredoc_name(void);
+void		heredoc(t_minishell *s_minishell);
+void		heredoc_process(int	*count, t_minishell *s_minishell, int *count_command, int *fd);
+
+//init_minishell
+int			main(int argc, char **argv, char **envp);
+t_env_list	*duplic_envp(char	**envp);
+void		handle_commands(t_minishell *s_minishell);
+void		process_input(t_minishell *s_minishell);
+void		minishell(t_minishell *s_minishell);
+
+//norme_prompt
+char		*norme_string(char *prompt);
+char		*malloc_prompt(char *prompt);
+void		norme_char(int *count, int *count_result, char	*result, char	*prompt);
+
+//redirect
+void		free_redirect(char **splited_prompt);
+t_fds		find_redirect(char **splited_prompt);
+
+//signals
+void		handle_signals(void);
+void		sig_ctrl_c(int sig);
+void		end_heredoc(int sig);
+void		sig_heredoc(void);
+void		sig_execute(int child_pid);
+
+//t_list_funcitions
+void		ft_lstadd_back(t_env_list **lst, t_env_list *new);
 t_env_list	*ft_lstlast(t_env_list *lst);
 t_env_list	*ft_lstnew(void *content);
-int		ft_lstsize(t_env_list *lst);
+int			ft_lstsize(t_env_list *lst);
 
-// expandvar
-void	mod_quots(char *input);
-void expand_var(char **splited_prompt, t_env_list *envp);
-void	remov_quots(char *input);
-char *malloc_var(char	*input, t_env_list	*envp);
-int malloc_len(char	*input, t_env_list	*envp);
-void	heredoc(t_minishell *s_minishell);
-int check_heredoc(char	**prompt);
-void    initialize_with_empty_strings(char **heredoc_name, int size);
-char    *get_heredoc_name(void);
-void	malloc_len_process(char	*input, int *len, int *i, t_env_list *envp);
-void	walk_simple_quote(int *i, char *input, char *result, int *len);
-void	put_result(int *i, int *len, char *input, t_env_list *envp, char *result);
+//redirect
+void		free_redirect(char **splited_prompt);
+t_fds		find_redirect(char **splited_prompt);
 
-// signals
-void	handle_signals(void);
-void	ctrl_c(int sig);
-
+//utils_fincitions
+void		ignore_quotes(int *count, char *prompt);
+int			pipes_count(char **prompt);
+void		new_prompt(char *prompt);
 
 #endif

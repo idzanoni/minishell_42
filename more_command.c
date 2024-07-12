@@ -1,3 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   more_command.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/12 19:54:57 by mgonzaga          #+#    #+#             */
+/*   Updated: 2024/07/12 19:57:58 by mgonzaga         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+
 // função more_comand separada pelo gpt
 
 
@@ -28,6 +42,7 @@ int count_pipes_in_prompt(char **splited_prompt)
 	}
 	return count_pipes;
 }
+
 void execute_commands(t_minishell *s_minishell, int count_pipes, int *fork_return)
 {
 	int fds[2];

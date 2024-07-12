@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 15:38:22 by izanoni           #+#    #+#             */
-/*   Updated: 2024/07/01 19:35:09 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/12 19:57:39 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ t_fds	find_redirect(char **splited_prompt)
 			if (fd_redirect.fd_in != STDIN_FILENO)
 				close (fd_redirect.fd_in);
 		//	if (splited_prompt[count][1] == '<')
-		//	{}
+		//	{} (chamar heredoc)
 			else
 				fd_redirect.fd_in = open (splited_prompt[count + 1], O_RDONLY);
 		}

@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 17:13:41 by izanoni           #+#    #+#             */
-/*   Updated: 2024/07/12 14:31:51 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/12 17:21:58 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,11 +107,11 @@ char	*find_path(char *splited_prompt, t_env_list *envp)
 	return (NULL);
 }
 
-char	*return_value(t_env_list    *envp, char *var)
+char	*return_value(t_env_list	*envp, char *var)
 {
-	char	*value;
-	int		len_var;
-	t_env_list  *tmp;
+	char		*value;
+	int			len_var;
+	t_env_list	*tmp;
 
 	len_var = ft_strlen_2(var);
 	tmp = envp;

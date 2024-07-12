@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 17:35:39 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/07/12 14:55:59 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/12 19:57:57 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,10 @@ int	check_prompt(char *prompt)
 	if (only_space(prompt))
 		return (-1);
 	if (check_quotes(prompt))
+	{
+		printf("invalid quotes\n");
 		return (-1);
+	}
 	if (check_redirect(prompt))
 	{
 		printf("error redirect\n");

@@ -6,17 +6,61 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:06:53 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/07/12 17:08:13 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/12 19:57:57 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void ignore_quotes(int *count, char *prompt)
+void	ignore_quotes(int *count, char *prompt)
 {
-	char quote;
-	
+	char	quote;
+
 	quote = prompt[(*count)];
 	while (prompt[(*count)] != quote)
 		(*count)++;
+}
+
+int	pipes_count(char **prompt)
+{
+	int	count;
+	int	count_pipes;
+
+	count = 0;
+	count_pipes = 0;
+	while (prompt[count] != NULL)
+	{
+		if (prompt[count][0] == '|')
+			count_pipes++;
+		count++;
+	}
+	return (count_pipes);
+}
+void	new_prompt(char *prompt)
+{
+	int		count;
+	char	quote;
+
+	count = 0;
+	while (prompt[count] != '\0')
+	{
+		if (prompt[count] == '"' || prompt[count] == '\'')
+		{
+			quote = prompt[count++];
+			while (prompt[count] != quote)
+				count++;
+			count++;
+		}
+		else
+		{
+			while (prompt[count] != ' ' && prompt[count] != '\0'
+				&& prompt[count] != '	')
+				count++;
+			if (prompt[count] == ' ' || prompt[count] == '	')
+			{
+				prompt[count] = -42;
+				count++;
+			}
+		}
+	}
 }
