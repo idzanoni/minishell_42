@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 17:13:41 by izanoni           #+#    #+#             */
-/*   Updated: 2024/07/11 14:38:46 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/12 14:31:51 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,7 @@ void	command_exec(t_minishell *s_minishell, t_fds fd_redirect)
 		exit(142);
 	}
 	else
-	{
 		wait(NULL);
-	}
 }
 
 char	*find_path(char *splited_prompt, t_env_list *envp)

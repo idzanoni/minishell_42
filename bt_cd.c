@@ -6,15 +6,15 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 19:19:29 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/07/10 20:24:19 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/12 17:10:00 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int bt_cd(t_minishell *s_minishell)
+int	bt_cd(t_minishell *s_minishell)
 {
-	char *path = getcwd(NULL, 0);
+	char	*path = getcwd(NULL, 0);
 
 	if (s_minishell->current_command[1] == NULL)
 	{
@@ -25,7 +25,8 @@ int bt_cd(t_minishell *s_minishell)
 		print_error("cd", ": too many arguments");
 		return (1);
 	}
-	return (change_directory(s_minishell->current_command[1], s_minishell->envp, path));
+	return (change_directory(s_minishell->current_command[1],
+			s_minishell->envp, path));
 }
 
 int	change_to_home_directory(t_env_list *envp, char *old_path)
@@ -48,9 +49,9 @@ int	change_to_home_directory(t_env_list *envp, char *old_path)
 	return (0);
 }
 
-int change_directory(char *dir, t_env_list *envp, char *old_path)
+int	change_directory(char *dir, t_env_list *envp, char *old_path)
 {
-	char *new_path;
+	char	*new_path;
 
 	if (chdir(dir) < 0)
 	{

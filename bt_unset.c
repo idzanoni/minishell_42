@@ -6,20 +6,23 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 15:59:21 by izanoni           #+#    #+#             */
-/*   Updated: 2024/07/11 19:12:09 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/12 17:13:08 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char *bt_unset(t_minishell *s_minishell)
+char	*bt_unset(t_minishell *s_minishell)
 {
-	int i = 1;
+	int	i;
+
+	i = 1;
 	while (s_minishell->splited_prompt[i] != NULL)
 	{
 		if (check_name(s_minishell->splited_prompt[i]) != 0)
 		{
-			print_error(s_minishell->splited_prompt[i], ": not a valid identifier\n");
+			print_error(s_minishell->splited_prompt[i],
+				": not a valid identifier\n");
 		}
 		else
 		{
@@ -30,22 +33,25 @@ char *bt_unset(t_minishell *s_minishell)
 	return (0);
 }
 
-void process_prompt(char *prompt, t_env_list **envp)
+void	process_prompt(char *prompt, t_env_list **envp)
 {
-	int len_var = ft_strlen(prompt);
-	t_env_list *temp_node = *envp;
+	int			len_var;
+	t_env_list	*temp_node;
+
+	len_var = ft_strlen(prompt);
+	temp_node = *envp;
 	while (temp_node != NULL)
 	{
 		if (should_remove_node(temp_node, prompt, len_var))
 		{
 			delnode(envp, temp_node);
-			break;
+			break ;
 		}
 		temp_node = temp_node->next;
 	}
 }
 
-int should_remove_node(t_env_list *node, char *prompt, int len_var)
+int	should_remove_node(t_env_list *node, char *prompt, int len_var)
 {
 	if ((ft_strnstr(node->content, prompt, len_var)) != NULL)
 	{

@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 19:39:06 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/07/01 19:40:02 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/12 17:08:58 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,3 +41,4 @@ void	free_list(t_env_list *envp)
 		current_node = next_node;
 	}
 }
+

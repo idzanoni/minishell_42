@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 17:13:50 by izanoni           #+#    #+#             */
-/*   Updated: 2024/07/11 19:39:26 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/12 14:44:32 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,7 @@ int		check_empty(char *prompt);
 int		check_redirect(char *prompt);
 int		only_space(char *prompt);
 int		check_pipes(char *prompt);
+void ignore_quotes(int *count, char *prompt);
 
 //bt_unset
 char	*bt_unset(t_minishell *s_minishell);

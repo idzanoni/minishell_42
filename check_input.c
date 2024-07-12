@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 17:12:45 by izanoni           #+#    #+#             */
-/*   Updated: 2024/07/11 19:35:22 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/12 17:08:24 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,7 @@
 
 int	check_pipes(char *prompt)
 {
-	int 	count;
-	char	quote;
+	int	count;
 
 	count = 0;
 	while (prompt[count] == ' ' || prompt[count] == '	')
@@ -25,11 +24,7 @@ int	check_pipes(char *prompt)
 	while (prompt[count] != '\0')
 	{
 		if (prompt[count] == 34 || prompt[count] == 39)
-		{
-			quote = prompt[count];
-			while (prompt[count] != quote)
-				count++;
-		}
+			ignore_quotes(&count, prompt);
 		if (prompt[count] == '|')
 		{
 			count++;
@@ -75,33 +70,25 @@ int	check_quotes(char *prompt)
 int	check_redirect(char *prompt)
 {
 	int		count;
-	char	quote;
 
 	count = -1;
 	while (prompt[++count] != '\0')
 	{
 		if (prompt[count] == 34 || prompt[count] == 39)
-		{
-			quote = prompt[count];
-			while (prompt[count] != quote)
-				count ++;
-		}
+			ignore_quotes(&count, prompt);
 		if (prompt[count] == '>' || prompt[count] == '<')
 		{
 			count++;
 			if ((prompt[count] != prompt[count - 1]) && (prompt[count] == '>'
-			|| prompt[count] == '<'))
+					|| prompt[count] == '<'))
 				return (-1);
 			else if (prompt[count] == '>' || prompt[count] == '<')
 				count++;
 			while (prompt[count] == ' ' || prompt[count] == '\t')
 				count++;
-			if(prompt[count] == '\0' || prompt[count] == '|' 
+			if (prompt[count] == '\0' || prompt[count] == '|'
 				|| prompt[count] == '>' || prompt[count] == '<')
-			{
-				printf("error redirect\n");
 				return (-1);
-			}
 		}
 		count++;
 	}
@@ -129,5 +116,3 @@ int	check_empty(char *prompt)
 	else
 		return (0);
 }
-
-//void 	walk_space()

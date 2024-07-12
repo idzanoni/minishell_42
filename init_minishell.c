@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 16:46:48 by izanoni           #+#    #+#             */
-/*   Updated: 2024/07/11 19:49:04 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/12 17:01:05 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	process_input(t_minishell *s_minishell)
 	free(s_minishell->input);
 	if (!s_minishell->normalized_prompt)
 	{
-		print_error("er","ror\n");
+		printf("error\n");
 		return;
 	}
 	new_prompt(s_minishell->normalized_prompt);
@@ -58,7 +58,7 @@ void	process_input(t_minishell *s_minishell)
 	free(s_minishell->normalized_prompt);
 	if (!s_minishell->splited_prompt)
 	{
-		print_error("er","ror\n");
+		printf("error\n");
 		return;
 	}
 	handle_commands(s_minishell);
