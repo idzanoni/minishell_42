@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 19:13:15 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/07/12 19:57:58 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/15 15:22:38 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ char	*malloc_var(char *input, t_env_list	*envp)
 	char	*result;
 	int		i;
 	int		len;
+	char	*substr;
 
 	i = 0;
 	len = malloc_len(input, envp);
@@ -49,7 +50,11 @@ char	*malloc_var(char *input, t_env_list	*envp)
 			walk_simple_quote(&i, input, result, &len);
 		else if (input[i] == '$' && (ft_isalpha(input[i + 1]) == 1
 				|| input[i + 1] == '_'))
-			put_result(put_substr(&i, input), &len, envp, result);
+			{
+				substr = put_substr(&i, input);
+				put_result(substr, &len, envp, result);
+				free(substr);
+			}
 		else
 			result[len++] = input[i++];
 	}

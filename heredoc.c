@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 14:10:52 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/07/12 18:01:33 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/15 16:33:12 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,13 @@ char	*get_heredoc_name(void)
 	return (name);
 }
 
-void	heredoc(t_minishell *s_minishell)
+int 	heredoc(t_minishell *s_minishell)
 {
 	int	count;
 	int	count_command;
 	int	fd;
 
+	sig_heredoc();
 	count = pipes_count(s_minishell->splited_prompt);
 	s_minishell->heredoc_names = malloc((count + 2) * sizeof(char *));
 	initialize_with_empty_strings(s_minishell->heredoc_names, count + 2);
@@ -60,15 +61,30 @@ void	heredoc(t_minishell *s_minishell)
 		if (s_minishell->splited_prompt[count][0] == '<'
 		&& s_minishell->splited_prompt[count][1] == '<')
 		{
-			heredoc_process(&count, s_minishell, &count_command, &fd);
+			if(heredoc_process(&count, s_minishell,
+				&count_command, &fd) == 1)
+			{
+				free(s_minishell->heredoc_names[count_command]);
+				s_minishell->heredoc_names[count_command] = NULL;
+				count_command++;
+				while(s_minishell->heredoc_names[count_command] != NULL)
+				{
+					free(s_minishell->heredoc_names[count_command]);
+					count_command++;
+				}
+				free_all(s_minishell->heredoc_names);
+				close(fd);
+				return (1);
+			}
 			close(fd);
 		}
 		else
 			count++;
 	}
+	return(0);
 }
 
-void	heredoc_process(int	*count, t_minishell *s_minishell,
+int	heredoc_process(int	*count, t_minishell *s_minishell,
 			int *count_command, int *fd)
 {
 	char	*limit;
@@ -78,6 +94,8 @@ void	heredoc_process(int	*count, t_minishell *s_minishell,
 	limit = s_minishell->splited_prompt[(*count)];
 	free(s_minishell->heredoc_names[(*count_command)]);
 	s_minishell->heredoc_names[(*count_command)] = get_heredoc_name();
+	if(s_minishell->heredoc_names[(*count_command)] == NULL)
+				return(1);
 	(*fd) = open(s_minishell->heredoc_names[(*count_command)],
 			O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	cmp = readline(">");
@@ -94,4 +112,7 @@ void	heredoc_process(int	*count, t_minishell *s_minishell,
 	}
 	free(cmp);
 	(*count)++;
+	if (g_signal == SIGINT)
+		return (1);
+	return(0);
 }

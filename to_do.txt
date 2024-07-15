@@ -13,3 +13,26 @@
 - comandos simples
 - built-ins
 
+bt_cd.c
+bt_echo.c
+bt_env.c
+bt_export.c
+bt_pwd.c
+bt_unset.c
+check_command.c
+check_input.c
+envp_funcitions.c
+error.c
+exec_command2.c
+exec_commnad.c
+expand_var2.c
+expand_var.c
+free_all.c
+heredoc.c
+init_minishell.c
+norme_prompt.c
+redirect.c
+signals.c
+t_list_functions.c
+utils_functions.c
+bt_exit.c

@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 19:19:29 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/07/12 18:56:09 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/15 13:07:50 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 
 int	bt_cd(t_minishell *s_minishell)
 {
-	char	*path = getcwd(NULL, 0);
+	char	*path;
 
+	path = getcwd(NULL, 0);
 	if (s_minishell->current_command[1] == NULL)
 	{
 		return (change_to_home_directory(s_minishell->envp, path));

@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 15:38:22 by izanoni           #+#    #+#             */
-/*   Updated: 2024/07/12 19:57:39 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/15 15:54:55 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	free_redirect(char **splited_prompt)
 	}
 }
 
-t_fds	find_redirect(char **splited_prompt)
+t_fds	find_redirect(t_minishell *s_minishell)
 {
 	t_fds	fd_redirect;
 	int		count;
@@ -46,29 +46,31 @@ t_fds	find_redirect(char **splited_prompt)
 	fd_redirect.fd_in = STDIN_FILENO;
 	fd_redirect.fd_out = STDOUT_FILENO;
 	count = 0;
-	while (splited_prompt[count] != NULL)
+	while (s_minishell->current_command[count] != NULL)
 	{
-		if (splited_prompt[count][0] == '>')
+		if (s_minishell->current_command[count][0] == '>')
 		{
 			if (fd_redirect.fd_out != STDOUT_FILENO)
 				close (fd_redirect.fd_out);
-			if (splited_prompt[count][1] == '>')
-				fd_redirect.fd_out = open (splited_prompt[count + 1],
+			if (s_minishell->current_command[count][1] == '>')
+				fd_redirect.fd_out = open (s_minishell->current_command[count + 1],
 						O_CREAT | O_WRONLY | O_APPEND, 0644);
 			else
-				fd_redirect.fd_out = open (splited_prompt[count + 1],
+				fd_redirect.fd_out = open (s_minishell->current_command[count + 1],
 						O_CREAT | O_WRONLY | O_TRUNC, 0644);
 		}
-		else if (splited_prompt[count][0] == '<')
+		else if (s_minishell->current_command[count][0] == '<')
 		{
 			if (fd_redirect.fd_in != STDIN_FILENO)
 				close (fd_redirect.fd_in);
-		//	if (splited_prompt[count][1] == '<')
-		//	{} (chamar heredoc)
+			if (s_minishell->current_command[count][1] == '<')
+				fd_redirect.fd_in = open(s_minishell->current_heredoc, O_RDONLY);
 			else
-				fd_redirect.fd_in = open (splited_prompt[count + 1], O_RDONLY);
+				fd_redirect.fd_in = open (s_minishell->current_command[count + 1], O_RDONLY);
 		}
 		count++;
+		if(fd_redirect.fd_in == -1 || fd_redirect.fd_out == -1)
+			break ;
 	}
 	return (fd_redirect);
 }

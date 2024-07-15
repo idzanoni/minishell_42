@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:06:53 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/07/12 19:57:57 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/15 15:34:28 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,10 @@ void	ignore_quotes(int *count, char *prompt)
 	char	quote;
 
 	quote = prompt[(*count)];
+	(*count)++;
 	while (prompt[(*count)] != quote)
 		(*count)++;
+	(*count)++;
 }
 
 int	pipes_count(char **prompt)
@@ -36,6 +38,7 @@ int	pipes_count(char **prompt)
 	}
 	return (count_pipes);
 }
+
 void	new_prompt(char *prompt)
 {
 	int		count;

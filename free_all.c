@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 19:39:06 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/07/12 17:08:58 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/15 15:43:22 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	free_all(char **malloc_string)
 	int	count;
 
 	count = 0;
-	if (!malloc_string)
+	if (malloc_string == NULL)
 		return ;
 	while (malloc_string[count] != NULL)
 	{

@@ -6,15 +6,15 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 17:13:50 by izanoni           #+#    #+#             */
-/*   Updated: 2024/07/12 19:57:58 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/15 14:48:37 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL
-# define MINISHELL
+#ifndef MINISHELL_H
+# define MINISHELL_H
 
-#include <stdio.h>
-#include <string.h>
+# include <stdio.h>
+# include <string.h>
 #include <stdlib.h>
 #include <readline/readline.h>
 #include <readline/history.h>
@@ -157,8 +157,8 @@ void		free_list(t_env_list *envp);
 //heredoc
 void		initialize_with_empty_strings(char **heredoc_name, int size);
 char		*get_heredoc_name(void);
-void		heredoc(t_minishell *s_minishell);
-void		heredoc_process(int	*count, t_minishell *s_minishell, int *count_command, int *fd);
+int		heredoc(t_minishell *s_minishell);
+int		heredoc_process(int	*count, t_minishell *s_minishell, int *count_command, int *fd);
 
 //init_minishell
 int			main(int argc, char **argv, char **envp);
@@ -172,9 +172,6 @@ char		*norme_string(char *prompt);
 char		*malloc_prompt(char *prompt);
 void		norme_char(int *count, int *count_result, char	*result, char	*prompt);
 
-//redirect
-void		free_redirect(char **splited_prompt);
-t_fds		find_redirect(char **splited_prompt);
 
 //signals
 void		handle_signals(void);
@@ -191,7 +188,7 @@ int			ft_lstsize(t_env_list *lst);
 
 //redirect
 void		free_redirect(char **splited_prompt);
-t_fds		find_redirect(char **splited_prompt);
+t_fds		find_redirect(t_minishell *s_minishell);
 
 //utils_fincitions
 void		ignore_quotes(int *count, char *prompt);

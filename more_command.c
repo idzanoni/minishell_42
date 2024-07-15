@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 19:54:57 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/07/12 19:57:58 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/15 13:11:36 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,9 @@ void execute_commands(t_minishell *s_minishell, int count_pipes, int *fork_retur
 
 	fork_return[j] = -42;
 }
-void handle_child_process(t_minishell *s_minishell, int count_pipes, int fds[2], int fd_bkp)
+
+void	handle_child_process(t_minishell *s_minishell, int count_pipes,
+	int fds[2], int fd_bkp)
 {
 	rl_clear_history();
 	s_minishell->current_command = get_command(s_minishell->splited_prompt);
@@ -95,7 +97,9 @@ void handle_child_process(t_minishell *s_minishell, int count_pipes, int fds[2],
 	free_list(s_minishell->envp);
 	exit(142);
 }
-void handle_parent_process(t_minishell *s_minishell, int fds[2], int *fd_bkp, int count_pipes)
+
+void	handle_parent_process(t_minishell *s_minishell, int fds[2],
+	int *fd_bkp, int count_pipes)
 {
 	free_all(get_command(s_minishell->splited_prompt));
 
@@ -107,10 +111,12 @@ void handle_parent_process(t_minishell *s_minishell, int fds[2], int *fd_bkp, in
 	if (count_pipes > 0)
 		close(fds[1]);
 }
-void wait_for_children(int *fork_return)
-{
-	int i = 0;
 
+void	wait_for_children(int *fork_return)
+{
+	int	i;
+
+	i = 0;
 	while (fork_return[i] != -42)
 	{
 		waitpid(fork_return[i], NULL, 0);

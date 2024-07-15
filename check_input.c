@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 17:12:45 by izanoni           #+#    #+#             */
-/*   Updated: 2024/07/12 17:08:24 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/15 15:35:33 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,12 +71,12 @@ int	check_redirect(char *prompt)
 {
 	int		count;
 
-	count = -1;
-	while (prompt[++count] != '\0')
+	count = 0;
+	while (prompt[count] != '\0')
 	{
 		if (prompt[count] == 34 || prompt[count] == 39)
 			ignore_quotes(&count, prompt);
-		if (prompt[count] == '>' || prompt[count] == '<')
+		else if (prompt[count] == '>' || prompt[count] == '<')
 		{
 			count++;
 			if ((prompt[count] != prompt[count - 1]) && (prompt[count] == '>'
@@ -90,7 +90,8 @@ int	check_redirect(char *prompt)
 				|| prompt[count] == '>' || prompt[count] == '<')
 				return (-1);
 		}
-		count++;
+		else
+			count++;
 	}
 	return (0);
 }

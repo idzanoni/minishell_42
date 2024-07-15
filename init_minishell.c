@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 16:46:48 by izanoni           #+#    #+#             */
-/*   Updated: 2024/07/12 17:01:05 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/15 19:07:40 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,24 +34,25 @@ void minishell(t_minishell *s_minishell)
 		if (!s_minishell->input)
 		{
 			free_list(s_minishell->envp);
-			break;
+			break ;
 		}
 		process_input(s_minishell);
 	}
 }
+
 void	process_input(t_minishell *s_minishell)
 {
 	if (check_prompt(s_minishell->input) < 0)
 	{
 		free(s_minishell->input);
-		return;
+		return ;
 	}
 	s_minishell->normalized_prompt = norme_string(s_minishell->input);
 	free(s_minishell->input);
 	if (!s_minishell->normalized_prompt)
 	{
 		printf("error\n");
-		return;
+		return ;
 	}
 	new_prompt(s_minishell->normalized_prompt);
 	s_minishell->splited_prompt = ft_split(s_minishell->normalized_prompt, -42);
@@ -59,7 +60,7 @@ void	process_input(t_minishell *s_minishell)
 	if (!s_minishell->splited_prompt)
 	{
 		printf("error\n");
-		return;
+		return ;
 	}
 	handle_commands(s_minishell);
 	free_all(s_minishell->splited_prompt);
@@ -69,7 +70,8 @@ void handle_commands(t_minishell *s_minishell)
 {
 	if (check_heredoc(s_minishell->splited_prompt) == 1)
 	{
-		heredoc(s_minishell);
+		if(heredoc(s_minishell) == 1)
+			return ;
 	}
 	if (find_pipe(s_minishell->splited_prompt) == 1)
 		more_command(s_minishell);
@@ -77,61 +79,13 @@ void handle_commands(t_minishell *s_minishell)
 	{
 		s_minishell->current_command = s_minishell->splited_prompt;
 		s_minishell->splited_prompt = NULL;
+		if (s_minishell->heredoc_names != NULL)
+			s_minishell->current_heredoc = s_minishell->heredoc_names[0];
 		bt_or_exec(s_minishell);
+		free_all(s_minishell->heredoc_names);
+		free_all(s_minishell->current_command);
 	}
 }
-
-/* void	minishell(t_minishell *s_minishell)
-{
-
-	while (1)
-	{
-		s_minishell->input = readline("shellzinho: ");
-		if (!s_minishell->input)
-		{
-			free_list(s_minishell->envp);
-			break ;
-		}
-		else
-		{
-			if (check_prompt(s_minishell->input) < 0)
-			{
-				free (s_minishell->input);
-				continue ;
-			}
-			s_minishell->normalized_prompt = norme_string(s_minishell->input);
-		}
-		free (s_minishell->input);
-		if (s_minishell->normalized_prompt == NULL)
-		{
-			printf("error\n");
-			continue ;
-		}
-		new_prompt(s_minishell->normalized_prompt);
-		s_minishell->splited_prompt = ft_split(s_minishell->normalized_prompt, -42);
-		if (!s_minishell->splited_prompt)
-		{
-			printf("error\n");
-			free (s_minishell->normalized_prompt);
-			continue ;
-		}
-		free (s_minishell->normalized_prompt);
-		if (check_heredoc(s_minishell->splited_prompt) == 1)
-			heredoc(s_minishell);
-		if (find_pipe(s_minishell->splited_prompt) == 1)
-		{
-			printf("entrei\n");
-			more_command(s_minishell);
-		}
-		else
-		{
-			s_minishell->current_command = s_minishell->splited_prompt;
-			s_minishell->splited_prompt = NULL;
-			bt_or_exec(s_minishell);
-		}
-		free_all (s_minishell->splited_prompt);
-	}
-} */
 
 t_env_list	*duplic_envp(char	**envp)
 {
@@ -153,10 +107,11 @@ t_env_list	*duplic_envp(char	**envp)
 
 int	main(int argc, char **argv, char **envp)
 {
+	t_minishell	s_minishell;
+
 	(void)argc;
 	(void)argv;
-	t_minishell s_minishell;
-
+	ft_bzero(&s_minishell, sizeof(t_minishell));
 	s_minishell.envp = duplic_envp(envp);
 	handle_signals();
 	minishell(&s_minishell);
