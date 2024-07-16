@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
+/*   By: izanoni <izanoni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 14:10:52 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/07/15 16:33:12 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/16 17:23:56 by izanoni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,15 +64,7 @@ int 	heredoc(t_minishell *s_minishell)
 			if(heredoc_process(&count, s_minishell,
 				&count_command, &fd) == 1)
 			{
-				free(s_minishell->heredoc_names[count_command]);
-				s_minishell->heredoc_names[count_command] = NULL;
-				count_command++;
-				while(s_minishell->heredoc_names[count_command] != NULL)
-				{
-					free(s_minishell->heredoc_names[count_command]);
-					count_command++;
-				}
-				free_all(s_minishell->heredoc_names);
+				free_heredoc_names(s_minishell, &count_command);
 				close(fd);
 				return (1);
 			}
@@ -82,6 +74,19 @@ int 	heredoc(t_minishell *s_minishell)
 			count++;
 	}
 	return(0);
+}
+
+void	free_heredoc_names(t_minishell *s_minishell, int *count_command)
+{
+	free(s_minishell->heredoc_names[(*count_command)]);
+	s_minishell->heredoc_names[(*count_command)] = NULL;
+	(*count_command)++;
+	while(s_minishell->heredoc_names[(*count_command)] != NULL)
+	{
+		free(s_minishell->heredoc_names[(*count_command)]);
+		(*count_command)++;
+	}
+	free_all(s_minishell->heredoc_names);
 }
 
 int	heredoc_process(int	*count, t_minishell *s_minishell,

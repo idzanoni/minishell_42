@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_commnad.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
+/*   By: izanoni <izanoni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 17:13:41 by izanoni           #+#    #+#             */
-/*   Updated: 2024/07/12 17:21:58 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/16 17:39:55 by izanoni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ void	command_exec(t_minishell *s_minishell, t_fds fd_redirect)
 		{
 			printf("command not found\n");
 			free_all(s_minishell->current_command);
+			free_list(s_minishell->envp);
+			free_all(s_minishell->heredoc_names);
 			exit(142);
 		}
 		if (fd_redirect.fd_in != STDIN_FILENO)
@@ -64,6 +66,7 @@ void	command_exec(t_minishell *s_minishell, t_fds fd_redirect)
 		free_all(s_minishell->current_command);
 		free_all(s_minishell->splited_prompt);
 		free_list(s_minishell->envp);
+		free_all(s_minishell->heredoc_names);
 		free(path);
 		exit(142);
 	}
@@ -222,15 +225,20 @@ char **get_command(char **splited_prompt)
 		return (NULL);
 	free(splited_prompt[i]); // Dar free no pipe (sem isso dá leak)
 	i = 0;
-	while (i < count_lines)
-	{
-		command[i] = splited_prompt[i];
-		i++;
-	}
-	command[i] = NULL;
+	while_get_command(command, splited_prompt, &i, &count_lines);
 	i = 0;
 	while (splited_prompt[count_lines] != NULL)
 		splited_prompt[i++] = splited_prompt[++count_lines];
 	splited_prompt[i] = NULL;
 	return (command);
+}
+
+void while_get_command(char **command, char **splited_prompt, int *i, int *count_lines)
+{
+	while ((*i) < (*count_lines))
+	{
+		command[(*i)] = splited_prompt[(*i)];
+		(*i)++;
+	}
+	command[(*i)] = NULL;
 }

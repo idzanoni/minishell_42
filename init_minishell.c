@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_minishell.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
+/*   By: izanoni <izanoni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 16:46:48 by izanoni           #+#    #+#             */
-/*   Updated: 2024/07/15 19:07:40 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/16 16:53:55 by izanoni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,9 @@ void handle_commands(t_minishell *s_minishell)
 		if (s_minishell->heredoc_names != NULL)
 			s_minishell->current_heredoc = s_minishell->heredoc_names[0];
 		bt_or_exec(s_minishell);
-		free_all(s_minishell->heredoc_names);
+		if (s_minishell->heredoc_names != NULL)
+			free_all(s_minishell->heredoc_names);
+		s_minishell->heredoc_names = NULL;
 		free_all(s_minishell->current_command);
 	}
 }

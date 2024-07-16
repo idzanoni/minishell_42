@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_command2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
+/*   By: izanoni <izanoni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 18:33:42 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/07/15 19:20:28 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/16 19:55:33 by izanoni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	bt_or_exec(t_minishell *s_minishell)
 	{	
 		bt_check = check_builtin(s_minishell->current_command[0]);
 		if (bt_check > 0)
-			exec_bt(bt_check, s_minishell);
+			exec_bt(bt_check, s_minishell, fd_redirect);
 		else
 			command_exec(s_minishell, fd_redirect);
 	}
@@ -44,10 +44,10 @@ void	bt_or_exec(t_minishell *s_minishell)
 		close (fd_redirect.fd_in);
 }
 
-void	exec_bt(int bt_check, t_minishell *s_minishell)
+void	exec_bt(int bt_check, t_minishell *s_minishell, t_fds fd_redirect)
 {
-	//if (bt_check == 1)
-	//	bt_exit(s_minishell);
+	if (bt_check == 1)
+		bt_exit(s_minishell, fd_redirect);
 	if (bt_check == 2)
 		bt_env(s_minishell->envp);
 	if (bt_check == 3)

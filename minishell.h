@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
+/*   By: izanoni <izanoni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 17:13:50 by izanoni           #+#    #+#             */
-/*   Updated: 2024/07/15 14:48:37 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/16 19:55:42 by izanoni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ void		echo_n(int *n, int *count, int *val, char **splited_prompt);
 int			bt_env(t_env_list *envp);
 
 //bt_exit
+void		bt_exit(t_minishell *s_minishell, t_fds	fd_redirect);
 
 //bt_export
 void		bt_export(t_minishell	*s_minishell);
@@ -125,7 +126,7 @@ char		*create_error_message(char *var, char *message);
 
 //exec_command2
 void		bt_or_exec(t_minishell *s_minishell);
-void		exec_bt(int bt_check, t_minishell *s_minishell);
+void		exec_bt(int bt_check, t_minishell *s_minishell, t_fds fd_redirect);
 int			check_builtin(char *splited_prompt);
 
 //exec_command
@@ -149,6 +150,7 @@ char		*malloc_var(char *input, t_env_list	*envp);
 void		walk_simple_quote(int *i, char *input, char *result, int *len);
 void		put_result(char *substr, int *len, t_env_list *envp, char *result);
 char		*put_substr(int *i, char *input);
+void while_get_command(char **command, char **splited_prompt, int *i, int *count_lines);
 
 //free_all
 void		free_all(char **malloc_string);
@@ -159,6 +161,8 @@ void		initialize_with_empty_strings(char **heredoc_name, int size);
 char		*get_heredoc_name(void);
 int		heredoc(t_minishell *s_minishell);
 int		heredoc_process(int	*count, t_minishell *s_minishell, int *count_command, int *fd);
+void	free_heredoc_names(t_minishell *s_minishell, int *count_command);
+
 
 //init_minishell
 int			main(int argc, char **argv, char **envp);
