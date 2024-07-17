@@ -6,7 +6,7 @@
 /*   By: izanoni <izanoni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 16:46:48 by izanoni           #+#    #+#             */
-/*   Updated: 2024/07/16 16:53:55 by izanoni          ###   ########.fr       */
+/*   Updated: 2024/07/17 17:22:48 by izanoni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,13 +80,18 @@ void handle_commands(t_minishell *s_minishell)
 		s_minishell->current_command = s_minishell->splited_prompt;
 		s_minishell->splited_prompt = NULL;
 		if (s_minishell->heredoc_names != NULL)
+		{
 			s_minishell->current_heredoc = s_minishell->heredoc_names[0];
+			s_minishell->heredoc_names = NULL;
+		}
 		bt_or_exec(s_minishell);
-		if (s_minishell->heredoc_names != NULL)
-			free_all(s_minishell->heredoc_names);
-		s_minishell->heredoc_names = NULL;
-		free_all(s_minishell->current_command);
+		free (s_minishell->current_heredoc);
+		s_minishell->current_heredoc = NULL;
 	}
+	if (s_minishell->heredoc_names != NULL)
+		free_all(s_minishell->heredoc_names);
+	s_minishell->heredoc_names = NULL;
+	free_all(s_minishell->current_command);
 }
 
 t_env_list	*duplic_envp(char	**envp)

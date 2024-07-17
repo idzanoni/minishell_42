@@ -3,31 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   bt_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
+/*   By: izanoni <izanoni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 19:19:29 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/07/15 13:07:50 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/17 20:12:48 by izanoni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	bt_cd(t_minishell *s_minishell)
+void	bt_cd(t_minishell *s_minishell)
 {
 	char	*path;
 
 	path = getcwd(NULL, 0);
 	if (s_minishell->current_command[1] == NULL)
 	{
-		return (change_to_home_directory(s_minishell->envp, path));
+		change_to_home_directory(s_minishell->envp, path);
+		return ;
 	}
 	if (s_minishell->current_command[2])
 	{
-		print_error("cd", ": too many arguments");
-		return (1);
+		write(2, "cd: too many arguments\n", 24);
+		return ;
 	}
-	return (change_directory(s_minishell->current_command[1],
-			s_minishell->envp, path));
+	change_directory(s_minishell->current_command[1], s_minishell->envp, path);
 }
 
 int	change_to_home_directory(t_env_list *envp, char *old_path)
@@ -37,7 +37,7 @@ int	change_to_home_directory(t_env_list *envp, char *old_path)
 	new_path = return_value(envp, "HOME");
 	if (!new_path)
 	{
-		print_error("cd", ": HOME not set");
+		write(2, "cd: HOME not set\n", 18);
 		return (1);
 	}
 	if (chdir(new_path) < 0)

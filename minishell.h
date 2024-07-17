@@ -6,20 +6,21 @@
 /*   By: izanoni <izanoni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 17:13:50 by izanoni           #+#    #+#             */
-/*   Updated: 2024/07/16 19:55:42 by izanoni          ###   ########.fr       */
+/*   Updated: 2024/07/17 20:16:07 by izanoni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include <stdio.h>
-# include <string.h>
+#include <stdio.h>
+#include <string.h>
 #include <stdlib.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <unistd.h>
 #include <sys/wait.h>
+#include <sys/stat.h>
 #include <fcntl.h>	
 #include <signal.h>
 
@@ -58,21 +59,20 @@ typedef struct s_env_list
 }	t_env_list;
 
 
-struct s_minishell
+typedef struct s_minishell
 {
 	char		*input;
 	char		*normalized_prompt;
 	char		**splited_prompt;
-	char        **current_command;
-	t_env_list 	*envp;
-	char        **heredoc_names;
+	char		**current_command;
+	t_env_list	*envp;
+	char		**heredoc_names;
 	char		*current_heredoc;
-	int            exit_status;
-};
-typedef struct s_minishell    t_minishell;
+	int			exit_status;
+}	t_minishell;
 
 //bt_cd
-int			bt_cd(t_minishell *s_minishell);
+void		bt_cd(t_minishell *s_minishell);
 int			change_to_home_directory(t_env_list *envp, char *old_path);
 int			change_directory(char *dir, t_env_list *envp, char *old_path);
 void		update_wd(char *new_path, t_env_list *envp, char *old_path);
@@ -136,6 +136,7 @@ char		*find_path(char *splited_prompt, t_env_list *envp);
 char		*return_value(t_env_list	*envp, char *var);
 void		more_command(t_minishell *s_minishell);
 char		**get_command(char **splited_prompt);
+int			valid_path(char *path);
 
 //expand_var
 void		move_matrix(char **splited_prompt, int start);

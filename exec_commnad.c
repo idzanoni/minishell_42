@@ -6,7 +6,7 @@
 /*   By: izanoni <izanoni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 17:13:41 by izanoni           #+#    #+#             */
-/*   Updated: 2024/07/16 17:39:55 by izanoni          ###   ########.fr       */
+/*   Updated: 2024/07/17 19:41:32 by izanoni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ void	command_exec(t_minishell *s_minishell, t_fds fd_redirect)
 {
 	int		fork_return;
 	char	*path;
+	char	**temp_envp;
+	int		exit_status;
 
 	fork_return = fork();
 	if (fork_return == -1)
@@ -50,7 +52,7 @@ void	command_exec(t_minishell *s_minishell, t_fds fd_redirect)
 			free_all(s_minishell->current_command);
 			free_list(s_minishell->envp);
 			free_all(s_minishell->heredoc_names);
-			exit(142);
+			exit(127);
 		}
 		if (fd_redirect.fd_in != STDIN_FILENO)
 		{
@@ -62,16 +64,51 @@ void	command_exec(t_minishell *s_minishell, t_fds fd_redirect)
 			dup2 (fd_redirect.fd_out, STDOUT_FILENO);
 			close (fd_redirect.fd_out);
 		}
-		execve(path, s_minishell->current_command, execve_envp(s_minishell->envp));
+		exit_status = valid_path(path);
+		if (exit_status == 42)// validar path
+		{
+			temp_envp = execve_envp(s_minishell->envp);
+			execve(path, s_minishell->current_command, temp_envp);
+			free_all(temp_envp);
+		}
 		free_all(s_minishell->current_command);
 		free_all(s_minishell->splited_prompt);
 		free_list(s_minishell->envp);
 		free_all(s_minishell->heredoc_names);
 		free(path);
-		exit(142);
+		exit(exit_status);
 	}
 	else
 		wait(NULL);
+}
+
+int	valid_path(char *path)
+{
+	struct stat	path_status;
+
+	if (path == NULL)
+	{
+		write(2, "Command not found\n", 19);
+		return (127);
+	}
+	if (access(path, F_OK) != 0)
+	{
+		write(2, "No such file or directory\n", 27);
+		return (127);
+	}
+	stat(path, &path_status);
+	if (S_ISDIR(path_status	.st_mode) != 0)
+	{
+		write(2, "Is a directory\n", 16);
+		return (126);
+	}
+	if (access(path, X_OK) != 0)
+	{
+		write(2, "Permission denied\n", 19);
+		return (126);
+	}
+	else
+		return (42);
 }
 
 char	*find_path(char *splited_prompt, t_env_list *envp)
@@ -83,6 +120,8 @@ char	*find_path(char *splited_prompt, t_env_list *envp)
 	int		i;
 
 	i = 0;
+	if (splited_prompt[i] == '\0')
+		return (NULL);
 	if (ft_strchr(splited_prompt, '/') != NULL)
 		return (splited_prompt);
 	path_env = return_value(envp, "PATH");
@@ -99,7 +138,7 @@ char	*find_path(char *splited_prompt, t_env_list *envp)
 		if (!path)
 			break ;
 		if (access(path, F_OK) == 0)
-		{	
+		{
 			free_all(splited_path);
 			return (path);
 		}
@@ -133,6 +172,21 @@ char	*return_value(t_env_list	*envp, char *var)
 	return (NULL);
 }
 
+void	free_heredocs_but_not_index(char **heredocs, int index)
+{
+	int	i;
+
+	if (heredocs == NULL || heredocs[0] == NULL)
+		return ;
+	i = 0;
+	while (heredocs[i] != NULL)
+	{
+		if (i != index)
+			free(heredocs[i]);
+		i++;
+	}
+	free(heredocs);
+}
 
 void    more_command(t_minishell *s_minishell)
 {
@@ -165,8 +219,13 @@ void    more_command(t_minishell *s_minishell)
 		{
 			rl_clear_history();
 			free(fork_return);
+			s_minishell->current_heredoc = s_minishell->heredoc_names[j];
+			move_matrix(s_minishell->heredoc_names, j);
 			s_minishell->current_command = get_command(s_minishell->splited_prompt);
 			free_all (s_minishell->splited_prompt);
+			free_all (s_minishell->heredoc_names);
+			s_minishell->splited_prompt = NULL;
+			s_minishell->heredoc_names = NULL;
 			if (count_pipes > 0) // Mudei apenas para que fique mais visual o que ocorre no comando
 			{
 				dup2 (fds[1], STDOUT_FILENO);
@@ -181,6 +240,7 @@ void    more_command(t_minishell *s_minishell)
 			close(STDOUT_FILENO); // E esse aqui, são para evitar fds abertos
 			free_all(s_minishell->current_command);
 			free_list(s_minishell->envp);
+			free (s_minishell->current_heredoc);
 			exit(142);
 		}
 		else

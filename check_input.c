@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_input.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
+/*   By: izanoni <izanoni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 17:12:45 by izanoni           #+#    #+#             */
-/*   Updated: 2024/07/15 15:35:33 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/17 16:26:14 by izanoni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	check_pipes(char *prompt)
 	{
 		if (prompt[count] == 34 || prompt[count] == 39)
 			ignore_quotes(&count, prompt);
-		if (prompt[count] == '|')
+		else if (prompt[count] == '|')
 		{
 			count++;
 			while (prompt[count] == ' ' || prompt[count] == '	')
