@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bt_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: izanoni <izanoni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 19:19:29 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/07/17 20:12:48 by izanoni          ###   ########.fr       */
+/*   Updated: 2024/07/19 16:10:08 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	bt_cd(t_minishell *s_minishell)
 	if (s_minishell->current_command[1] == NULL)
 	{
 		change_to_home_directory(s_minishell->envp, path);
+		free (path);
 		return ;
 	}
 	if (s_minishell->current_command[2])
@@ -28,6 +29,7 @@ void	bt_cd(t_minishell *s_minishell)
 		return ;
 	}
 	change_directory(s_minishell->current_command[1], s_minishell->envp, path);
+	free (path);
 }
 
 int	change_to_home_directory(t_env_list *envp, char *old_path)
@@ -47,6 +49,7 @@ int	change_to_home_directory(t_env_list *envp, char *old_path)
 	}
 	new_path = getcwd(NULL, 0);
 	update_wd(new_path, envp, old_path);
+	free(new_path);
 	return (0);
 }
 
@@ -61,6 +64,7 @@ int	change_directory(char *dir, t_env_list *envp, char *old_path)
 	}
 	new_path = getcwd(NULL, 0);
 	update_wd(new_path, envp, old_path);
+	free(new_path);
 	return (0);
 }
 

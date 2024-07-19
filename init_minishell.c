@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_minishell.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: izanoni <izanoni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 16:46:48 by izanoni           #+#    #+#             */
-/*   Updated: 2024/07/17 17:22:48 by izanoni          ###   ########.fr       */
+/*   Updated: 2024/07/19 18:09:10 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 
 int    g_signal = 0;
 
-void minishell(t_minishell *s_minishell)
+void	minishell(t_minishell *s_minishell)
 {
 	while (1)
 	{
@@ -66,11 +66,11 @@ void	process_input(t_minishell *s_minishell)
 	free_all(s_minishell->splited_prompt);
 }
 
-void handle_commands(t_minishell *s_minishell)
+void	handle_commands(t_minishell *s_minishell)
 {
 	if (check_heredoc(s_minishell->splited_prompt) == 1)
 	{
-		if(heredoc(s_minishell) == 1)
+		if (heredoc(s_minishell) == 1)
 			return ;
 	}
 	if (find_pipe(s_minishell->splited_prompt) == 1)
@@ -82,6 +82,7 @@ void handle_commands(t_minishell *s_minishell)
 		if (s_minishell->heredoc_names != NULL)
 		{
 			s_minishell->current_heredoc = s_minishell->heredoc_names[0];
+			free(s_minishell->heredoc_names);
 			s_minishell->heredoc_names = NULL;
 		}
 		bt_or_exec(s_minishell);
@@ -91,7 +92,9 @@ void handle_commands(t_minishell *s_minishell)
 	if (s_minishell->heredoc_names != NULL)
 		free_all(s_minishell->heredoc_names);
 	s_minishell->heredoc_names = NULL;
-	free_all(s_minishell->current_command);
+	if (s_minishell->current_command != NULL)
+		free_all(s_minishell->current_command);
+	s_minishell->current_command = NULL;
 }
 
 t_env_list	*duplic_envp(char	**envp)

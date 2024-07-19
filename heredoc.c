@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: izanoni <izanoni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 14:10:52 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/07/16 17:23:56 by izanoni          ###   ########.fr       */
+/*   Updated: 2024/07/19 18:08:26 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ int 	heredoc(t_minishell *s_minishell)
 	return(0);
 }
 
+
 void	free_heredoc_names(t_minishell *s_minishell, int *count_command)
 {
 	free(s_minishell->heredoc_names[(*count_command)]);
@@ -107,7 +108,7 @@ int	heredoc_process(int	*count, t_minishell *s_minishell,
 	while (cmp != NULL && (ft_memcmp(limit, cmp, ft_strlen(limit)) != 0
 			|| ft_memcmp(limit, cmp, ft_strlen(cmp)) != 0))
 	{
-		cmp = malloc_var(cmp, s_minishell->envp);
+		cmp = malloc_var(cmp, s_minishell->envp, s_minishell);
 		write((*fd), cmp, ft_strlen(cmp));
 		write((*fd), "\n", 1);
 		free(cmp);

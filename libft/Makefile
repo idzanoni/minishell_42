@@ -3,16 +3,16 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: izanoni <izanoni@student.42.fr>            +#+  +:+       +#+         #
+#    By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/08 15:02:27 by izanoni           #+#    #+#              #
-#    Updated: 2024/06/20 18:44:44 by izanoni          ###   ########.fr        #
+#    Updated: 2024/07/19 19:19:27 by mgonzaga         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libft.a
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -c
+CFLAGS = -Wall -Wextra -Werror -c -g
 AR = ar rcs
 
 FILES = ft_isalnum.c ft_isprint.c ft_memcpy.c ft_putendl_fd.c ft_strchr.c ft_strlcat.c ft_strncmp.c ft_substr.c \

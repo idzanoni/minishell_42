@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 19:21:15 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/07/12 18:57:57 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/19 19:31:43 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	move_matrix(char **splited_prompt, int start)
 	}
 }
 
-void	expand_var(char **splited_prompt, t_env_list *envp)
+void	expand_var(char **splited_prompt, t_env_list *envp, t_minishell *s_minishell)
 {
 	int	count;
 
@@ -32,7 +32,7 @@ void	expand_var(char **splited_prompt, t_env_list *envp)
 	while (splited_prompt[count] != NULL)
 	{
 		mod_quots(splited_prompt[count]);
-		splited_prompt[count] = malloc_var(splited_prompt[count], envp);
+		splited_prompt[count] = malloc_var(splited_prompt[count], envp, s_minishell);
 		if (splited_prompt[count][0] == '\0')
 		{
 			free(splited_prompt[count]);
@@ -98,7 +98,7 @@ void	remov_quots(char *input)
 	}
 }
 
-int	malloc_len(char	*input, t_env_list	*envp)
+int	malloc_len(char	*input, t_env_list	*envp, t_minishell *s_minishell)
 {
 	int		len;
 	int		i;
@@ -121,8 +121,26 @@ int	malloc_len(char	*input, t_env_list	*envp)
 			if (ft_isalpha(input[i]) == 1 || input[i] == '_')
 				malloc_len_process(input, &len, &i, envp);
 		}
+		else if (input[i] == '$' && input[i + 1] == '?')
+		{
+			len = len - 2 + count_digits(s_minishell->exit_status);
+			i = i + 2;
+		}
 		else
 			i++;
 	}
 	return (len);
+}
+
+int count_digits(int i)
+{
+	int count;
+
+	count = 1;
+	while (i >= 10)
+	{
+		i = i / 10;
+		count++;
+	}
+	return(count);
 }

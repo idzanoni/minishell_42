@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 19:13:15 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/07/15 15:22:38 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/19 19:42:14 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,28 +33,38 @@ void	malloc_len_process(char	*input, int *len, int *i, t_env_list *envp)
 	free(substr);
 }
 
-char	*malloc_var(char *input, t_env_list	*envp)
+char	*malloc_var(char *input, t_env_list	*envp, t_minishell *s_minishell)
 {
 	char	*result;
 	int		i;
 	int		len;
 	char	*substr;
+	char	*str_exit_status;
 
 	i = 0;
-	len = malloc_len(input, envp);
+	len = malloc_len(input, envp, s_minishell);
 	result = calloc(len + 1, sizeof(char));
 	len = 0;
 	while (input[i] != '\0')
 	{
 		if (input[i] == -21)
 			walk_simple_quote(&i, input, result, &len);
-		else if (input[i] == '$' && (ft_isalpha(input[i + 1]) == 1
-				|| input[i + 1] == '_'))
-			{
-				substr = put_substr(&i, input);
-				put_result(substr, &len, envp, result);
-				free(substr);
-			}
+		else if (input[i] == '$' && input[i + 1] == '?')
+		{
+			str_exit_status = ft_itoa(s_minishell->exit_status);
+			if (str_exit_status == NULL)
+			{}
+			ft_strlcpy(result + len, str_exit_status, ft_strlen(str_exit_status) + 1);
+			len = len + ft_strlen(str_exit_status);
+			i = i + 2;
+			free(str_exit_status);
+		}
+		else if (input[i] == '$' && (ft_isalpha(input[i + 1]) == 1 || input[i + 1] == '_'))
+		{
+			substr = put_substr(&i, input);
+			put_result(substr, &len, envp, result);
+			free(substr);
+		}
 		else
 			result[len++] = input[i++];
 	}

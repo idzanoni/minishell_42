@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bt_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: izanoni <izanoni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 12:37:07 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/07/16 16:24:51 by izanoni          ###   ########.fr       */
+/*   Updated: 2024/07/19 18:24:38 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ void	bt_export(t_minishell	*s_minishell)
 			if (ft_isalpha(s_minishell->current_command[count][0]) == 1
 			|| s_minishell->current_command[count][0] == '_')
 			{
-				valid_export_var_name (&count, &i, s_minishell->current_command);
+				valid_export_var_name (&count, &i,
+					s_minishell->current_command);
 				find_inenvp_export(local, s_minishell, &count, &i);
 			}
 			else
@@ -42,13 +43,29 @@ void	bt_export(t_minishell	*s_minishell)
 
 void	export_only(t_minishell *s_minishell)
 {
-	t_env_list *temp;
-	
+	t_env_list	*temp;
+	int			index;
+
 	temp = s_minishell->envp;
 	while (temp != NULL)
 	{
 		ft_putstr_fd("declare -x ", 1);
-		ft_putendl_fd(temp->content, 1);
+		index = 0;
+		if (ft_strchr(temp->content, '=') != NULL)
+		{
+			while (temp->content[index] != '=')
+			{
+				ft_putchar_fd(temp->content[index], 1);
+				index++;
+			}
+			ft_putchar_fd(temp->content[index++], 1);
+			ft_putchar_fd('"', 1);
+			ft_putstr_fd(&temp->content[index], 1);
+			ft_putendl_fd("\"", 1);
+		}
+
+		else
+			ft_putendl_fd(temp->content, 1);
 		temp = temp->next;
 	}
 }
@@ -57,19 +74,19 @@ void	find_inenvp_export(t_env_list *local, t_minishell *s_minishell,
 				int *count, int	*i)
 {
 	if (valid_var(s_minishell->envp,
-			s_minishell->splited_prompt[(*count)]) == 1)
+			s_minishell->current_command[(*count)]) == 1)
 	{
-		if (s_minishell->splited_prompt[(*count)][(*i)] == '=')
+		if (s_minishell->current_command[(*count)][(*i)] == '=')
 		{
 			local = localize_envp(s_minishell->envp,
-					s_minishell->splited_prompt[(*count)]);
+					s_minishell->current_command[(*count)]);
 			free(local->content);
-			local->content = ft_strdup(s_minishell->splited_prompt[(*count)]);
+			local->content = ft_strdup(s_minishell->current_command[(*count)]);
 		}
 	}
 	else
 		ft_lstadd_back (&s_minishell->envp,
-			ft_lstnew(ft_strdup(s_minishell->splited_prompt[(*count)])));
+			ft_lstnew(ft_strdup(s_minishell->current_command[(*count)])));
 }
 
 void	valid_export_var_name(int *count, int *i, char **splited_prompt)

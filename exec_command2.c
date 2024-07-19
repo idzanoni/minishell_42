@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_command2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: izanoni <izanoni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 18:33:42 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/07/16 19:55:33 by izanoni          ###   ########.fr       */
+/*   Updated: 2024/07/19 19:14:18 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	bt_or_exec(t_minishell *s_minishell)
 {
-	int		bt_check;
 	t_fds	fd_redirect;
 
 	fd_redirect = find_redirect (s_minishell);
@@ -28,20 +27,27 @@ void	bt_or_exec(t_minishell *s_minishell)
 		return ;
 	}
 	free_redirect(s_minishell->current_command);
-	expand_var(s_minishell->current_command, s_minishell->envp);
 	if (s_minishell->current_command != NULL
 		&& s_minishell->current_command[0] != NULL)
-	{	
-		bt_check = check_builtin(s_minishell->current_command[0]);
-		if (bt_check > 0)
-			exec_bt(bt_check, s_minishell, fd_redirect);
-		else
-			command_exec(s_minishell, fd_redirect);
-	}
+		expand_var(s_minishell->current_command, s_minishell->envp, s_minishell);
+	if (s_minishell->current_command != NULL
+		&& s_minishell->current_command[0] != NULL)
+		exec_commands (s_minishell, fd_redirect);
 	if (fd_redirect.fd_out != STDOUT_FILENO)
 		close (fd_redirect.fd_out);
 	if (fd_redirect.fd_in != STDIN_FILENO)
 		close (fd_redirect.fd_in);
+}
+
+void	exec_commands(t_minishell *s_minishell, t_fds	fd_redirect)
+{
+	int		bt_check;
+
+	bt_check = check_builtin(s_minishell->current_command[0]);
+	if (bt_check > 0)
+		exec_bt(bt_check, s_minishell, (fd_redirect));
+	else
+		command_exec(s_minishell, (fd_redirect));
 }
 
 void	exec_bt(int bt_check, t_minishell *s_minishell, t_fds fd_redirect)
@@ -60,24 +66,4 @@ void	exec_bt(int bt_check, t_minishell *s_minishell, t_fds fd_redirect)
 		bt_export(s_minishell);
 	if (bt_check == 7)
 		bt_unset(s_minishell);
-}
-
-int	check_builtin(char *splited_prompt)
-{
-	if (!ft_memcmp(splited_prompt, EXIT, ft_strlen(EXIT)))
-		return (1);
-	if (!ft_memcmp(splited_prompt, ENV, ft_strlen(ENV)))
-		return (2);
-	if (!ft_memcmp(splited_prompt, ECHO, ft_strlen(ECHO)))
-		return (3);
-	if (!ft_memcmp(splited_prompt, PWD, ft_strlen(PWD)))
-		return (4);
-	if (!ft_memcmp(splited_prompt, CD, ft_strlen(CD)))
-		return (5);
-	if (!ft_memcmp(splited_prompt, EXPORT, ft_strlen(EXPORT)))
-		return (6);
-	if (!ft_memcmp(splited_prompt, UNSET, ft_strlen(UNSET)))
-		return (7);
-	else
-		return (0);
 }

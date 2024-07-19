@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: izanoni <izanoni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 17:13:50 by izanoni           #+#    #+#             */
-/*   Updated: 2024/07/17 20:16:07 by izanoni          ###   ########.fr       */
+/*   Updated: 2024/07/19 19:27:19 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,9 @@ int			bt_env(t_env_list *envp);
 
 //bt_exit
 void		bt_exit(t_minishell *s_minishell, t_fds	fd_redirect);
+void		cleanup_and_exit(t_minishell *s_minishell, t_fds fd_redirect);
+int			is_numeric_argument(char *arg);
+void		handle_exit_arguments(t_minishell *s_minishell);
 
 //bt_export
 void		bt_export(t_minishell	*s_minishell);
@@ -127,7 +130,7 @@ char		*create_error_message(char *var, char *message);
 //exec_command2
 void		bt_or_exec(t_minishell *s_minishell);
 void		exec_bt(int bt_check, t_minishell *s_minishell, t_fds fd_redirect);
-int			check_builtin(char *splited_prompt);
+void		exec_commands(t_minishell *s_minishell, t_fds	fd_redirect);
 
 //exec_command
 char		**execve_envp(t_env_list *envp);
@@ -140,18 +143,23 @@ int			valid_path(char *path);
 
 //expand_var
 void		move_matrix(char **splited_prompt, int start);
-void		expand_var(char **splited_prompt, t_env_list *envp);
+void		expand_var(char **splited_prompt, t_env_list *envp, t_minishell *s_minishell);
 void		mod_quots(char *input);
 void		remov_quots(char *input);
-int			malloc_len(char	*input, t_env_list	*envp);
+int			malloc_len(char	*input, t_env_list	*envp, t_minishell *s_minishell);
+int 		count_digits(int i);
+
+
 
 //expand_var2
 void		malloc_len_process(char	*input, int *len, int *i, t_env_list *envp);
-char		*malloc_var(char *input, t_env_list	*envp);
+char		*malloc_var(char *input, t_env_list	*envp, t_minishell *s_minishell);
 void		walk_simple_quote(int *i, char *input, char *result, int *len);
 void		put_result(char *substr, int *len, t_env_list *envp, char *result);
 char		*put_substr(int *i, char *input);
-void while_get_command(char **command, char **splited_prompt, int *i, int *count_lines);
+void		while_get_command(char **command, char **splited_prompt, int *i, int *count_lines);
+
+
 
 //free_all
 void		free_all(char **malloc_string);
@@ -199,5 +207,7 @@ t_fds		find_redirect(t_minishell *s_minishell);
 void		ignore_quotes(int *count, char *prompt);
 int			pipes_count(char **prompt);
 void		new_prompt(char *prompt);
+int			check_builtin(char *splited_prompt);
+void		copy_quotes(int *count, char *prompt, int *len, char *result);
 
 #endif
