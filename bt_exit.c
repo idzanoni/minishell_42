@@ -6,19 +6,19 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 19:20:11 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/07/19 16:25:39 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/20 17:02:45 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void bt_exit(t_minishell *s_minishell, t_fds fd_redirect)
+void	bt_exit(t_minishell *s_minishell, t_fds fd_redirect)
 {
 	handle_exit_arguments(s_minishell);
 	cleanup_and_exit(s_minishell, fd_redirect);
 }
 
-void handle_exit_arguments(t_minishell *s_minishell)
+void	handle_exit_arguments(t_minishell *s_minishell)
 {
 	if (s_minishell->current_command[1] != NULL && 
 			s_minishell->current_command[2] != NULL)
@@ -42,7 +42,7 @@ void handle_exit_arguments(t_minishell *s_minishell)
 	}
 }
 
-int is_numeric_argument(char *arg)
+int	is_numeric_argument(char *arg)
 {
 	int i;
 
@@ -52,7 +52,7 @@ int is_numeric_argument(char *arg)
 	return (arg[i] == '\0' && i > 0);
 }
 
-void cleanup_and_exit(t_minishell *s_minishell, t_fds fd_redirect)
+void	cleanup_and_exit(t_minishell *s_minishell, t_fds fd_redirect)
 {
 	free_all (s_minishell->current_command);
 	free_all (s_minishell->heredoc_names);

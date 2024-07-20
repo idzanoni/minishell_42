@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 19:21:15 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/07/19 19:31:43 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/20 19:47:56 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	expand_var(char **splited_prompt, t_env_list *envp, t_minishell *s_minishel
 		{
 			free(splited_prompt[count]);
 			move_matrix(splited_prompt, count);
-		}
+		}	
 		remov_quots(splited_prompt[count]);
 		count++;
 	}

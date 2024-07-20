@@ -6,21 +6,22 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 16:04:03 by izanoni           #+#    #+#             */
-/*   Updated: 2024/07/12 17:20:57 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/20 16:22:37 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	print_error(char *var, char *message)
+int	print_error(char *var, char *message)
 {
 	char	*temp;
 
 	temp = create_error_message(var, message);
 	if (!temp)
-		return ;
+		return (write(2, "error\n", 6) * 0 + 1);
 	write(2, temp, ft_strlen(temp));
 	free(temp);
+	return (1);
 }
 
 char	*create_error_message(char *var, char *message)

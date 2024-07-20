@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 14:10:52 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/07/19 18:08:26 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/20 15:21:39 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,16 +33,19 @@ char	*get_heredoc_name(void)
 
 	string_of_heredoc_number = ft_itoa(heredoc_number);
 	if (string_of_heredoc_number == NULL)
-   {}
+		return (NULL);
 	heredoc_number++;
 	name = ft_strjoin("/tmp/heredoc", string_of_heredoc_number);
 	if (name == NULL)
-	{}
+	{
+		free(name);
+		return (NULL);
+	}
 	free(string_of_heredoc_number);
 	return (name);
 }
 
-int 	heredoc(t_minishell *s_minishell)
+int	heredoc(t_minishell *s_minishell)
 {
 	int	count;
 	int	count_command;
@@ -61,47 +64,42 @@ int 	heredoc(t_minishell *s_minishell)
 		if (s_minishell->splited_prompt[count][0] == '<'
 		&& s_minishell->splited_prompt[count][1] == '<')
 		{
-			if(heredoc_process(&count, s_minishell,
-				&count_command, &fd) == 1)
-			{
-				free_heredoc_names(s_minishell, &count_command);
-				close(fd);
-				return (1);
-			}
+			if (heredoc_process(&count, s_minishell, &count_command, &fd) == 1)
+				return (free_heredoc_names(s_minishell, &count_command, &fd));
 			close(fd);
 		}
 		else
 			count++;
 	}
-	return(0);
+	return (0);
 }
 
 
-void	free_heredoc_names(t_minishell *s_minishell, int *count_command)
+int	free_heredoc_names(t_minishell *s_minishell, int *count_command, int *fd)
 {
 	free(s_minishell->heredoc_names[(*count_command)]);
 	s_minishell->heredoc_names[(*count_command)] = NULL;
 	(*count_command)++;
-	while(s_minishell->heredoc_names[(*count_command)] != NULL)
+	while (s_minishell->heredoc_names[(*count_command)] != NULL)
 	{
 		free(s_minishell->heredoc_names[(*count_command)]);
 		(*count_command)++;
 	}
 	free_all(s_minishell->heredoc_names);
+	close((*fd));
+	return (1);
 }
 
 int	heredoc_process(int	*count, t_minishell *s_minishell,
-			int *count_command, int *fd)
+		int *count_command, int *fd)
 {
 	char	*limit;
 	char	*cmp;
 
-	(*count)++;
-	limit = s_minishell->splited_prompt[(*count)];
-	free(s_minishell->heredoc_names[(*count_command)]);
-	s_minishell->heredoc_names[(*count_command)] = get_heredoc_name();
-	if(s_minishell->heredoc_names[(*count_command)] == NULL)
-				return(1);
+	limit = NULL;
+	util_heredoc(&limit, s_minishell, &(*count), &(*count_command));
+	if (s_minishell->heredoc_names[(*count_command)] == NULL)
+		return (1);
 	(*fd) = open(s_minishell->heredoc_names[(*count_command)],
 			O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	cmp = readline(">");
@@ -109,8 +107,7 @@ int	heredoc_process(int	*count, t_minishell *s_minishell,
 			|| ft_memcmp(limit, cmp, ft_strlen(cmp)) != 0))
 	{
 		cmp = malloc_var(cmp, s_minishell->envp, s_minishell);
-		write((*fd), cmp, ft_strlen(cmp));
-		write((*fd), "\n", 1);
+		ft_putendl_fd(cmp, (*fd));
 		free(cmp);
 		cmp = readline(">");
 		if (cmp == NULL)
@@ -120,5 +117,5 @@ int	heredoc_process(int	*count, t_minishell *s_minishell,
 	(*count)++;
 	if (g_signal == SIGINT)
 		return (1);
-	return(0);
+	return (0);
 }

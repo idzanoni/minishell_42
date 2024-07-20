@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: izanoni <izanoni@student.42.fr>            +#+  +:+       +#+         #
+#    By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/20 17:13:45 by izanoni           #+#    #+#              #
-#    Updated: 2024/07/16 19:56:11 by izanoni          ###   ########.fr        #
+#    Updated: 2024/07/20 15:16:11 by mgonzaga         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,6 +40,7 @@ FILES = $(addsuffix .c, bt_cd\
 			check_command\
 			envp_funcitions\
 			utils_functions\
+			utils_functions2\
 			bt_exit)
 			 
 OBJ = $(FILES:%.c=%.o)			

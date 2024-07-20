@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 18:33:42 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/07/19 19:14:18 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/20 17:02:05 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,15 +55,15 @@ void	exec_bt(int bt_check, t_minishell *s_minishell, t_fds fd_redirect)
 	if (bt_check == 1)
 		bt_exit(s_minishell, fd_redirect);
 	if (bt_check == 2)
-		bt_env(s_minishell->envp);
+		bt_env(s_minishell, fd_redirect);
 	if (bt_check == 3)
-		bt_echo(s_minishell);
+		bt_echo(s_minishell, fd_redirect);
 	if (bt_check == 4)
-		bt_pwd();
+		bt_pwd(s_minishell, fd_redirect);
 	if (bt_check == 5)
 		bt_cd(s_minishell);
 	if (bt_check == 6)
-		bt_export(s_minishell);
+		bt_export(s_minishell, fd_redirect);
 	if (bt_check == 7)
 		bt_unset(s_minishell);
 }

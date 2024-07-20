@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 19:13:15 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/07/19 19:42:14 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/20 19:54:31 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,13 +75,17 @@ char	*malloc_var(char *input, t_env_list	*envp, t_minishell *s_minishell)
 
 void	walk_simple_quote(int *i, char *input, char *result, int *len)
 {
+	result[(*len)] = input[(*i)];
 	(*i)++;
+	(*len)++;
 	while (input[(*i)] != -21 && input[(*i)] != '\0')
 	{
 		result[(*len)] = input[(*i)];
 		(*len)++;
 		(*i)++;
 	}
+	result[(*len)] = input[(*i)];
+	(*len)++;
 	(*i)++;
 }
 

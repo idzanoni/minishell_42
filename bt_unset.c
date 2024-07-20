@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bt_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: izanoni <izanoni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 15:59:21 by izanoni           #+#    #+#             */
-/*   Updated: 2024/07/16 16:23:07 by izanoni          ###   ########.fr       */
+/*   Updated: 2024/07/20 19:02:02 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,18 @@ char	*bt_unset(t_minishell *s_minishell)
 	int	i;
 
 	i = 1;
-	while (s_minishell->splited_prompt[i] != NULL)
+	s_minishell->exit_status = 0;
+	while (s_minishell->current_command[i] != NULL)
 	{
-		if (check_name(s_minishell->splited_prompt[i]) != 0)
+		if (check_name(s_minishell->current_command[i]) != 0)
 		{
-			print_error(s_minishell->splited_prompt[i],
+			print_error(s_minishell->current_command[i],
 				": not a valid identifier\n");
+			s_minishell->exit_status = 1;
 		}
 		else
 		{
-			process_prompt(s_minishell->splited_prompt[i], &s_minishell->envp);
+			process_prompt(s_minishell->current_command[i], &s_minishell->envp);
 		}
 		i++;
 	}

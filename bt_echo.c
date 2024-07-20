@@ -6,20 +6,13 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 19:18:17 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/07/19 18:52:36 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/20 19:38:12 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	print_matrix(char **m)
-{
-	puts("Matrix:");
-	for (int i = 0; m[i]; i++)
-		puts(m[i]);
-}
-
-void	bt_echo(t_minishell *s_minishell)
+void	bt_echo(t_minishell *s_minishell, t_fds fd_redirect)
 {
 	int	count;
 	int	n;
@@ -28,25 +21,26 @@ void	bt_echo(t_minishell *s_minishell)
 	count = 1;
 	n = 0;
 	val = 0;
-	//print_matrix(s_minishell->current_command);
 	while (s_minishell->current_command[count] != NULL)
 	{
 		if (s_minishell->current_command[count][0] == '-')
 			echo_n(&n, &count, &val, s_minishell->current_command);
 		else
 		{
-			ft_putstr_fd(s_minishell->current_command[count], 1);
+			ft_putstr_fd(s_minishell->current_command[count],
+				fd_redirect.fd_out);
 			if (s_minishell->current_command[count + 1] != NULL)
-				write(1, " ", 1);
+				write(fd_redirect.fd_out, " ", 1);
 			count++;
 			val++;
 		}
 	}
 	if (n == 0)
-		write(1, "\n", 1);
+		write(fd_redirect.fd_out, "\n", 1);
 }
 
-void	echo_n(int *n, int *count, int *val, char **splited_prompt)
+void	echo_n(int *n, int *count, int *val,
+	char **splited_prompt)
 {
 	if (splited_prompt[(*count)][1] == 'n' && (*val) == 0)
 	{
@@ -56,6 +50,7 @@ void	echo_n(int *n, int *count, int *val, char **splited_prompt)
 	else
 	{
 		ft_putstr_fd(splited_prompt[(*count)], 1);
+		write(1, " ", 1);
 		(*count)++;
 		(*val)++;
 	}

@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 17:13:50 by izanoni           #+#    #+#             */
-/*   Updated: 2024/07/19 19:27:19 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/20 16:54:12 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@ extern int g_signal;
 
 typedef struct s_fd_in_out
 {
-	int fd_in;
-	int fd_out;
+	int	fd_in;
+	int	fd_out;
 }	t_fds;
 
 typedef struct s_env_list
@@ -73,16 +73,16 @@ typedef struct s_minishell
 
 //bt_cd
 void		bt_cd(t_minishell *s_minishell);
-int			change_to_home_directory(t_env_list *envp, char *old_path);
+int			change_to_home_directory(t_minishell *s_minishell, char *old_path);
 int			change_directory(char *dir, t_env_list *envp, char *old_path);
 void		update_wd(char *new_path, t_env_list *envp, char *old_path);
 
 //bt_echo
-void		bt_echo(t_minishell *s_minishell);
+void		bt_echo(t_minishell *s_minishell, t_fds fd_redirect);
 void		echo_n(int *n, int *count, int *val, char **splited_prompt);
 
 //bt_env
-int			bt_env(t_env_list *envp);
+int			bt_env(t_minishell	*s_minishell, t_fds	fd_redirect);
 
 //bt_exit
 void		bt_exit(t_minishell *s_minishell, t_fds	fd_redirect);
@@ -91,14 +91,14 @@ int			is_numeric_argument(char *arg);
 void		handle_exit_arguments(t_minishell *s_minishell);
 
 //bt_export
-void		bt_export(t_minishell	*s_minishell);
-void		export_only(t_minishell *s_minishell);
-void		find_inenvp_export(t_env_list *local, t_minishell *s_minishell, int *count, int	*i);
-void		valid_export_var_name(int *count, int *i, char **splited_prompt);
+void		bt_export(t_minishell	*s_minishell, t_fds	fd_redirect);
+void		export_only(t_minishell *s_minishell, t_fds fd_redirect);
+void		find_inenvp_export(t_minishell *s_minishell, int *count, int	*i);
+void		valid_export_var_name(int *count, int *i, t_minishell *s_minishell);
 size_t		ft_strlen_2(const char *s);
 
 //bt_pwd
-void		bt_pwd(void);
+void		bt_pwd(t_minishell	*s_minishell, t_fds fd_redirect);
 
 //bt_unset
 char		*bt_unset(t_minishell *s_minishell);
@@ -124,7 +124,7 @@ t_env_list	*localize_envp(t_env_list *envp, char *var);
 int			valid_var(t_env_list *envp, char *var);
 
 //error
-void		print_error(char *var, char *message);
+int			print_error(char *var, char *message);
 char		*create_error_message(char *var, char *message);
 
 //exec_command2
@@ -143,21 +143,26 @@ int			valid_path(char *path);
 
 //expand_var
 void		move_matrix(char **splited_prompt, int start);
-void		expand_var(char **splited_prompt, t_env_list *envp, t_minishell *s_minishell);
+void		expand_var(char **splited_prompt, t_env_list *envp,
+				t_minishell *s_minishell);
 void		mod_quots(char *input);
 void		remov_quots(char *input);
-int			malloc_len(char	*input, t_env_list	*envp, t_minishell *s_minishell);
-int 		count_digits(int i);
+int			malloc_len(char	*input, t_env_list	*envp,
+				t_minishell *s_minishell);
+int			count_digits(int i);
 
 
 
 //expand_var2
-void		malloc_len_process(char	*input, int *len, int *i, t_env_list *envp);
-char		*malloc_var(char *input, t_env_list	*envp, t_minishell *s_minishell);
+void		malloc_len_process(char	*input, int *len,
+				int *i, t_env_list *envp);
+char		*malloc_var(char *input, t_env_list	*envp,
+				t_minishell *s_minishell);
 void		walk_simple_quote(int *i, char *input, char *result, int *len);
 void		put_result(char *substr, int *len, t_env_list *envp, char *result);
 char		*put_substr(int *i, char *input);
-void		while_get_command(char **command, char **splited_prompt, int *i, int *count_lines);
+void		while_get_command(char **command, char **splited_prompt,
+				int *i, int *count_lines);
 
 
 
@@ -168,9 +173,11 @@ void		free_list(t_env_list *envp);
 //heredoc
 void		initialize_with_empty_strings(char **heredoc_name, int size);
 char		*get_heredoc_name(void);
-int		heredoc(t_minishell *s_minishell);
-int		heredoc_process(int	*count, t_minishell *s_minishell, int *count_command, int *fd);
-void	free_heredoc_names(t_minishell *s_minishell, int *count_command);
+int			heredoc(t_minishell *s_minishell);
+int			heredoc_process(int	*count, t_minishell *s_minishell,
+				int *count_command, int *fd);
+int			free_heredoc_names(t_minishell *s_minishell,
+				int *count_command, int *fd);
 
 
 //init_minishell
@@ -183,7 +190,8 @@ void		minishell(t_minishell *s_minishell);
 //norme_prompt
 char		*norme_string(char *prompt);
 char		*malloc_prompt(char *prompt);
-void		norme_char(int *count, int *count_result, char	*result, char	*prompt);
+void		norme_char(int *count, int *count_result,
+				char	*result, char	*prompt);
 
 
 //signals
@@ -202,6 +210,10 @@ int			ft_lstsize(t_env_list *lst);
 //redirect
 void		free_redirect(char **splited_prompt);
 t_fds		find_redirect(t_minishell *s_minishell);
+void		left_redirect(t_minishell *s_minishell,
+				t_fds	*fd_redirect, int *count);
+void		right_redirect(t_minishell *s_minishell,
+				t_fds	*fd_redirect, int *count);
 
 //utils_fincitions
 void		ignore_quotes(int *count, char *prompt);
@@ -209,5 +221,9 @@ int			pipes_count(char **prompt);
 void		new_prompt(char *prompt);
 int			check_builtin(char *splited_prompt);
 void		copy_quotes(int *count, char *prompt, int *len, char *result);
+
+//utils_funcitions2
+void		util_heredoc(char **limit, t_minishell *s_minishell,
+				int *count, int *count_command);
 
 #endif

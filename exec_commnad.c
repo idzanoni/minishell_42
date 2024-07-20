@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_commnad.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: izanoni <izanoni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 17:13:41 by izanoni           #+#    #+#             */
-/*   Updated: 2024/07/17 19:41:32 by izanoni          ###   ########.fr       */
+/*   Updated: 2024/07/20 19:51:51 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,14 +46,14 @@ void	command_exec(t_minishell *s_minishell, t_fds fd_redirect)
 	{
 		rl_clear_history();
 		path = find_path(s_minishell->current_command[0], s_minishell->envp);
-		if (path == NULL)
+/* 		if (path == NULL)
 		{
 			printf("command not found\n");
 			free_all(s_minishell->current_command);
 			free_list(s_minishell->envp);
 			free_all(s_minishell->heredoc_names);
 			exit(127);
-		}
+		} */
 		if (fd_redirect.fd_in != STDIN_FILENO)
 		{
 			dup2 (fd_redirect.fd_in, STDIN_FILENO);
@@ -79,7 +79,8 @@ void	command_exec(t_minishell *s_minishell, t_fds fd_redirect)
 		exit(exit_status);
 	}
 	else
-		wait(NULL);
+		wait(&s_minishell->exit_status);
+	s_minishell->exit_status = WEXITSTATUS(s_minishell->exit_status);
 }
 
 int	valid_path(char *path)
@@ -241,7 +242,7 @@ void    more_command(t_minishell *s_minishell)
 			free_all(s_minishell->current_command);
 			free_list(s_minishell->envp);
 			free (s_minishell->current_heredoc);
-			exit(142);
+			exit(s_minishell->exit_status);
 		}
 		else
 		{
@@ -259,7 +260,8 @@ void    more_command(t_minishell *s_minishell)
 	i = 0;
 	while (fork_return[i] != -42)
 	{
-		waitpid(fork_return[i], NULL, 0);
+		waitpid(fork_return[i], &s_minishell->exit_status, 0);
+		s_minishell->exit_status = WEXITSTATUS(s_minishell->exit_status);
 		i++;
 	}
 	free(fork_return); // free no array (não precisamos mais dele agora)
@@ -293,7 +295,7 @@ char **get_command(char **splited_prompt)
 	return (command);
 }
 
-void while_get_command(char **command, char **splited_prompt, int *i, int *count_lines)
+void	while_get_command(char **command, char **splited_prompt, int *i, int *count_lines)
 {
 	while ((*i) < (*count_lines))
 	{

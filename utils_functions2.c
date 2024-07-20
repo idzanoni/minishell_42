@@ -1,24 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   bt_pwd.c                                           :+:      :+:    :+:   */
+/*   utils_functions2.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/18 19:17:20 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/07/20 16:31:18 by mgonzaga         ###   ########.fr       */
+/*   Created: 2024/07/20 15:15:30 by mgonzaga          #+#    #+#             */
+/*   Updated: 2024/07/20 15:33:13 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	bt_pwd(t_minishell *s_minishell, t_fds fd_redirect)
+void	util_heredoc(char **limit, t_minishell *s_minishell,
+			int *count, int *count_command)
 {
-	char	*path;
-
-	path = getcwd(NULL, 0);
-	ft_putstr_fd(path, fd_redirect.fd_out);
-	ft_putstr_fd("\n", fd_redirect.fd_out);
-	s_minishell->exit_status = 0;
-	free(path);
+	(*count)++;
+	(*limit) = s_minishell->splited_prompt[(*count)];
+	free(s_minishell->heredoc_names[(*count_command)]);
+	s_minishell->heredoc_names[(*count_command)] = get_heredoc_name();
 }
