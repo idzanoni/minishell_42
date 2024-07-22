@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 12:37:07 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/07/20 16:25:59 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/22 19:47:21 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	find_inenvp_export(t_minishell *s_minishell, int *count, int *i)
 {
 	t_env_list	*local;
 
-	if (valid_var(s_minishell->envp,
+	if (localize_envp2(s_minishell->envp,
 			s_minishell->current_command[(*count)]) == 1)
 	{
 		if (s_minishell->current_command[(*count)][(*i)] == '=')

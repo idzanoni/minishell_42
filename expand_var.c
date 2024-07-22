@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 19:21:15 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/07/20 19:47:56 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/22 16:59:35 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,13 @@ void	expand_var(char **splited_prompt, t_env_list *envp, t_minishell *s_minishel
 	{
 		mod_quots(splited_prompt[count]);
 		splited_prompt[count] = malloc_var(splited_prompt[count], envp, s_minishell);
-		if (splited_prompt[count][0] == '\0')
+		if (splited_prompt[count][0] == '\0' && (count == 0 || (splited_prompt[count - 1][0] != '<' && splited_prompt[count - 1][0] != '>')))
 		{
 			free(splited_prompt[count]);
 			move_matrix(splited_prompt, count);
-		}	
-		remov_quots(splited_prompt[count]);
+		}
+		if (splited_prompt[count] != NULL)
+			remov_quots(splited_prompt[count]);
 		count++;
 	}
 }

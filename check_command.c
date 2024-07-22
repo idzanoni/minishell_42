@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 17:35:39 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/07/12 19:59:57 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/22 19:18:36 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,9 @@ int	check_prompt(char *prompt)
 		return (-1);
 	}
 	if (check_pipes(prompt))
+	{
+		printf("syntax error near unexpected token `|'\n");
 		return (-1);
+	}
 	return (0);
 }

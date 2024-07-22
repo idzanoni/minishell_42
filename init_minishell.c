@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 16:46:48 by izanoni           #+#    #+#             */
-/*   Updated: 2024/07/19 18:09:10 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/22 20:29:50 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,17 +26,42 @@
 
 int    g_signal = 0;
 
+void	save_tty(int tty_fd)
+{
+	static struct termios	tty;
+
+	if (!tty_fd)
+		tcgetattr(STDIN_FILENO, &tty);
+	else
+		tcsetattr(STDIN_FILENO, TCSANOW, &tty);
+}
+
 void	minishell(t_minishell *s_minishell)
 {
+	int	bkp_fd;
+	
 	while (1)
 	{
+		bkp_fd = dup(STDIN_FILENO);
+		handle_signals();
 		s_minishell->input = readline("shellzinho: ");
 		if (!s_minishell->input)
 		{
+			if (g_signal == SIGINT)
+			{
+				s_minishell->exit_status = 130;
+				g_signal = 0;
+				dup2(bkp_fd, STDIN_FILENO);
+				close(bkp_fd);	
+				continue;	
+			}
+			close(bkp_fd);		
 			free_list(s_minishell->envp);
 			break ;
 		}
 		process_input(s_minishell);
+		close(bkp_fd);		
+
 	}
 }
 
@@ -68,13 +93,24 @@ void	process_input(t_minishell *s_minishell)
 
 void	handle_commands(t_minishell *s_minishell)
 {
+	int bkp_fd;
+	
 	if (check_heredoc(s_minishell->splited_prompt) == 1)
 	{
+		bkp_fd = dup(STDIN_FILENO);
 		if (heredoc(s_minishell) == 1)
+		{
+			dup2(bkp_fd, STDIN_FILENO);
+			close(bkp_fd);	
 			return ;
+		}
+		dup2(bkp_fd, STDIN_FILENO);
+		close(bkp_fd);
 	}
 	if (find_pipe(s_minishell->splited_prompt) == 1)
+	{
 		more_command(s_minishell);
+	}
 	else
 	{
 		s_minishell->current_command = s_minishell->splited_prompt;
@@ -121,10 +157,11 @@ int	main(int argc, char **argv, char **envp)
 
 	(void)argc;
 	(void)argv;
+	//save_tty(0);
 	ft_bzero(&s_minishell, sizeof(t_minishell));
 	s_minishell.envp = duplic_envp(envp);
-	handle_signals();
 	minishell(&s_minishell);
 	rl_clear_history();
+	close(STDIN_FILENO);
 	return (0);
 }

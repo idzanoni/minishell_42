@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 17:13:41 by izanoni           #+#    #+#             */
-/*   Updated: 2024/07/20 19:51:51 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/22 16:40:50 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	command_exec(t_minishell *s_minishell, t_fds fd_redirect)
 	int		exit_status;
 
 	fork_return = fork();
+	sig_execute(fork_return);
 	if (fork_return == -1)
 		return ;
 	if (fork_return == 0)
@@ -71,11 +72,14 @@ void	command_exec(t_minishell *s_minishell, t_fds fd_redirect)
 			execve(path, s_minishell->current_command, temp_envp);
 			free_all(temp_envp);
 		}
+		if (path != s_minishell->current_command[0])
+			free(path);
 		free_all(s_minishell->current_command);
 		free_all(s_minishell->splited_prompt);
 		free_list(s_minishell->envp);
 		free_all(s_minishell->heredoc_names);
-		free(path);
+		close(STDIN_FILENO);
+		close(STDOUT_FILENO);
 		exit(exit_status);
 	}
 	else
@@ -216,12 +220,16 @@ void    more_command(t_minishell *s_minishell)
 		if (count_pipes > 0)
 			pipe(fds);
 		fork_return[j] = fork();
+		sig_execute(fork_return[j]);
 		if (fork_return[j] == 0)
 		{
 			rl_clear_history();
 			free(fork_return);
-			s_minishell->current_heredoc = s_minishell->heredoc_names[j];
-			move_matrix(s_minishell->heredoc_names, j);
+			if (s_minishell->heredoc_names != NULL)
+			{
+				s_minishell->current_heredoc = s_minishell->heredoc_names[j];
+				move_matrix(s_minishell->heredoc_names, j);
+			}
 			s_minishell->current_command = get_command(s_minishell->splited_prompt);
 			free_all (s_minishell->splited_prompt);
 			free_all (s_minishell->heredoc_names);
@@ -272,7 +280,7 @@ char **get_command(char **splited_prompt)
 	int i;
 	int count_lines;
 	char **command;
-	
+
 	i = 0;
 	count_lines = 0;
 	while(splited_prompt[i] != NULL)

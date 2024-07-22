@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 19:19:29 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/07/20 19:20:48 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/22 14:38:54 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	bt_cd(t_minishell *s_minishell)
 	{
 		write(2, "cd: too many arguments\n", 24);
 		s_minishell->exit_status = 1;
+		free (path);
 		return ;
 	}
 	s_minishell->exit_status = change_directory

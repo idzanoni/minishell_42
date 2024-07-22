@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 19:20:11 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/07/20 17:02:45 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/22 14:53:21 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,17 @@ void	handle_exit_arguments(t_minishell *s_minishell)
 	if (s_minishell->current_command[1] != NULL && 
 			s_minishell->current_command[2] != NULL)
 	{
-		print_error(s_minishell->current_command[0], ": too many arguments");
-		s_minishell->exit_status = 2;
+		if (is_numeric_argument(s_minishell->current_command[1]))
+		{
+			print_error(s_minishell->current_command[0], 
+				": too many arguments");
+			s_minishell->exit_status = 1;
+		}
+		else
+		{
+			s_minishell->exit_status = 2;
+			print_error(s_minishell->current_command[0], ": too many arguments");
+		}
 	}
 	else if (s_minishell->current_command[1] != NULL)
 	{
@@ -47,6 +56,8 @@ int	is_numeric_argument(char *arg)
 	int i;
 
 	i = 0;
+	if (arg[i] == '-' || arg[i] == '+')
+		i++;
 	while (ft_isdigit(arg[i]) != 0)
 		i++;
 	return (arg[i] == '\0' && i > 0);

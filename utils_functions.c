@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:06:53 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/07/20 15:15:50 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/22 15:54:25 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,33 +56,37 @@ void	new_prompt(char *prompt)
 		}
 		else
 		{
-			while (prompt[count] != ' ' && prompt[count] != '\0'
-				&& prompt[count] != '	')
-				count++;
+			// while (prompt[count] != ' ' && prompt[count] != '\0'
+			// 	&& prompt[count] != '	')
 			if (prompt[count] == ' ' || prompt[count] == '	')
-			{
 				prompt[count] = -42;
-				count++;
-			}
+			count++;
 		}
 	}
 }
 
 int	check_builtin(char *splited_prompt)
 {
-	if (!ft_memcmp(splited_prompt, EXIT, ft_strlen(EXIT)))
+	if (!ft_memcmp(splited_prompt, EXIT, ft_strlen(EXIT))
+		&& !ft_memcmp(splited_prompt, EXIT, ft_strlen(splited_prompt)))
 		return (1);
-	if (!ft_memcmp(splited_prompt, ENV, ft_strlen(ENV)))
+	if (!ft_memcmp(splited_prompt, ENV, ft_strlen(ENV))
+		&& !ft_memcmp(splited_prompt, ENV, ft_strlen(splited_prompt)))
 		return (2);
-	if (!ft_memcmp(splited_prompt, ECHO, ft_strlen(ECHO)))
+	if (!ft_memcmp(splited_prompt, ECHO_CMD, ft_strlen(ECHO_CMD))
+		&& !ft_memcmp(splited_prompt, ECHO_CMD, ft_strlen(splited_prompt)))
 		return (3);
-	if (!ft_memcmp(splited_prompt, PWD, ft_strlen(PWD)))
+	if (!ft_memcmp(splited_prompt, PWD, ft_strlen(PWD))
+		&& !ft_memcmp(splited_prompt, PWD, ft_strlen(splited_prompt)))
 		return (4);
-	if (!ft_memcmp(splited_prompt, CD, ft_strlen(CD)))
+	if (!ft_memcmp(splited_prompt, CD, ft_strlen(CD))
+		&& !ft_memcmp(splited_prompt, CD, ft_strlen(splited_prompt)))
 		return (5);
-	if (!ft_memcmp(splited_prompt, EXPORT, ft_strlen(EXPORT)))
+	if (!ft_memcmp(splited_prompt, EXPORT, ft_strlen(EXPORT))
+		&& !ft_memcmp(splited_prompt, EXPORT, ft_strlen(splited_prompt)))
 		return (6);
-	if (!ft_memcmp(splited_prompt, UNSET, ft_strlen(UNSET)))
+	if (!ft_memcmp(splited_prompt, UNSET, ft_strlen(UNSET))
+		&& !ft_memcmp(splited_prompt, UNSET, ft_strlen(splited_prompt)))
 		return (7);
 	else
 		return (0);

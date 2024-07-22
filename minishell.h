@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 17:13:50 by izanoni           #+#    #+#             */
-/*   Updated: 2024/07/20 16:54:12 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/22 19:43:46 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include <stdlib.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+#include <termios.h>
 #include <unistd.h>
 #include <sys/wait.h>
 #include <sys/stat.h>
@@ -27,7 +28,7 @@
 # include "./libft/libft.h"
 
 #define EXIT "exit"
-#define ECHO "echo"
+#define ECHO_CMD "echo"
 #define PWD "pwd"
 #define ENV "env"
 #define CD "cd"
@@ -122,6 +123,8 @@ int			check_empty(char *prompt);
 //envp_funcitions
 t_env_list	*localize_envp(t_env_list *envp, char *var);
 int			valid_var(t_env_list *envp, char *var);
+
+int	localize_envp2(t_env_list *envp, char *var);
 
 //error
 int			print_error(char *var, char *message);

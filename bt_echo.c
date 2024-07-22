@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 19:18:17 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/07/20 19:38:12 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/22 19:21:51 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	bt_echo(t_minishell *s_minishell, t_fds fd_redirect)
 	count = 1;
 	n = 0;
 	val = 0;
+	s_minishell->exit_status = 0;
 	while (s_minishell->current_command[count] != NULL)
 	{
 		if (s_minishell->current_command[count][0] == '-')

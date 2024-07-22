@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 15:59:21 by izanoni           #+#    #+#             */
-/*   Updated: 2024/07/20 19:02:02 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/22 19:03:46 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*bt_unset(t_minishell *s_minishell)
 		if (check_name(s_minishell->current_command[i]) != 0)
 		{
 			print_error(s_minishell->current_command[i],
-				": not a valid identifier\n");
+				": not a valid identifier");
 			s_minishell->exit_status = 1;
 		}
 		else
