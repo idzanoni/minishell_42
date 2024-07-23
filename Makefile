@@ -6,7 +6,7 @@
 #    By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/20 17:13:45 by izanoni           #+#    #+#              #
-#    Updated: 2024/07/23 14:47:21 by mgonzaga         ###   ########.fr        #
+#    Updated: 2024/07/23 18:43:41 by mgonzaga         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,7 +42,8 @@ FILES = $(addsuffix .c, bt_cd\
 			utils_functions\
 			utils_functions2\
 			bt_exit\
-			utils_bt_or_exec)
+			utils_bt_or_exec\
+			main)
 			 
 OBJ = $(FILES:%.c=%.o)			
 
@@ -55,7 +56,7 @@ libs:
 	@make -C $(LIBFT) --silent
 
 v: all
-	valgrind --leak-check=full --show-leak-kinds=all --trace-children=yes --trace-children-skip=''*/bin/*,*/sbin/*'' --keep-debuginfo=yes \
+	valgrind --leak-check=full --show-leak-kinds=all --trace-children=yes --trace-children-skip='*/bin/*,*/sbin/*' --keep-debuginfo=yes \
 	--suppressions=leak_readline --track-fds=yes ./$(NAME)
 
 %.o: %.c

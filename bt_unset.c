@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 15:59:21 by izanoni           #+#    #+#             */
-/*   Updated: 2024/07/23 13:45:57 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/23 17:23:20 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,17 @@ char	*bt_unset(t_minishell *s_minishell)
 
 	i = 1;
 	s_minishell->exit_status = 0;
-	while (s_minishell->current_command[i] != NULL)
+	while (s_minishell->current_cmd[i] != NULL)
 	{
-		if (check_name(s_minishell->current_command[i]) != 0)
+		if (check_name(s_minishell->current_cmd[i]) != 0)
 		{
-			print_error(s_minishell->current_command[i],
+			print_error(s_minishell->current_cmd[i],
 				": not a valid identifier");
 			s_minishell->exit_status = 1;
 		}
 		else
 		{
-			process_prompt(s_minishell->current_command[i], &s_minishell->envp);
+			process_prompt(s_minishell->current_cmd[i], &s_minishell->envp);
 		}
 		i++;
 	}

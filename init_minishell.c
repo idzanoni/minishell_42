@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 16:46:48 by izanoni           #+#    #+#             */
-/*   Updated: 2024/07/23 14:48:12 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/23 18:43:49 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,17 @@
 
 /************************************************************************
  *																		*
- *				🚀🚀🚀 O MELHOR MINISHELL DO BRASIL 🚀🚀🚀			 *
+ *				🚀🚀🚀 O MELHOR MINISHELL DO BRASIL 🚀🚀🚀				 *
  *																		*
  ***********************************************************************/
 
 /************************************************************************
  *																		*
- *				  💻💻💻 Feito por Humanas Coders 💻💻💻			 *
+ *				  💻💻💻 Feito por Humanas Coders 💻💻💻				 *
  *																		*
  ***********************************************************************/
 
-int    g_signal = 0;
-
-void	save_tty(int tty_fd)
-{
-	static struct termios	tty;
-
-	if (!tty_fd)
-		tcgetattr(STDIN_FILENO, &tty);
-	else
-		tcsetattr(STDIN_FILENO, TCSANOW, &tty);
-}
+int	g_signal = 0;
 
 void	minishell(t_minishell *s_minishell)
 {
@@ -71,17 +61,17 @@ void	process_input(t_minishell *s_minishell, int bkp_fd)
 		close(bkp_fd);
 		return ;
 	}
-	s_minishell->normalized_prompt = norme_string(s_minishell->input);
+	s_minishell->norm_prompt = norme_string(s_minishell->input);
 	free(s_minishell->input);
-	if (!s_minishell->normalized_prompt)
+	if (!s_minishell->norm_prompt)
 	{
 		printf("error\n");
 		close(bkp_fd);
 		return ;
 	}
-	new_prompt(s_minishell->normalized_prompt);
-	s_minishell->splited_prompt = ft_split(s_minishell->normalized_prompt, -42);
-	free(s_minishell->normalized_prompt);
+	new_prompt(s_minishell->norm_prompt);
+	s_minishell->splited_prompt = ft_split(s_minishell->norm_prompt, -42);
+	free(s_minishell->norm_prompt);
 	if (!s_minishell->splited_prompt)
 	{
 		printf("error\n");
@@ -111,24 +101,29 @@ void	handle_commands(t_minishell *s_minishell, int bkp_fd)
 	}
 	else
 	{
-		s_minishell->current_command = s_minishell->splited_prompt;
-		s_minishell->splited_prompt = NULL;
-		if (s_minishell->heredoc_names != NULL)
-		{
-			s_minishell->current_heredoc = s_minishell->heredoc_names[0];
-			free(s_minishell->heredoc_names);
-			s_minishell->heredoc_names = NULL;
-		}
-		bt_or_exec(s_minishell);
-		free (s_minishell->current_heredoc);
-		s_minishell->current_heredoc = NULL;
+		single_cmd(s_minishell);
 	}
 	if (s_minishell->heredoc_names != NULL)
 		free_all(s_minishell->heredoc_names);
 	s_minishell->heredoc_names = NULL;
-	if (s_minishell->current_command != NULL)
-		free_all(s_minishell->current_command);
-	s_minishell->current_command = NULL;
+	if (s_minishell->current_cmd != NULL)
+		free_all(s_minishell->current_cmd);
+	s_minishell->current_cmd = NULL;
+}
+
+void	single_cmd(t_minishell *s_minishell)
+{
+	s_minishell->current_cmd = s_minishell->splited_prompt;
+	s_minishell->splited_prompt = NULL;
+	if (s_minishell->heredoc_names != NULL)
+	{
+		s_minishell->current_heredoc = s_minishell->heredoc_names[0];
+		free(s_minishell->heredoc_names);
+		s_minishell->heredoc_names = NULL;
+	}
+	bt_or_exec(s_minishell);
+	free (s_minishell->current_heredoc);
+	s_minishell->current_heredoc = NULL;
 }
 
 t_env_list	*duplic_envp(char	**envp)
@@ -147,19 +142,4 @@ t_env_list	*duplic_envp(char	**envp)
 		count_lines++;
 	}
 	return (new_envp);
-}
-
-int	main(int argc, char **argv, char **envp)
-{
-	t_minishell	s_minishell;
-
-	(void)argc;
-	(void)argv;
-	//save_tty(0);
-	ft_bzero(&s_minishell, sizeof(t_minishell));
-	s_minishell.envp = duplic_envp(envp);
-	minishell(&s_minishell);
-	rl_clear_history();
-	close(STDIN_FILENO);
-	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 12:37:07 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/07/23 13:44:58 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/23 18:45:48 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,25 +20,54 @@ void	bt_export(t_minishell *s_minishell, t_fds fd_redirect)
 	count = 1;
 	i = 1;
 	s_minishell->exit_status = 0;
-	if (s_minishell->current_command[1] == NULL)
+	if (s_minishell->current_cmd[1] == NULL)
 		export_only(s_minishell, fd_redirect);
 	else
 	{
-		while (s_minishell->current_command[count] != NULL)
+		while (s_minishell->current_cmd[count] != NULL)
 		{
-			if (ft_isalpha(s_minishell->current_command[count][0]) == 1
-			|| s_minishell->current_command[count][0] == '_')
+			if (ft_isalpha(s_minishell->current_cmd[count][0]) == 1
+			|| s_minishell->current_cmd[count][0] == '_')
 			{
 				valid_export_var_name (&count, &i, s_minishell);
 				find_inenvp_export(s_minishell, &count, &i);
 			}
 			else
 				s_minishell->exit_status = print_error(\
-					s_minishell->current_command[count], \
+					s_minishell->current_cmd[count], \
 						": not a valid identifier");
 			count++;
 		}
 	}
+}
+
+void	print_different(t_env_list *env, int fd)
+{
+	int			len;
+	int			words_len;
+	char		*all_line;
+	t_env_list	*temp;
+
+	temp = env;
+	len = ft_lstsize(env);
+	words_len = 0;
+	while (temp != NULL)
+	{
+		words_len += ft_strlen(temp->content);
+		temp = temp->next;
+	}
+	all_line = malloc((len + words_len + 1) * sizeof(char));
+	all_line[0] = 0;
+	len = 0;
+	while (env != NULL)
+	{
+		len += ft_strlcpy(all_line + len, env->content, ft_strlen(env->content) + 1);
+		all_line[len++] = '\n';
+		all_line[len] = '\0';
+		env = env->next;
+	}
+	write(fd, all_line, len);
+	free(all_line);
 }
 
 void	export_only(t_minishell *s_minishell, t_fds fd_redirect)
@@ -47,21 +76,23 @@ void	export_only(t_minishell *s_minishell, t_fds fd_redirect)
 	int			index;
 
 	temp = s_minishell->envp;
+	print_different(temp, fd_redirect.fd_out);
+	return ;
 	while (temp != NULL)
 	{
 		ft_putstr_fd("declare -x ", fd_redirect.fd_out);
 		index = 0;
 		if (ft_strchr(temp->content, '=') != NULL)
 		{
-			while (temp->content[index] != '=')
-			{
-				ft_putchar_fd(temp->content[index], fd_redirect.fd_out);
-				index++;
-			}
-			ft_putchar_fd(temp->content[index++], fd_redirect.fd_out);
-			ft_putchar_fd('"', fd_redirect.fd_out);
-			ft_putstr_fd(&temp->content[index], fd_redirect.fd_out);
-			ft_putendl_fd("\"", fd_redirect.fd_out);
+			// while (temp->content[index] != '=')
+			// {
+			// 	ft_putchar_fd(temp->content[index], fd_redirect.fd_out);
+			// 	index++;
+			// }
+			// ft_putchar_fd(temp->content[index++], fd_redirect.fd_out);
+			// ft_putchar_fd('"', fd_redirect.fd_out);
+			// ft_putstr_fd(&temp->content[index], fd_redirect.fd_out);
+			// ft_putendl_fd("\"", fd_redirect.fd_out);
 		}
 		else
 			ft_putendl_fd(temp->content, fd_redirect.fd_out);
@@ -74,32 +105,32 @@ void	find_inenvp_export(t_minishell *s_minishell, int *count, int *i)
 	t_env_list	*local;
 
 	if (localize_envp2(s_minishell->envp,
-			s_minishell->current_command[(*count)]) == 1)
+			s_minishell->current_cmd[(*count)]) == 1)
 	{
-		if (s_minishell->current_command[(*count)][(*i)] == '=')
+		if (s_minishell->current_cmd[(*count)][(*i)] == '=')
 		{
 			local = localize_envp(s_minishell->envp,
-					s_minishell->current_command[(*count)]);
+					s_minishell->current_cmd[(*count)]);
 			free(local->content);
-			local->content = ft_strdup(s_minishell->current_command[(*count)]);
+			local->content = ft_strdup(s_minishell->current_cmd[(*count)]);
 		}
 	}
 	else
 		ft_lstadd_back (&s_minishell->envp,
-			ft_lstnew(ft_strdup(s_minishell->current_command[(*count)])));
+			ft_lstnew(ft_strdup(s_minishell->current_cmd[(*count)])));
 }
 
 void	valid_export_var_name(int *count, int *i, t_minishell *s_minishell)
 {
-	while (s_minishell->current_command[(*count)][(*i)] != '\0'
-		&& s_minishell->current_command[(*count)][(*i)] != '=')
+	while (s_minishell->current_cmd[(*count)][(*i)] != '\0'
+		&& s_minishell->current_cmd[(*count)][(*i)] != '=')
 	{
-		if (ft_isalnum((s_minishell->current_command)[*count][*i]) == 1
-		|| ((s_minishell->current_command))[(*count)][(*i)] == '_')
+		if (ft_isalnum((s_minishell->current_cmd)[*count][*i]) == 1
+		|| ((s_minishell->current_cmd))[(*count)][(*i)] == '_')
 			(*i)++;
 		else
 		{
-			print_error(s_minishell->current_command[(*count)],
+			print_error(s_minishell->current_cmd[(*count)],
 				": not a valid identifier");
 			s_minishell->exit_status = 1;
 			break ;

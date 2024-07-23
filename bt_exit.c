@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 19:20:11 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/07/23 15:11:31 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/23 18:14:19 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,41 +20,35 @@ void	bt_exit(t_minishell *s_minishell, t_fds fd_redirect)
 
 void	handle_exit_arguments(t_minishell *s_minishell)
 {
-	if (s_minishell->current_command[1] != NULL
-		&& s_minishell->current_command[2] != NULL)
+	if (s_minishell->current_cmd[1] != NULL
+		&& s_minishell->current_cmd[2] != NULL)
 	{
-		if (is_numeric_argument(s_minishell->current_command[1]))
+		if (is_numeric_argument(s_minishell->current_cmd[1]))
 		{
-			print_error(s_minishell->current_command[0], 
-				": too many arguments");
+			print_error (s_minishell->current_cmd[0], ": too many arguments");
 			s_minishell->exit_status = 1;
 		}
 		else
 		{
 			s_minishell->exit_status = 2;
-			print_error(s_minishell->current_command[0], 
-				": too many arguments");
+			print_error (s_minishell->current_cmd[0], ": too many arguments");
 		}
 	}
-	else if (s_minishell->current_command[1] != NULL)
-	{         
-		if (!is_numeric_argument(s_minishell->current_command[1]))
+	else if (s_minishell->current_cmd[1] != NULL)
+	{
+		if (!is_numeric_argument(s_minishell->current_cmd[1]))
 		{
-			print_error(s_minishell->current_command[0], 
-				": numeric argument required");
+			print_error (s_minishell->current_cmd[0], ": non numeric argument");
 			s_minishell->exit_status = 2;
 		}
 		else
-		{
-			s_minishell->exit_status = 
-				ft_atoi(s_minishell->current_command[1]);
-		}
+			s_minishell->exit_status = ft_atoi(s_minishell->current_cmd[1]);
 	}
 }
 
 int	is_numeric_argument(char *arg)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (arg[i] == '-' || arg[i] == '+')
@@ -66,7 +60,7 @@ int	is_numeric_argument(char *arg)
 
 void	cleanup_and_exit(t_minishell *s_minishell, t_fds fd_redirect)
 {
-	free_all (s_minishell->current_command);
+	free_all (s_minishell->current_cmd);
 	free_all (s_minishell->heredoc_names);
 	free_all (s_minishell->splited_prompt);
 	free (s_minishell->current_heredoc);

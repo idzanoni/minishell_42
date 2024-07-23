@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 17:13:41 by izanoni           #+#    #+#             */
-/*   Updated: 2024/07/23 13:47:47 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/23 17:23:20 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	command_exec(t_minishell *s_minishell, t_fds fd_redirect)
 	if (fork_return == 0)
 	{
 		rl_clear_history();
-		path = find_path(s_minishell->current_command[0], s_minishell->envp);
+		path = find_path(s_minishell->current_cmd[0], s_minishell->envp);
 		if (fd_redirect.fd_in != STDIN_FILENO)
 		{
 			dup2 (fd_redirect.fd_in, STDIN_FILENO);
@@ -61,22 +61,27 @@ void	command_exec(t_minishell *s_minishell, t_fds fd_redirect)
 		if (exit_status == 42)// validar path
 		{
 			temp_envp = execve_envp(s_minishell->envp);
-			execve(path, s_minishell->current_command, temp_envp);
+			execve(path, s_minishell->current_cmd, temp_envp);
 			free_all(temp_envp);
 		}
-		if (path != s_minishell->current_command[0])
+		if (path != s_minishell->current_cmd[0])
 			free(path);
-		free_all(s_minishell->current_command);
-		free_all(s_minishell->splited_prompt);
-		free_list(s_minishell->envp);
-		free_all(s_minishell->heredoc_names);
-		close(STDIN_FILENO);
-		close(STDOUT_FILENO);
-		exit(exit_status);
+		free_close_exec(s_minishell, exit_status);
 	}
 	else
 		wait(&s_minishell->exit_status);
 	s_minishell->exit_status = WEXITSTATUS(s_minishell->exit_status);
+}
+
+void free_close_exec(t_minishell *s_minishell, int exit_status)
+{
+	free_all(s_minishell->current_cmd);
+	free_all(s_minishell->splited_prompt);
+	free_list(s_minishell->envp);
+	free_all(s_minishell->heredoc_names);
+	close(STDIN_FILENO);
+	close(STDOUT_FILENO);
+	exit(exit_status);
 }
 
 int	valid_path(char *path)
@@ -187,12 +192,12 @@ void	free_heredocs_but_not_index(char **heredocs, int index)
 
 void    more_command(t_minishell *s_minishell)
 {
-	int count_pipes;
-	int i;
-	int j;
-	int fds[2];
-	int    fd_bkp;
-	int    *fork_return;
+	int	count_pipes;
+	int	i;
+	int	j;
+	int	fds[2];
+	int	fd_bkp;
+	int	*fork_return;
 
 	count_pipes = 0;
 	i = 0;
@@ -206,7 +211,7 @@ void    more_command(t_minishell *s_minishell)
 	fd_bkp = STDIN_FILENO;
 	fork_return = malloc((count_pipes + 2) * sizeof(int));
 	if (!fork_return)
-	{}
+		return ;
 	while(count_pipes >= 0)
 	{
 		if (count_pipes > 0)
@@ -222,7 +227,7 @@ void    more_command(t_minishell *s_minishell)
 				s_minishell->current_heredoc = s_minishell->heredoc_names[j];
 				move_matrix(s_minishell->heredoc_names, j);
 			}
-			s_minishell->current_command = get_command(s_minishell->splited_prompt);
+			s_minishell->current_cmd = get_command(s_minishell->splited_prompt);
 			free_all (s_minishell->splited_prompt);
 			free_all (s_minishell->heredoc_names);
 			s_minishell->splited_prompt = NULL;
@@ -239,7 +244,7 @@ void    more_command(t_minishell *s_minishell)
 			bt_or_exec(s_minishell);
 			close(STDIN_FILENO); // Esse close
 			close(STDOUT_FILENO); // E esse aqui, são para evitar fds abertos
-			free_all(s_minishell->current_command);
+			free_all(s_minishell->current_cmd);
 			free_list(s_minishell->envp);
 			free (s_minishell->current_heredoc);
 			exit(s_minishell->exit_status);

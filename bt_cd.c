@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 19:19:29 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/07/22 14:38:54 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/23 17:23:20 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,13 @@ void	bt_cd(t_minishell *s_minishell)
 	char	*path;
 
 	path = getcwd(NULL, 0);
-	if (s_minishell->current_command[1] == NULL)
+	if (s_minishell->current_cmd[1] == NULL)
 	{
 		change_to_home_directory(s_minishell, path);
 		free (path);
 		return ;
 	}
-	if (s_minishell->current_command[2])
+	if (s_minishell->current_cmd[2])
 	{
 		write(2, "cd: too many arguments\n", 24);
 		s_minishell->exit_status = 1;
@@ -31,7 +31,7 @@ void	bt_cd(t_minishell *s_minishell)
 		return ;
 	}
 	s_minishell->exit_status = change_directory
-		(s_minishell->current_command[1], s_minishell->envp, path);
+		(s_minishell->current_cmd[1], s_minishell->envp, path);
 	free (path);
 }
 

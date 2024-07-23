@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 18:33:42 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/07/23 14:51:03 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/23 17:23:20 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@ void	bt_or_exec(t_minishell *s_minishell)
 {
 	t_fds	fd_redirect;
 
-	if (s_minishell->current_command != NULL
-		&& s_minishell->current_command[0] != NULL)
-		expand_var(s_minishell->current_command,
+	if (s_minishell->current_cmd != NULL
+		&& s_minishell->current_cmd[0] != NULL)
+		expand_var(s_minishell->current_cmd,
 			s_minishell->envp, s_minishell);
 	fd_redirect = find_redirect (s_minishell);
 	if (fd_redirect.fd_in <= -1 || fd_redirect.fd_out <= -1)
@@ -26,11 +26,11 @@ void	bt_or_exec(t_minishell *s_minishell)
 		close_fds(fd_redirect);
 		return ;
 	}
-	free_redirect(s_minishell->current_command);
-	if (ft_strchr(s_minishell->current_command[0], ' ') != NULL)
+	free_redirect(s_minishell->current_cmd);
+	if (ft_strchr(s_minishell->current_cmd[0], ' ') != NULL)
 		expand_with_command(s_minishell);
-	if (s_minishell->current_command != NULL
-		&& s_minishell->current_command[0] != NULL)
+	if (s_minishell->current_cmd != NULL
+		&& s_minishell->current_cmd[0] != NULL)
 		exec_commands (s_minishell, fd_redirect);
 	if (fd_redirect.fd_out != STDOUT_FILENO)
 		close (fd_redirect.fd_out);
@@ -42,7 +42,7 @@ void	exec_commands(t_minishell *s_minishell, t_fds	fd_redirect)
 {
 	int		bt_check;
 
-	bt_check = check_builtin(s_minishell->current_command[0]);
+	bt_check = check_builtin(s_minishell->current_cmd[0]);
 	if (bt_check > 0)
 		exec_bt(bt_check, s_minishell, (fd_redirect));
 	else

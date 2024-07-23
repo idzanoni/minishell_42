@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 19:18:17 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/07/22 19:21:51 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/23 17:23:20 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,15 @@ void	bt_echo(t_minishell *s_minishell, t_fds fd_redirect)
 	n = 0;
 	val = 0;
 	s_minishell->exit_status = 0;
-	while (s_minishell->current_command[count] != NULL)
+	while (s_minishell->current_cmd[count] != NULL)
 	{
-		if (s_minishell->current_command[count][0] == '-')
-			echo_n(&n, &count, &val, s_minishell->current_command);
+		if (s_minishell->current_cmd[count][0] == '-')
+			echo_n(&n, &count, &val, s_minishell->current_cmd);
 		else
 		{
-			ft_putstr_fd(s_minishell->current_command[count],
+			ft_putstr_fd(s_minishell->current_cmd[count],
 				fd_redirect.fd_out);
-			if (s_minishell->current_command[count + 1] != NULL)
+			if (s_minishell->current_cmd[count + 1] != NULL)
 				write(fd_redirect.fd_out, " ", 1);
 			count++;
 			val++;

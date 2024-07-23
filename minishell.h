@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 17:13:50 by izanoni           #+#    #+#             */
-/*   Updated: 2024/07/23 14:38:56 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/23 18:52:02 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,9 @@ typedef struct s_env_list
 typedef struct s_minishell
 {
 	char		*input;
-	char		*normalized_prompt;
+	char		*norm_prompt;
 	char		**splited_prompt;
-	char		**current_command;
+	char		**current_cmd;
 	t_env_list	*envp;
 	char		**heredoc_names;
 	char		*current_heredoc;
@@ -138,6 +138,7 @@ void		exec_commands(t_minishell *s_minishell, t_fds	fd_redirect);
 //exec_command
 char		**execve_envp(t_env_list *envp);
 void		command_exec(t_minishell *s_minishell, t_fds fd_redirect);
+void 		free_close_exec(t_minishell *s_minishell, int exit_status);
 char		*find_path(char *splited_prompt, t_env_list *envp);
 char		*return_value(t_env_list	*envp, char *var);
 void		more_command(t_minishell *s_minishell);
@@ -169,6 +170,7 @@ void		while_get_command(char **command, char **splited_prompt,
 
 void		free_all(char **malloc_string);
 void		free_list(t_env_list *envp);
+void 		process_malloc(char *input, t_env_list *envp, t_minishell *s_minishell, char *result);
 
 //heredoc
 void		initialize_with_empty_strings(char **heredoc_name, int size);
@@ -180,11 +182,14 @@ int			free_heredoc_names(t_minishell *s_minishell,
 				int *count_command, int *fd);
 
 //init_minishell
-int			main(int argc, char **argv, char **envp);
 t_env_list	*duplic_envp(char	**envp);
 void		handle_commands(t_minishell *s_minishell, int bkp_fd);
+void		single_cmd(t_minishell *s_minishell);
 void		process_input(t_minishell *s_minishell, int bkp_fd);
 void		minishell(t_minishell *s_minishell);
+
+//main
+int			main(int argc, char **argv, char **envp);
 
 //norme_prompt
 char		*norme_string(char *prompt);
@@ -199,6 +204,8 @@ void		sig_ctrl_c(int sig);
 void		end_heredoc(int sig);
 void		sig_heredoc(void);
 void		sig_execute(int child_pid);
+void		sig_pipe_error(int f);
+
 
 //t_list_funcitions
 void		ft_lstadd_back(t_env_list **lst, t_env_list *new);
@@ -225,7 +232,7 @@ void		copy_quotes(int *count, char *prompt, int *len, char *result);
 void		util_heredoc(char **limit, t_minishell *s_minishell,
 				int *count, int *count_command);
 void	walk_index_quotes(char	*input, int *i);
-void	molloc_var_process(t_minishell *s_minishell, char *result, int *len, int *i);
+void	malloc_var_process(t_minishell *s_minishell, char *result, int *len, int *i);
 
 //utils_bt_or_exec
 void	close_fds(t_fds fd_redirect);

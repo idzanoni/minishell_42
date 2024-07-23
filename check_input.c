@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_input.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: izanoni <izanoni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 17:12:45 by izanoni           #+#    #+#             */
-/*   Updated: 2024/07/17 16:26:14 by izanoni          ###   ########.fr       */
+/*   Updated: 2024/07/23 18:16:43 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	check_quotes(char *prompt)
 
 int	check_redirect(char *prompt)
 {
-	int		count;
+	int	count;
 
 	count = 0;
 	while (prompt[count] != '\0')
@@ -103,7 +103,7 @@ int	only_space(char *prompt)
 	count = 0;
 	while (prompt[count] != '\0')
 	{
-		if (prompt[count] != ' ' && prompt[count] != '\t') 
+		if (prompt[count] != ' ' && prompt[count] != '\t')
 			return (0);
 		count++;
 	}
