@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 17:13:50 by izanoni           #+#    #+#             */
-/*   Updated: 2024/07/22 19:43:46 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/23 14:38:56 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,9 +167,6 @@ char		*put_substr(int *i, char *input);
 void		while_get_command(char **command, char **splited_prompt,
 				int *i, int *count_lines);
 
-
-
-//free_all
 void		free_all(char **malloc_string);
 void		free_list(t_env_list *envp);
 
@@ -182,12 +179,11 @@ int			heredoc_process(int	*count, t_minishell *s_minishell,
 int			free_heredoc_names(t_minishell *s_minishell,
 				int *count_command, int *fd);
 
-
 //init_minishell
 int			main(int argc, char **argv, char **envp);
 t_env_list	*duplic_envp(char	**envp);
-void		handle_commands(t_minishell *s_minishell);
-void		process_input(t_minishell *s_minishell);
+void		handle_commands(t_minishell *s_minishell, int bkp_fd);
+void		process_input(t_minishell *s_minishell, int bkp_fd);
 void		minishell(t_minishell *s_minishell);
 
 //norme_prompt
@@ -228,5 +224,11 @@ void		copy_quotes(int *count, char *prompt, int *len, char *result);
 //utils_funcitions2
 void		util_heredoc(char **limit, t_minishell *s_minishell,
 				int *count, int *count_command);
+void	walk_index_quotes(char	*input, int *i);
+void	molloc_var_process(t_minishell *s_minishell, char *result, int *len, int *i);
+
+//utils_bt_or_exec
+void	close_fds(t_fds fd_redirect);
+void	expand_with_command(t_minishell *s_minishell);
 
 #endif

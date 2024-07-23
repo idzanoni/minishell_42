@@ -6,13 +6,13 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 17:13:41 by izanoni           #+#    #+#             */
-/*   Updated: 2024/07/22 16:40:50 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/23 13:47:47 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char    **execve_envp(t_env_list *envp)
+char	**execve_envp(t_env_list *envp)
 {
 	char    **other_envp;
 	t_env_list  *tmp;
@@ -47,14 +47,6 @@ void	command_exec(t_minishell *s_minishell, t_fds fd_redirect)
 	{
 		rl_clear_history();
 		path = find_path(s_minishell->current_command[0], s_minishell->envp);
-/* 		if (path == NULL)
-		{
-			printf("command not found\n");
-			free_all(s_minishell->current_command);
-			free_list(s_minishell->envp);
-			free_all(s_minishell->heredoc_names);
-			exit(127);
-		} */
 		if (fd_redirect.fd_in != STDIN_FILENO)
 		{
 			dup2 (fd_redirect.fd_in, STDIN_FILENO);
@@ -121,7 +113,7 @@ char	*find_path(char *splited_prompt, t_env_list *envp)
 	char	*path;
 	char	*path_env;
 	char	**splited_path;
-	char 	*temp;
+	char	*temp;
 	int		i;
 
 	i = 0;

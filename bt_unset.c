@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 15:59:21 by izanoni           #+#    #+#             */
-/*   Updated: 2024/07/22 19:03:46 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/23 13:45:57 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,5 +106,3 @@ int	check_name(char *splited_prompt)
 	}
 	return (0);
 }
-
-

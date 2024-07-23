@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 14:10:52 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/07/22 20:33:11 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/23 13:49:21 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ int	heredoc(t_minishell *s_minishell)
 	}
 	return (0);
 }
-
 
 int	free_heredoc_names(t_minishell *s_minishell, int *count_command, int *fd)
 {

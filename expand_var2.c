@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 19:13:15 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/07/22 15:35:53 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/23 14:54:16 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ char	*malloc_var(char *input, t_env_list	*envp, t_minishell *s_minishell)
 	int		i;
 	int		len;
 	char	*substr;
-	char	*str_exit_status;
 
 	i = 0;
 	len = malloc_len(input, envp, s_minishell);
@@ -50,16 +49,9 @@ char	*malloc_var(char *input, t_env_list	*envp, t_minishell *s_minishell)
 		if (input[i] == -21)
 			walk_simple_quote(&i, input, result, &len);
 		else if (input[i] == '$' && input[i + 1] == '?')
-		{
-			str_exit_status = ft_itoa(s_minishell->exit_status);
-			if (str_exit_status == NULL)
-			{}
-			ft_strlcpy(result + len, str_exit_status, ft_strlen(str_exit_status) + 1);
-			len = len + ft_strlen(str_exit_status);
-			i = i + 2;
-			free(str_exit_status);
-		}
-		else if (input[i] == '$' && (ft_isalpha(input[i + 1]) == 1 || input[i + 1] == '_'))
+			molloc_var_process(s_minishell, result, &len, &i);
+		else if (input[i] == '$' && (ft_isalpha(input[i + 1]) == 1
+				|| input[i + 1] == '_'))
 		{
 			substr = put_substr(&i, input);
 			put_result(substr, &len, envp, result);
@@ -68,7 +60,6 @@ char	*malloc_var(char *input, t_env_list	*envp, t_minishell *s_minishell)
 		else
 			result[len++] = input[i++];
 	}
-	result[len] = '\0';
 	free(input);
 	return (result);
 }

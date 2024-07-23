@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 19:20:11 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/07/22 14:53:21 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/23 15:11:31 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ void	bt_exit(t_minishell *s_minishell, t_fds fd_redirect)
 
 void	handle_exit_arguments(t_minishell *s_minishell)
 {
-	if (s_minishell->current_command[1] != NULL && 
-			s_minishell->current_command[2] != NULL)
+	if (s_minishell->current_command[1] != NULL
+		&& s_minishell->current_command[2] != NULL)
 	{
 		if (is_numeric_argument(s_minishell->current_command[1]))
 		{
@@ -32,11 +32,12 @@ void	handle_exit_arguments(t_minishell *s_minishell)
 		else
 		{
 			s_minishell->exit_status = 2;
-			print_error(s_minishell->current_command[0], ": too many arguments");
+			print_error(s_minishell->current_command[0], 
+				": too many arguments");
 		}
 	}
 	else if (s_minishell->current_command[1] != NULL)
-	{
+	{         
 		if (!is_numeric_argument(s_minishell->current_command[1]))
 		{
 			print_error(s_minishell->current_command[0], 

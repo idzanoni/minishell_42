@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:03:09 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/07/19 18:59:47 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/23 13:50:18 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*norme_string(char *prompt)
 		return (NULL);
 	while (prompt[count] != '\0')
 	{
-		if(prompt[count] == '\'' || prompt[count] == '"')
+		if (prompt[count] == '\'' || prompt[count] == '"')
 			copy_quotes(&count, prompt, &count_result, result);
 		else if (prompt[count] == '>' || prompt[count] == '<'
 			|| prompt[count] == '|')

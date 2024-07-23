@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 12:37:07 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/07/22 19:47:21 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/23 13:44:58 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	bt_export(t_minishell *s_minishell, t_fds fd_redirect)
 				find_inenvp_export(s_minishell, &count, &i);
 			}
 			else
-				s_minishell->exit_status =  print_error( \
+				s_minishell->exit_status = print_error(\
 					s_minishell->current_command[count], \
 						": not a valid identifier");
 			count++;
@@ -63,7 +63,6 @@ void	export_only(t_minishell *s_minishell, t_fds fd_redirect)
 			ft_putstr_fd(&temp->content[index], fd_redirect.fd_out);
 			ft_putendl_fd("\"", fd_redirect.fd_out);
 		}
-
 		else
 			ft_putendl_fd(temp->content, fd_redirect.fd_out);
 		temp = temp->next;
@@ -102,7 +101,7 @@ void	valid_export_var_name(int *count, int *i, t_minishell *s_minishell)
 		{
 			print_error(s_minishell->current_command[(*count)],
 				": not a valid identifier");
-			s_minishell->exit_status =  1;
+			s_minishell->exit_status = 1;
 			break ;
 		}
 	}

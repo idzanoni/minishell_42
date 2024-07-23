@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 19:21:15 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/07/22 16:59:35 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/23 14:14:33 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ void	move_matrix(char **splited_prompt, int start)
 	}
 }
 
-void	expand_var(char **splited_prompt, t_env_list *envp, t_minishell *s_minishell)
+void	expand_var(char **splited_prompt, t_env_list *envp,
+	t_minishell *s_minishell)
 {
 	int	count;
 
@@ -32,8 +33,11 @@ void	expand_var(char **splited_prompt, t_env_list *envp, t_minishell *s_minishel
 	while (splited_prompt[count] != NULL)
 	{
 		mod_quots(splited_prompt[count]);
-		splited_prompt[count] = malloc_var(splited_prompt[count], envp, s_minishell);
-		if (splited_prompt[count][0] == '\0' && (count == 0 || (splited_prompt[count - 1][0] != '<' && splited_prompt[count - 1][0] != '>')))
+		splited_prompt[count] = malloc_var(splited_prompt[count],
+				envp, s_minishell);
+		if (splited_prompt[count][0] == '\0' && (count == 0
+			|| (splited_prompt[count - 1][0] != '<'
+			&& splited_prompt[count - 1][0] != '>')))
 		{
 			free(splited_prompt[count]);
 			move_matrix(splited_prompt, count);
@@ -109,12 +113,7 @@ int	malloc_len(char	*input, t_env_list	*envp, t_minishell *s_minishell)
 	while (input[i] != '\0')
 	{
 		if (input[i] == -21)
-		{
-			i++;
-			while (input[i] != -21 && input[i] != '\0')
-				i++;
-			i++;
-		}
+			walk_index_quotes(input, &i);
 		else if (input[i] == '$' && (ft_isalpha(input[i + 1]) == 1
 				|| input[i + 1] == '_'))
 		{
@@ -131,17 +130,4 @@ int	malloc_len(char	*input, t_env_list	*envp, t_minishell *s_minishell)
 			i++;
 	}
 	return (len);
-}
-
-int count_digits(int i)
-{
-	int count;
-
-	count = 1;
-	while (i >= 10)
-	{
-		i = i / 10;
-		count++;
-	}
-	return(count);
 }
