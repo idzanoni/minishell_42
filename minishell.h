@@ -3,49 +3,41 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
+/*   By: izanoni <izanoni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 17:13:50 by izanoni           #+#    #+#             */
-/*   Updated: 2024/07/23 18:52:02 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/24 18:57:03 by izanoni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-#include <termios.h>
-#include <unistd.h>
-#include <sys/wait.h>
-#include <sys/stat.h>
-#include <fcntl.h>	
-#include <signal.h>
+# include <stdio.h>
+# include <string.h>
+# include <stdlib.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+# include <termios.h>
+# include <unistd.h>
+# include <sys/wait.h>
+# include <sys/stat.h>
+# include <fcntl.h>	
+# include <signal.h>
 
 # include "./libft/libft.h"
 
-#define EXIT "exit"
-#define ECHO_CMD "echo"
-#define PWD "pwd"
-#define ENV "env"
-#define CD "cd"
-#define EXPORT "export"
-#define UNSET "unset"
-#define DOUBLE_QUOTES '"'
-#define SINGLE_QUOTES '\''
+# define EXIT "exit"
+# define ECHO_CMD "echo"
+# define PWD "pwd"
+# define ENV "env"
+# define CD "cd"
+# define EXPORT "export"
+# define UNSET "unset"
+# define DOUBLE_QUOTES '"'
+# define SINGLE_QUOTES '\''
 
-/*
-enum e_special_characters
-{
-	SINGLE_QUOTE = '\'',
-	DOUBLE_QUOTE = '"'
-};
-*/
-
-extern int g_signal;
+extern int	g_signal;
 
 typedef struct s_fd_in_out
 {
@@ -59,7 +51,6 @@ typedef struct s_env_list
 	struct s_env_list	*next;
 }	t_env_list;
 
-
 typedef struct s_minishell
 {
 	char		*input;
@@ -71,6 +62,12 @@ typedef struct s_minishell
 	char		*current_heredoc;
 	int			exit_status;
 }	t_minishell;
+
+//aux_children
+int			ft_count_pipes(t_minishell *s_minishell);
+void		cleanup_children(t_minishell *s_minishell);
+void		wait_children(int *fork_return, t_minishell *s_minishell);
+void		dup_redirect(t_fds fd_redirect);
 
 //bt_cd
 void		bt_cd(t_minishell *s_minishell);
@@ -84,12 +81,13 @@ void		echo_n(int *n, int *count, int *val, char **splited_prompt);
 
 //bt_env
 int			bt_env(t_minishell	*s_minishell, t_fds	fd_redirect);
+void		print_different_env(t_env_list *env, int fd);
 
 //bt_exit
 void		bt_exit(t_minishell *s_minishell, t_fds	fd_redirect);
+void		handle_exit_arguments(t_minishell *s_minishell);
 void		cleanup_and_exit(t_minishell *s_minishell, t_fds fd_redirect);
 int			is_numeric_argument(char *arg);
-void		handle_exit_arguments(t_minishell *s_minishell);
 
 //bt_export
 void		bt_export(t_minishell	*s_minishell, t_fds	fd_redirect);
@@ -97,6 +95,7 @@ void		export_only(t_minishell *s_minishell, t_fds fd_redirect);
 void		find_inenvp_export(t_minishell *s_minishell, int *count, int	*i);
 void		valid_export_var_name(int *count, int *i, t_minishell *s_minishell);
 size_t		ft_strlen_2(const char *s);
+char		*put_quots(char *all);
 
 //bt_pwd
 void		bt_pwd(t_minishell	*s_minishell, t_fds fd_redirect);
@@ -123,8 +122,7 @@ int			check_empty(char *prompt);
 //envp_funcitions
 t_env_list	*localize_envp(t_env_list *envp, char *var);
 int			valid_var(t_env_list *envp, char *var);
-
-int	localize_envp2(t_env_list *envp, char *var);
+int			localize_envp2(t_env_list *envp, char *var);
 
 //error
 int			print_error(char *var, char *message);
@@ -138,13 +136,27 @@ void		exec_commands(t_minishell *s_minishell, t_fds	fd_redirect);
 //exec_command
 char		**execve_envp(t_env_list *envp);
 void		command_exec(t_minishell *s_minishell, t_fds fd_redirect);
-void 		free_close_exec(t_minishell *s_minishell, int exit_status);
-char		*find_path(char *splited_prompt, t_env_list *envp);
-char		*return_value(t_env_list	*envp, char *var);
-void		more_command(t_minishell *s_minishell);
+void		free_close_exec(t_minishell *s_minishell, int exit_status);
 char		**get_command(char **splited_prompt);
-int			valid_path(char *path);
 
+
+
+void		finally_exec(t_minishell *s_minishell, char *path);
+//handle_path
+char		*search_path(char *splited_prompt, t_env_list *envp);
+char		*find_path(char **splited_path, char *splited_prompt);
+int			valid_path(char *path);
+char		*return_value(t_env_list	*envp, char *var);
+
+//more_command
+void		get_command_and_cleanup(t_minishell *s_minishell, int j);
+void		more_command(t_minishell *s_minishell);
+void		prep_and_execute(t_minishell *s_minishell, int fds[2],
+				int *fd_bkp, int count_pipes);
+void		handle_pipes(t_minishell *s_minishell, int *fork_return,
+				int count_pipes);
+void		ready_for_next(t_minishell *s_minishell, int fds[2],
+				int *fd_bkp, int count_pipes);
 //expand_var
 void		move_matrix(char **splited_prompt, int start);
 void		expand_var(char **splited_prompt, t_env_list *envp,
@@ -154,8 +166,6 @@ void		remov_quots(char *input);
 int			malloc_len(char	*input, t_env_list	*envp,
 				t_minishell *s_minishell);
 int			count_digits(int i);
-
-
 
 //expand_var2
 void		malloc_len_process(char	*input, int *len,
@@ -170,7 +180,8 @@ void		while_get_command(char **command, char **splited_prompt,
 
 void		free_all(char **malloc_string);
 void		free_list(t_env_list *envp);
-void 		process_malloc(char *input, t_env_list *envp, t_minishell *s_minishell, char *result);
+void		process_malloc(char *input, t_env_list *envp,
+				t_minishell *s_minishell, char *result);
 
 //heredoc
 void		initialize_with_empty_strings(char **heredoc_name, int size);
@@ -197,7 +208,6 @@ char		*malloc_prompt(char *prompt);
 void		norme_char(int *count, int *count_result,
 				char	*result, char	*prompt);
 
-
 //signals
 void		handle_signals(void);
 void		sig_ctrl_c(int sig);
@@ -205,7 +215,6 @@ void		end_heredoc(int sig);
 void		sig_heredoc(void);
 void		sig_execute(int child_pid);
 void		sig_pipe_error(int f);
-
 
 //t_list_funcitions
 void		ft_lstadd_back(t_env_list **lst, t_env_list *new);
@@ -231,11 +240,12 @@ void		copy_quotes(int *count, char *prompt, int *len, char *result);
 //utils_funcitions2
 void		util_heredoc(char **limit, t_minishell *s_minishell,
 				int *count, int *count_command);
-void	walk_index_quotes(char	*input, int *i);
-void	malloc_var_process(t_minishell *s_minishell, char *result, int *len, int *i);
+void		walk_index_quotes(char	*input, int *i);
+void		malloc_var_process(t_minishell *s_minishell, char *result,
+				int *len, int *i);
 
 //utils_bt_or_exec
-void	close_fds(t_fds fd_redirect);
-void	expand_with_command(t_minishell *s_minishell);
+void		close_fds(t_fds fd_redirect);
+void		expand_with_command(t_minishell *s_minishell);
 
 #endif

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   expand_var2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
+/*   By: izanoni <izanoni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 19:13:15 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/07/23 18:59:31 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/24 13:13:30 by izanoni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	malloc_len_process(char	*input, int *len, int *i, t_env_list *envp)
+void	malloc_len_process(char *input, int *len, int *i, t_env_list *envp)
 {
 	char	*substr;
 	int		var_len;
@@ -33,38 +33,7 @@ void	malloc_len_process(char	*input, int *len, int *i, t_env_list *envp)
 	free(substr);
 }
 
-/* char	*malloc_var(char *input, t_env_list	*envp, t_minishell *s_minishell)
-{
-	char	*result;
-	int		i;
-	int		len;
-	char	*substr;
-
-	i = 0;
-	len = malloc_len(input, envp, s_minishell);
-	result = ft_calloc(len + 1, sizeof(char));
-	len = 0;
-	while (input[i] != '\0')
-	{
-		if (input[i] == -21)
-			walk_simple_quote(&i, input, result, &len);
-		else if (input[i] == '$' && input[i + 1] == '?')
-			malloc_var_process(s_minishell, result, &len, &i);
-		else if (input[i] == '$' && (ft_isalpha(input[i + 1]) == 1
-				|| input[i + 1] == '_'))
-		{
-			substr = put_substr(&i, input);
-			put_result(substr, &len, envp, result);
-			free(substr);
-		}
-		else
-			result[len++] = input[i++];
-	}
-	free(input);
-	return (result);
-} */
-
-char *malloc_var(char *input, t_env_list *envp, t_minishell *s_minishell)
+char	*malloc_var(char *input, t_env_list *envp, t_minishell *s_minishell)
 {
 	int		len;
 	char	*result;
@@ -77,19 +46,24 @@ char *malloc_var(char *input, t_env_list *envp, t_minishell *s_minishell)
 	free(input);
 	return (result);
 }
-void	process_malloc(char *input, t_env_list *envp, t_minishell *s_minishell, char *result)
+
+void	process_malloc(char *input, t_env_list *envp, t_minishell *s_minishell,
+		char *result)
 {
-	int		i = 0;
-	int		len = 0;
+	int		i;
+	int		len;
 	char	*substr;
 
+	i = 0;
+	len = 0;
 	while (input[i] != '\0')
 	{
 		if (input[i] == -21)
 			walk_simple_quote(&i, input, result, &len);
 		else if (input[i] == '$' && input[i + 1] == '?')
 			malloc_var_process(s_minishell, result, &len, &i);
-		else if (input[i] == '$' && (ft_isalpha(input[i + 1]) == 1 || input[i + 1] == '_'))
+		else if (input[i] == '$' && (ft_isalpha(input[i + 1]) == 1
+				|| input[i + 1] == '_'))
 		{
 			substr = put_substr(&i, input);
 			put_result(substr, &len, envp, result);
@@ -118,7 +92,7 @@ void	walk_simple_quote(int *i, char *input, char *result, int *len)
 
 void	put_result(char *substr, int *len, t_env_list *envp, char *result)
 {
-	int		var_len;
+	int	var_len;
 
 	if (valid_var(envp, substr) == 1)
 	{
@@ -131,19 +105,4 @@ void	put_result(char *substr, int *len, t_env_list *envp, char *result)
 			var_len++;
 		}
 	}
-}
-
-char	*put_substr(int *i, char *input)
-{
-	int		var_len;
-	char	*substr;
-
-	(*i)++;
-	var_len = (*i);
-	while ((ft_isalnum(input[var_len]) == 1 || input[var_len] == '_')
-		&& input[var_len] != '\0')
-		var_len++;
-	substr = ft_substr(input, (*i), var_len - (*i));
-	(*i) = var_len;
-	return (substr);
 }

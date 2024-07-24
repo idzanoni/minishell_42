@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+         #
+#    By: izanoni <izanoni@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/20 17:13:45 by izanoni           #+#    #+#              #
-#    Updated: 2024/07/23 18:43:41 by mgonzaga         ###   ########.fr        #
+#    Updated: 2024/07/24 18:48:12 by izanoni          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ FILES = $(addsuffix .c, bt_cd\
 			bt_echo \
 			bt_pwd \
 			check_input \
-			exec_commnad \
+			exec_command \
 			exec_command2 \
 			init_minishell \
 			redirect \
@@ -43,7 +43,10 @@ FILES = $(addsuffix .c, bt_cd\
 			utils_functions2\
 			bt_exit\
 			utils_bt_or_exec\
-			main)
+			main\
+			more_command\
+			handle_path\
+			aux_children)
 			 
 OBJ = $(FILES:%.c=%.o)			
 

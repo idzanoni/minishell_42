@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_bt_or_exec.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
+/*   By: izanoni <izanoni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 14:28:04 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/07/23 17:23:20 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/24 13:19:59 by izanoni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,29 @@ void	expand_with_command(t_minishell *s_minishell)
 	free(temp2[0]);
 	free(temp);
 	free(temp2);
+}
+
+char	*put_substr(int *i, char *input)
+{
+	int		var_len;
+	char	*substr;
+
+	(*i)++;
+	var_len = (*i);
+	while ((ft_isalnum(input[var_len]) == 1 || input[var_len] == '_')
+		&& input[var_len] != '\0')
+		var_len++;
+	substr = ft_substr(input, (*i), var_len - (*i));
+	(*i) = var_len;
+	return (substr);
+}
+
+size_t	ft_strlen_2(const char *s)
+{
+	size_t	i;
+
+	i = 0;
+	while (s[i] != '\0' && s[i] != '=')
+		i++;
+	return (i);
 }

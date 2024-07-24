@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_all.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
+/*   By: izanoni <izanoni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 19:39:06 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/07/23 13:49:17 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/24 16:48:37 by izanoni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,31 @@ void	free_list(t_env_list *envp)
 		free(current_node);
 		current_node = next_node;
 	}
+}
+
+void	free_close_exec(t_minishell *s_minishell, int exit_status)
+{
+	free_all(s_minishell->current_cmd);
+	free_all(s_minishell->splited_prompt);
+	free_list(s_minishell->envp);
+	free_all(s_minishell->heredoc_names);
+	close(STDIN_FILENO);
+	close(STDOUT_FILENO);
+	exit(exit_status);
+}
+
+void	free_heredocs_but_not_index(char **heredocs, int index)
+{
+	int	i;
+
+	if (heredocs == NULL || heredocs[0] == NULL)
+		return ;
+	i = 0;
+	while (heredocs[i] != NULL)
+	{
+		if (i != index)
+			free(heredocs[i]);
+		i++;
+	}
+	free(heredocs);
 }

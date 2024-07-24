@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bt_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
+/*   By: izanoni <izanoni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 12:37:07 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/07/23 18:45:48 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/24 18:59:15 by izanoni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,30 +44,36 @@ void	bt_export(t_minishell *s_minishell, t_fds fd_redirect)
 void	print_different(t_env_list *env, int fd)
 {
 	int			len;
-	int			words_len;
-	char		*all_line;
-	t_env_list	*temp;
+	char		*all;
+	char		*s;
 
-	temp = env;
-	len = ft_lstsize(env);
-	words_len = 0;
-	while (temp != NULL)
-	{
-		words_len += ft_strlen(temp->content);
-		temp = temp->next;
-	}
-	all_line = malloc((len + words_len + 1) * sizeof(char));
-	all_line[0] = 0;
 	len = 0;
+	//  if (!all)
+	//  	return
 	while (env != NULL)
 	{
-		len += ft_strlcpy(all_line + len, env->content, ft_strlen(env->content) + 1);
-		all_line[len++] = '\n';
-		all_line[len] = '\0';
+		len = 0;
+		int a;
+		a = ft_strlen(env->content);
+		all = malloc((a + 1000) * sizeof(char));
+		len += ft_strlcpy(all + len, "declare -x ", 12);
+		s = ft_strchr(env->content, '=');
+		if(s != NULL)
+		{
+			len += ft_strlcpy(all + len, env->content, ft_strlen_2(env->content) + 1);
+			len += ft_strlcpy(all + len, "=", 2);
+			len += ft_strlcpy(all + len, "\"", 2);
+			len += ft_strlcpy(all + len, s + 1, ft_strlen(s + 1) + 1);
+			len += ft_strlcpy(all + len, "\"", 2);
+		}
+		else
+			len += ft_strlcpy(all + len, env->content, ft_strlen(env->content) + 1);
+		all[len++] = '\n';
+		all[len] = '\0';
+		write(fd, all, len);
 		env = env->next;
+		free(all);
 	}
-	write(fd, all_line, len);
-	free(all_line);
 }
 
 void	export_only(t_minishell *s_minishell, t_fds fd_redirect)
@@ -136,14 +142,4 @@ void	valid_export_var_name(int *count, int *i, t_minishell *s_minishell)
 			break ;
 		}
 	}
-}
-
-size_t	ft_strlen_2(const char *s)
-{
-	size_t	i;
-
-	i = 0;
-	while (s[i] != '\0' && s[i] != '=')
-		i++;
-	return (i);
 }

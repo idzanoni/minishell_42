@@ -1,38 +1,3 @@
-char *malloc_var(char *input, t_env_list *envp, t_minishell *s_minishell)
-{
-	int len = malloc_len(input, envp, s_minishell);
-	char *result = ft_calloc(len + 1, sizeof(char));
-	if (!result)
-		return NULL;
-
-	process_input(input, envp, s_minishell, result);
-
-	free(input);
-	return result;
-}
-void process_input(char *input, t_env_list *envp, t_minishell *s_minishell, char *result)
-{
-	int i = 0;
-	int len = 0;
-	char *substr;
-
-	while (input[i] != '\0')
-	{
-		if (input[i] == -21)
-			walk_simple_quote(&i, input, result, &len);
-		else if (input[i] == '$' && input[i + 1] == '?')
-			malloc_var_process(s_minishell, result, &len, &i);
-		else if (input[i] == '$' && (ft_isalpha(input[i + 1]) == 1 || input[i + 1] == '_'))
-		{
-			substr = put_substr(&i, input);
-			put_result(substr, &len, envp, result);
-			free(substr);
-		}
-		else
-			result[len++] = input[i++];
-	}
-}
-
 echo oi <                  
 echo oi <<         
 echo oi >

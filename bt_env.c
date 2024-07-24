@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bt_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
+/*   By: izanoni <izanoni@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 19:16:05 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/07/20 16:51:22 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/24 16:32:42 by izanoni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,32 @@ int	bt_env(t_minishell *s_minishell, t_fds fd_redirect)
 		envp = envp->next;
 	}
 	return (0);
+}
+
+void	print_different_env(t_env_list *env, int fd)
+{
+	int			len;
+	char		*all;
+	t_env_list	*temp;
+
+	temp = env;
+	len = 0;
+	while (temp != NULL)
+	{
+		len += ft_strlen(temp->content) + 1;
+		temp = temp->next;
+	}
+	all = malloc((len + 1) * sizeof(char));
+	//  if (!all)
+	//  	return
+	len = 0;
+	while (env != NULL)
+	{
+		len += ft_strlcpy(all + len, env->content, ft_strlen(env->content) + 1);
+		all[len++] = '\n';
+		all[len] = '\0';
+		env = env->next;
+	}
+	write(fd, all, len);
+	free(all);
 }
