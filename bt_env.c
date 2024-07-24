@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 19:16:05 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/07/24 20:39:21 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/24 20:47:49 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,7 @@ int	bt_env(t_minishell *s_minishell, t_fds fd_redirect)
 		{
 			if (((char *)envp->content)[i] == '=')
 			{
-				ft_putstr_fd(((char *)envp->content), fd_redirect.fd_out);
-				write(fd_redirect.fd_out, "\n", 1);
+				ft_putendl_fd (((char *)envp->content), fd_redirect.fd_out);
 				break ;
 			}
 			i++;
@@ -37,23 +36,15 @@ int	bt_env(t_minishell *s_minishell, t_fds fd_redirect)
 	return (0);
 }
 
-void	print_different_env(t_env_list *env, int fd)
+void	ft_putendl_fd(char *s, int fd)
 {
-	int			len;
-	char		*all;
-	int			a;
+	int	i;
 
-	while (env != NULL)
-	{
-		len = 0;
-		a = ft_strlen(env->content);
-		all = calloc(a, sizeof(char));
-		a = 0;
-		while_export (all, &len, &a, env->content);
-		all[len++] = '\n';
-		all[len] = '\0';
-		write(fd, all, len);
-		free(all);
-		env = env->next;
-	}
+	i = 0;
+	if (!s)
+		return ;
+	i = ft_strlen(s);
+	s[i] = '\n';
+	write(fd, s, i + 1);
+	s[i] = '\0';
 }

@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 17:13:50 by izanoni           #+#    #+#             */
-/*   Updated: 2024/07/24 20:39:53 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/24 20:51:29 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void		echo_n(int *n, int *count, int *val, char **splited_prompt);
 
 //bt_env
 int			bt_env(t_minishell	*s_minishell, t_fds	fd_redirect);
-void		print_different_env(t_env_list *env, int fd);
+void		ft_putendl_fd(char *s, int fd);
 
 //bt_exit
 void		bt_exit(t_minishell *s_minishell, t_fds	fd_redirect);
