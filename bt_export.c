@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 12:37:07 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/07/24 20:00:27 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/24 20:31:12 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,93 +46,27 @@ void	print_different(t_env_list *env, int fd)
 	int			len;
 	char		*all;
 	char		*s;
+	int			a;
 
-	len = 0;
-	s = NULL;
-	//  if (!all)
-	//  	return
 	while (env != NULL)
 	{
 		len = 0;
-		int a;
 		a = ft_strlen(env->content);
-		all = calloc((a + 17) , sizeof(char));
-		// s = malloc(12 * sizeof(char));
+		all = calloc((a + 17), sizeof(char));
 		s = "declare -x ";
 		a = 0;
-		while(s[a] != '\0')
-		{
-			all[len] = s[a];
-			len++;
-			a++;
-		}
+		while_export(all, &len, &a, s);
 		len = 12;
 		a = 0;
-		// free(s);
-		s = ft_strchr(env->content, '=');
-		if(s != NULL)
-		{
-		while(env->content[a] != '=')
-		{
-			all[len] = env->content[a];
-			len++;
-			a++;
-		}
-			a = 0;
-				all[len++] = s[a++];
-				all[len++] = '"';
-			while(s[a] != '\0')
-			{
-				all[len] = s[a];
-				len++;
-				a++;
-			}
-			all[len++] = '"';
-		}
+		if (ft_strchr(env->content, '=') != NULL)
+			util_export(env, &a, &len, all);
 		else
-		{
-			while(env->content[a] != '\0')
-			{
-				all[len] = env->content[a];
-				len++;
-				a++;
-			}
-		}
+			while_export(all, &len, &a, env->content);
 		all[len++] = '\n';
 		all[len] = '\0';
 		write(fd, all, len);
 		free(all);
 		env = env->next;
-	}
-}
-
-void	export_only(t_minishell *s_minishell, t_fds fd_redirect)
-{
-	t_env_list	*temp;
-	int			index;
-
-	temp = s_minishell->envp;
-	print_different(temp, fd_redirect.fd_out);
-	return ;
-	while (temp != NULL)
-	{
-		ft_putstr_fd("declare -x ", fd_redirect.fd_out);
-		index = 0;
-		if (ft_strchr(temp->content, '=') != NULL)
-		{
-			// while (temp->content[index] != '=')
-			// {
-			// 	ft_putchar_fd(temp->content[index], fd_redirect.fd_out);
-			// 	index++;
-			// }
-			// ft_putchar_fd(temp->content[index++], fd_redirect.fd_out);
-			// ft_putchar_fd('"', fd_redirect.fd_out);
-			// ft_putstr_fd(&temp->content[index], fd_redirect.fd_out);
-			// ft_putendl_fd("\"", fd_redirect.fd_out);
-		}
-		else
-			ft_putendl_fd(temp->content, fd_redirect.fd_out);
-		temp = temp->next;
 	}
 }
 

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: izanoni <izanoni@student.42.fr>            +#+  +:+       +#+         #
+#    By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/20 17:13:45 by izanoni           #+#    #+#              #
-#    Updated: 2024/07/24 18:48:12 by izanoni          ###   ########.fr        #
+#    Updated: 2024/07/24 20:31:57 by mgonzaga         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,7 +46,8 @@ FILES = $(addsuffix .c, bt_cd\
 			main\
 			more_command\
 			handle_path\
-			aux_children)
+			aux_children\
+			utils_export)
 			 
 OBJ = $(FILES:%.c=%.o)			
 

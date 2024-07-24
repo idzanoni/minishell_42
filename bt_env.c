@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bt_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: izanoni <izanoni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 19:16:05 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/07/24 16:32:42 by izanoni          ###   ########.fr       */
+/*   Updated: 2024/07/24 20:39:21 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,26 +41,19 @@ void	print_different_env(t_env_list *env, int fd)
 {
 	int			len;
 	char		*all;
-	t_env_list	*temp;
+	int			a;
 
-	temp = env;
-	len = 0;
-	while (temp != NULL)
-	{
-		len += ft_strlen(temp->content) + 1;
-		temp = temp->next;
-	}
-	all = malloc((len + 1) * sizeof(char));
-	//  if (!all)
-	//  	return
-	len = 0;
 	while (env != NULL)
 	{
-		len += ft_strlcpy(all + len, env->content, ft_strlen(env->content) + 1);
+		len = 0;
+		a = ft_strlen(env->content);
+		all = calloc(a, sizeof(char));
+		a = 0;
+		while_export (all, &len, &a, env->content);
 		all[len++] = '\n';
 		all[len] = '\0';
+		write(fd, all, len);
+		free(all);
 		env = env->next;
 	}
-	write(fd, all, len);
-	free(all);
 }
