@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: izanoni <izanoni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 17:13:50 by izanoni           #+#    #+#             */
-/*   Updated: 2024/07/24 18:57:03 by izanoni          ###   ########.fr       */
+/*   Updated: 2024/07/24 20:00:40 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int			is_numeric_argument(char *arg);
 void		bt_export(t_minishell	*s_minishell, t_fds	fd_redirect);
 void		export_only(t_minishell *s_minishell, t_fds fd_redirect);
 void		find_inenvp_export(t_minishell *s_minishell, int *count, int	*i);
-void		valid_export_var_name(int *count, int *i, t_minishell *s_minishell);
+int			valid_export_var_name(int *count, int *i, t_minishell *s_minishell);
 size_t		ft_strlen_2(const char *s);
 char		*put_quots(char *all);
 

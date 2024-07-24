@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bt_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: izanoni <izanoni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 12:37:07 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/07/24 18:59:15 by izanoni          ###   ########.fr       */
+/*   Updated: 2024/07/24 20:00:27 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ void	bt_export(t_minishell *s_minishell, t_fds fd_redirect)
 	int			i;
 
 	count = 1;
-	i = 1;
 	s_minishell->exit_status = 0;
 	if (s_minishell->current_cmd[1] == NULL)
 		export_only(s_minishell, fd_redirect);
@@ -26,11 +25,12 @@ void	bt_export(t_minishell *s_minishell, t_fds fd_redirect)
 	{
 		while (s_minishell->current_cmd[count] != NULL)
 		{
+			i = 1;
 			if (ft_isalpha(s_minishell->current_cmd[count][0]) == 1
 			|| s_minishell->current_cmd[count][0] == '_')
 			{
-				valid_export_var_name (&count, &i, s_minishell);
-				find_inenvp_export(s_minishell, &count, &i);
+				if (valid_export_var_name (&count, &i, s_minishell) == 1)
+					find_inenvp_export(s_minishell, &count, &i);
 			}
 			else
 				s_minishell->exit_status = print_error(\
@@ -48,6 +48,7 @@ void	print_different(t_env_list *env, int fd)
 	char		*s;
 
 	len = 0;
+	s = NULL;
 	//  if (!all)
 	//  	return
 	while (env != NULL)
@@ -55,24 +56,53 @@ void	print_different(t_env_list *env, int fd)
 		len = 0;
 		int a;
 		a = ft_strlen(env->content);
-		all = malloc((a + 1000) * sizeof(char));
-		len += ft_strlcpy(all + len, "declare -x ", 12);
+		all = calloc((a + 17) , sizeof(char));
+		// s = malloc(12 * sizeof(char));
+		s = "declare -x ";
+		a = 0;
+		while(s[a] != '\0')
+		{
+			all[len] = s[a];
+			len++;
+			a++;
+		}
+		len = 12;
+		a = 0;
+		// free(s);
 		s = ft_strchr(env->content, '=');
 		if(s != NULL)
 		{
-			len += ft_strlcpy(all + len, env->content, ft_strlen_2(env->content) + 1);
-			len += ft_strlcpy(all + len, "=", 2);
-			len += ft_strlcpy(all + len, "\"", 2);
-			len += ft_strlcpy(all + len, s + 1, ft_strlen(s + 1) + 1);
-			len += ft_strlcpy(all + len, "\"", 2);
+		while(env->content[a] != '=')
+		{
+			all[len] = env->content[a];
+			len++;
+			a++;
+		}
+			a = 0;
+				all[len++] = s[a++];
+				all[len++] = '"';
+			while(s[a] != '\0')
+			{
+				all[len] = s[a];
+				len++;
+				a++;
+			}
+			all[len++] = '"';
 		}
 		else
-			len += ft_strlcpy(all + len, env->content, ft_strlen(env->content) + 1);
+		{
+			while(env->content[a] != '\0')
+			{
+				all[len] = env->content[a];
+				len++;
+				a++;
+			}
+		}
 		all[len++] = '\n';
 		all[len] = '\0';
 		write(fd, all, len);
-		env = env->next;
 		free(all);
+		env = env->next;
 	}
 }
 
@@ -126,7 +156,7 @@ void	find_inenvp_export(t_minishell *s_minishell, int *count, int *i)
 			ft_lstnew(ft_strdup(s_minishell->current_cmd[(*count)])));
 }
 
-void	valid_export_var_name(int *count, int *i, t_minishell *s_minishell)
+int	valid_export_var_name(int *count, int *i, t_minishell *s_minishell)
 {
 	while (s_minishell->current_cmd[(*count)][(*i)] != '\0'
 		&& s_minishell->current_cmd[(*count)][(*i)] != '=')
@@ -139,7 +169,8 @@ void	valid_export_var_name(int *count, int *i, t_minishell *s_minishell)
 			print_error(s_minishell->current_cmd[(*count)],
 				": not a valid identifier");
 			s_minishell->exit_status = 1;
-			break ;
+			return (0);
 		}
 	}
+	return (1);
 }
