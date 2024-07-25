@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 17:13:50 by izanoni           #+#    #+#             */
-/*   Updated: 2024/07/25 15:14:26 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/25 16:21:11 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,13 +202,13 @@ void		prep_and_execute(t_minishell *s_minishell, int fds[2],
 void		ready_for_next(t_minishell *s_minishell, int fds[2],
 				int *fd_bkp, int count_pipes);
 void		get_command_and_cleanup(t_minishell *s_minishell);
-void		heredoc_update(t_minishell *s_minishell);
 
 //norme_prompt
 char		*norme_string(char *prompt);
 char		*malloc_prompt(char *prompt);
 void		norme_char(int *count, int *count_result,
 				char *result, char *prompt);
+int			count_matrix_len(char **matrix);
 
 //redirect
 void		free_redirect(char **splited_prompt);
@@ -241,6 +241,7 @@ size_t		ft_strlen_2(const char *s);
 void		while_export(char	*all, int *len, int *a, char *string);
 void		util_export(t_env_list *env, int *a, int *len, char *all);
 void		export_only(t_minishell *s_minishell, t_fds fd_redirect);
+void		heredoc_update(t_minishell *s_minishell);
 
 //utils_fincitions
 void		ignore_quotes(int *count, char *prompt);

@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:03:09 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/07/23 13:50:18 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/25 16:23:10 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,4 +80,18 @@ void	norme_char(int *count, int *count_result, char	*result, char	*prompt)
 		(*count_result)++;
 		(*count)++;
 	}
+}
+
+int	count_matrix_len(char **matrix)
+{
+	int	len;
+
+	len = 0;
+	if (matrix == NULL || matrix[0] == NULL)
+		return (0);
+	while (matrix[len] != NULL)
+	{
+		len++;
+	}
+	return (len);
 }

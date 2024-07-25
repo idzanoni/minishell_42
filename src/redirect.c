@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 15:38:22 by izanoni           #+#    #+#             */
-/*   Updated: 2024/07/23 18:31:50 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/25 16:22:04 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,15 +67,24 @@ t_fds	find_redirect(t_minishell *s_minishell)
 }
 
 void	left_redirect(t_minishell *s_minishell,
-			t_fds	*fd_redirect, int *count)
+			t_fds *fd_redirect, int *count)
 {
 	if (fd_redirect->fd_in != STDIN_FILENO)
 		close (fd_redirect->fd_in);
-	if (s_minishell->current_cmd[(*count)][1] == '<')
-		fd_redirect->fd_in = open(s_minishell->current_heredoc, O_RDONLY);
+	if (s_minishell->current_cmd[(*count) + 1][0] != '\0')
+	{
+		if (s_minishell->current_cmd[(*count)][1] == '<')
+			fd_redirect->fd_in = open(s_minishell->current_heredoc, O_RDONLY);
+		else
+			fd_redirect->fd_in = open(s_minishell->current_cmd[(*count) + 1],
+					O_RDONLY);
+	}
 	else
-		fd_redirect->fd_in = open(s_minishell->current_cmd[(*count) + 1],
-				O_RDONLY);
+	{
+		fd_redirect->fd_out = -2;
+		print_error(s_minishell->current_cmd[(*count) + 1],
+			": ambiguos redirect");
+	}
 }
 
 void	right_redirect(t_minishell *s_minishell,

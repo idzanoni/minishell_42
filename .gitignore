@@ -1,6 +1,4 @@
 .vscode/
-/velho
-/support
 *.o
 minishell
 logs

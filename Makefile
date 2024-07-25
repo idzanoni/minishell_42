@@ -6,7 +6,7 @@
 #    By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/20 17:13:45 by izanoni           #+#    #+#              #
-#    Updated: 2024/07/24 20:31:57 by mgonzaga         ###   ########.fr        #
+#    Updated: 2024/07/25 15:46:44 by mgonzaga         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,8 +17,8 @@ FLAGS = -Wall -Wextra -Werror -g3 -I$(LIBFT)
 RM = rm -f
 
 LIBFT = ./libft
-
-FILES = $(addsuffix .c, bt_cd\
+SRC_PATH = ./src/
+FILES = $(addprefix $(SRC_PATH), $(addsuffix .c, bt_cd\
 			bt_env \
 			bt_export \
 			bt_unset \
@@ -47,7 +47,7 @@ FILES = $(addsuffix .c, bt_cd\
 			more_command\
 			handle_path\
 			aux_children\
-			utils_export)
+			utils_export))
 			 
 OBJ = $(FILES:%.c=%.o)			
 
@@ -64,7 +64,7 @@ v: all
 	--suppressions=leak_readline --track-fds=yes ./$(NAME)
 
 %.o: %.c
-	$(CC) $(FLAGS) -c $< -o $@
+	$(CC) $(FLAGS) -c $< -o $@ -I .
 
 clean:
 	@make clean -C $(LIBFT)
