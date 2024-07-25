@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 17:13:50 by izanoni           #+#    #+#             */
-/*   Updated: 2024/07/24 20:51:29 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/24 21:44:36 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void		update_wd(char *new_path, t_env_list *envp, char *old_path);
 
 //bt_echo
 void		bt_echo(t_minishell *s_minishell, t_fds fd_redirect);
-void		echo_n(int *n, int *count, int *val, char **splited_prompt);
+int		echo_n(int *n, int *count, int *val, char **splited_prompt);
 
 //bt_env
 int			bt_env(t_minishell	*s_minishell, t_fds	fd_redirect);

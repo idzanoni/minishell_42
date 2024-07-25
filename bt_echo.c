@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 19:18:17 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/07/23 17:23:20 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/24 21:58:03 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,14 @@ void	bt_echo(t_minishell *s_minishell, t_fds fd_redirect)
 	while (s_minishell->current_cmd[count] != NULL)
 	{
 		if (s_minishell->current_cmd[count][0] == '-')
-			echo_n(&n, &count, &val, s_minishell->current_cmd);
+		{			
+			if(echo_n(&n, &count, &val, s_minishell->current_cmd) == 1)
+			{
+				 	ft_putstr_fd(s_minishell->current_cmd[count - 1], fd_redirect.fd_out);
+					if(s_minishell->current_cmd[count] != NULL)
+						ft_putstr_fd(" ", fd_redirect.fd_out);
+			}
+		}
 		else
 		{
 			ft_putstr_fd(s_minishell->current_cmd[count],
@@ -40,11 +47,23 @@ void	bt_echo(t_minishell *s_minishell, t_fds fd_redirect)
 		write(fd_redirect.fd_out, "\n", 1);
 }
 
-void	echo_n(int *n, int *count, int *val,
+int	echo_n(int *n, int *count, int *val,
 	char **splited_prompt)
 {
+	int	i;
+
+	i = 1;
 	if (splited_prompt[(*count)][1] == 'n' && (*val) == 0)
 	{
+		while(splited_prompt[(*count)][i] != '\0')
+		{
+			if(splited_prompt[(*count)][i] != 'n')
+			{
+				(*count)++;
+				return(1);
+			}
+			i++;
+		}
 		(*count)++;
 		(*n)++;
 	}
@@ -55,4 +74,5 @@ void	echo_n(int *n, int *count, int *val,
 		(*count)++;
 		(*val)++;
 	}
+	return(0);
 }
