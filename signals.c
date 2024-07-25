@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 19:22:25 by izanoni           #+#    #+#             */
-/*   Updated: 2024/07/24 21:58:42 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/25 14:50:52 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,6 @@ void	handle_signals(void)
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGPIPE, sig_pipe_error);
 }
-
-/* void	sig_ctrl_d(int sig)
-{
-	g_signal = sig;
-	ft_putstr_fd("\n", STDOUT_FILENO);
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	close(STDIN_FILENO);
-} */
 
 void	sig_ctrl_c(int sig)
 {
@@ -56,9 +47,11 @@ void	sig_execute(int child_pid)
 	if (child_pid == 0)
 	{
 		signal(SIGINT, end_heredoc);
+		signal(SIGQUIT, SIG_DFL);
 	}
 	else
 	{
 		signal(SIGINT, SIG_IGN);
+		signal(SIGQUIT, SIG_IGN);
 	}
 }

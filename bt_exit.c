@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 19:20:11 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/07/23 18:14:19 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/25 14:09:37 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,5 +71,6 @@ void	cleanup_and_exit(t_minishell *s_minishell, t_fds fd_redirect)
 		close (fd_redirect.fd_out);
 	if (fd_redirect.fd_in != STDIN_FILENO)
 		close (fd_redirect.fd_in);
+	printf("exit\n");
 	exit (s_minishell->exit_status);
 }

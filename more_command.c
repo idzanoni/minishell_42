@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   more_command.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: izanoni <izanoni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 16:33:57 by izanoni           #+#    #+#             */
-/*   Updated: 2024/07/24 17:17:13 by izanoni          ###   ########.fr       */
+/*   Updated: 2024/07/25 15:32:38 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	more_command(t_minishell *s_minishell)
 	if (!fork_return)
 		return ;
 	handle_pipes(s_minishell, fork_return, count_pipes);
+	fork_return[count_pipes + 1] = -42;
 	wait_children(fork_return, s_minishell);
 	free(fork_return);
 }
@@ -33,13 +34,14 @@ void	handle_pipes(t_minishell *s_minishell, int *fork_return,
 	int	fds[2];
 	int	fd_bkp;
 
-	j = 0;
+	j = -1;
 	fd_bkp = STDIN_FILENO;
 	while (count_pipes >= 0)
 	{
+		heredoc_update(s_minishell);
 		if (count_pipes > 0)
 			pipe(fds);
-		fork_return[j] = fork();
+		fork_return[++j] = fork();
 		sig_execute(fork_return[j]);
 		if (fork_return[j] == 0)
 		{
@@ -48,19 +50,18 @@ void	handle_pipes(t_minishell *s_minishell, int *fork_return,
 		}
 		else
 		{
+			free(s_minishell->current_heredoc);
 			ready_for_next (s_minishell, fds, &fd_bkp, count_pipes);
 			count_pipes--;
-			j++;
 		}
 	}
-	fork_return[j] = -42;
 }
 
 void	prep_and_execute(t_minishell *s_minishell, int fds[2],
 			int *fd_bkp, int count_pipes)
 {
 	rl_clear_history();
-	get_command_and_cleanup(s_minishell, count_pipes);
+	get_command_and_cleanup(s_minishell);
 	if (count_pipes > 0)
 	{
 		dup2(fds[1], STDOUT_FILENO);
@@ -85,13 +86,8 @@ void	ready_for_next(t_minishell *s_minishell, int fds[2],
 		close(fds[1]);
 }
 
-void	get_command_and_cleanup(t_minishell *s_minishell, int j)
+void	get_command_and_cleanup(t_minishell *s_minishell)
 {
-	if (s_minishell->heredoc_names != NULL)
-	{
-		s_minishell->current_heredoc = s_minishell->heredoc_names[j];
-		move_matrix(s_minishell->heredoc_names, j);
-	}
 	s_minishell->current_cmd = get_command(s_minishell->splited_prompt);
 	free_all(s_minishell->splited_prompt);
 	free_all(s_minishell->heredoc_names);

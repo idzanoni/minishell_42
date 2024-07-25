@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 17:13:50 by izanoni           #+#    #+#             */
-/*   Updated: 2024/07/24 21:44:36 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/25 15:14:26 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,11 @@ void		update_wd(char *new_path, t_env_list *envp, char *old_path);
 
 //bt_echo
 void		bt_echo(t_minishell *s_minishell, t_fds fd_redirect);
-int		echo_n(int *n, int *count, int *val, char **splited_prompt);
+int			echo_n(int *n, int *count, int *val, char **splited_prompt);
+void		util_echo_n(t_fds fd_redirect, int *count,
+				t_minishell	*s_minishel);
+void		util_echo(t_fds fd_redirect, int *count,
+				t_minishell *s_minishell, int *val);
 
 //bt_env
 int			bt_env(t_minishell	*s_minishell, t_fds	fd_redirect);
@@ -197,7 +201,8 @@ void		prep_and_execute(t_minishell *s_minishell, int fds[2],
 				int *fd_bkp, int count_pipes);
 void		ready_for_next(t_minishell *s_minishell, int fds[2],
 				int *fd_bkp, int count_pipes);
-void		get_command_and_cleanup(t_minishell *s_minishell, int j);
+void		get_command_and_cleanup(t_minishell *s_minishell);
+void		heredoc_update(t_minishell *s_minishell);
 
 //norme_prompt
 char		*norme_string(char *prompt);

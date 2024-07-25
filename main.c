@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: izanoni <izanoni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 12:07:47 by izanoni           #+#    #+#             */
-/*   Updated: 2024/07/24 12:10:08 by izanoni          ###   ########.fr       */
+/*   Updated: 2024/07/25 13:16:59 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,5 +23,6 @@ int	main(int argc, char **argv, char **envp)
 	minishell(&s_minishell);
 	rl_clear_history();
 	close(STDIN_FILENO);
+	printf("exit\n");
 	return (0);
 }

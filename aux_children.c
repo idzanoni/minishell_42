@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   aux_children.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: izanoni <izanoni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 16:43:35 by izanoni           #+#    #+#             */
-/*   Updated: 2024/07/24 16:47:07 by izanoni          ###   ########.fr       */
+/*   Updated: 2024/07/25 14:38:10 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	cleanup_children(t_minishell *s_minishell)
 	close(STDOUT_FILENO);
 	free_all(s_minishell->current_cmd);
 	free_list(s_minishell->envp);
+	free_all(s_minishell->heredoc_names);
 	free(s_minishell->current_heredoc);
 	exit(s_minishell->exit_status);
 }

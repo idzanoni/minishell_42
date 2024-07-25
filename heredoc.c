@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 14:10:52 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/07/23 13:49:21 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/07/25 15:20:25 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,9 +114,9 @@ int	heredoc_process(int	*count, t_minishell *s_minishell,
 		if (cmp == NULL)
 			break ;
 	}
+	if (cmp == NULL && g_signal != SIGINT)
+		ft_putchar_fd('\n', 1);
 	free(cmp);
 	(*count)++;
-	if (g_signal == SIGINT)
-		return (1);
-	return (0);
+	return (g_signal == SIGINT);
 }
