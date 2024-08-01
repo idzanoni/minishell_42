@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_functions2.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: izanoni <izanoni@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 15:15:30 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/07/24 13:12:25 by izanoni          ###   ########.fr       */
+/*   Updated: 2024/08/01 15:29:46 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,9 @@ void	malloc_var_process(t_minishell *s_minishell,
 	free(str_exit_status);
 }
 
-void	sig_pipe_error(int f)
+void	sig_pipe_error(int sig)
 {
-	(void) f;
-	close (STDERR_FILENO);
+	(void) sig;
+	rl_on_new_line();
+	rl_replace_line("", 0);
 }

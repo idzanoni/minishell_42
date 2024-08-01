@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 17:13:50 by izanoni           #+#    #+#             */
-/*   Updated: 2024/07/25 16:21:11 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/08/01 15:38:06 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void		update_wd(char *new_path, t_env_list *envp, char *old_path);
 void		bt_echo(t_minishell *s_minishell, t_fds fd_redirect);
 int			echo_n(int *n, int *count, int *val, char **splited_prompt);
 void		util_echo_n(t_fds fd_redirect, int *count,
-				t_minishell	*s_minishel);
+				t_minishell	*s_minishel, int *val);
 void		util_echo(t_fds fd_redirect, int *count,
 				t_minishell *s_minishell, int *val);
 
@@ -95,7 +95,7 @@ int			is_numeric_argument(char *arg);
 
 //bt_export
 void		bt_export(t_minishell	*s_minishell, t_fds	fd_redirect);
-void		print_different(t_env_list *env, int fd);
+void		print_diferent(char **env, int fd);
 void		find_inenvp_export(t_minishell *s_minishell, int *count, int	*i);
 int			valid_export_var_name(int *count, int *i, t_minishell *s_minishell);
 
@@ -145,7 +145,7 @@ void		exec_commands(t_minishell *s_minishell, t_fds	fd_redirect);
 
 //expand_var
 void		move_matrix(char **splited_prompt, int start);
-void		expand_var(char **splited_prompt, t_env_list *envp,
+int			expand_var(char **splited_prompt, t_env_list *envp,
 				t_minishell *s_minishell);
 void		mod_quots(char *input);
 void		remov_quots(char *input);
@@ -239,9 +239,10 @@ size_t		ft_strlen_2(const char *s);
 
 //utils_export
 void		while_export(char	*all, int *len, int *a, char *string);
-void		util_export(t_env_list *env, int *a, int *len, char *all);
+void		util_export(char **env, int *a, int *len, char *all);
 void		export_only(t_minishell *s_minishell, t_fds fd_redirect);
 void		heredoc_update(t_minishell *s_minishell);
+void		sort_indexes(char **order_env);
 
 //utils_fincitions
 void		ignore_quotes(int *count, char *prompt);

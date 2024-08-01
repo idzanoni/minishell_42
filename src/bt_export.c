@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 12:37:07 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/07/24 20:31:12 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/08/01 15:29:13 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,32 +41,32 @@ void	bt_export(t_minishell *s_minishell, t_fds fd_redirect)
 	}
 }
 
-void	print_different(t_env_list *env, int fd)
+void	print_diferent(char **env, int fd)
 {
-	int			len;
-	char		*all;
-	char		*s;
-	int			a;
+	int		len;
+	char	*all;
+	char	*s;
+	int		a;
 
-	while (env != NULL)
+	while (*env != NULL)
 	{
 		len = 0;
-		a = ft_strlen(env->content);
+		a = ft_strlen(*env);
 		all = calloc((a + 17), sizeof(char));
 		s = "declare -x ";
 		a = 0;
 		while_export(all, &len, &a, s);
 		len = 12;
 		a = 0;
-		if (ft_strchr(env->content, '=') != NULL)
+		if (ft_strchr(*env, '=') != NULL)
 			util_export(env, &a, &len, all);
 		else
-			while_export(all, &len, &a, env->content);
+			while_export(all, &len, &a, *env);
 		all[len++] = '\n';
 		all[len] = '\0';
 		write(fd, all, len);
 		free(all);
-		env = env->next;
+		env++;
 	}
 }
 

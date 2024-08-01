@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 19:21:15 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/07/23 14:14:33 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/08/01 15:34:33 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,16 @@ void	move_matrix(char **splited_prompt, int start)
 	}
 }
 
-void	expand_var(char **splited_prompt, t_env_list *envp,
+int	expand_var(char **splited_prompt, t_env_list *envp,
 	t_minishell *s_minishell)
 {
 	int	count;
+	int	need_to_expand_after;
 
 	count = 0;
+	need_to_expand_after = 1;
+	if (splited_prompt[0][0] == '\'' || splited_prompt[0][0] == '"')
+		need_to_expand_after = 0;
 	while (splited_prompt[count] != NULL)
 	{
 		mod_quots(splited_prompt[count]);
@@ -41,11 +45,13 @@ void	expand_var(char **splited_prompt, t_env_list *envp,
 		{
 			free(splited_prompt[count]);
 			move_matrix(splited_prompt, count);
+			count--;
 		}
-		if (splited_prompt[count] != NULL)
+		if (count >= 0 && splited_prompt[count] != NULL)
 			remov_quots(splited_prompt[count]);
 		count++;
 	}
+	return (need_to_expand_after);
 }
 
 void	mod_quots(char *input)

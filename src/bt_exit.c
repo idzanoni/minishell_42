@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 19:20:11 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/07/25 14:09:37 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/08/01 15:29:46 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	bt_exit(t_minishell *s_minishell, t_fds fd_redirect)
 {
+	printf("exit\n");
 	handle_exit_arguments(s_minishell);
 	cleanup_and_exit(s_minishell, fd_redirect);
 }

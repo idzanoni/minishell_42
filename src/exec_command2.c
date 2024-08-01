@@ -6,7 +6,7 @@
 /*   By: mgonzaga <mgonzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 18:33:42 by mgonzaga          #+#    #+#             */
-/*   Updated: 2024/07/23 17:23:20 by mgonzaga         ###   ########.fr       */
+/*   Updated: 2024/08/01 17:20:33 by mgonzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,13 @@
 void	bt_or_exec(t_minishell *s_minishell)
 {
 	t_fds	fd_redirect;
+	int		need_to_expand;
 
+	need_to_expand = 0;
 	if (s_minishell->current_cmd != NULL
 		&& s_minishell->current_cmd[0] != NULL)
-		expand_var(s_minishell->current_cmd,
-			s_minishell->envp, s_minishell);
+		need_to_expand = expand_var(s_minishell->current_cmd,
+				s_minishell->envp, s_minishell);
 	fd_redirect = find_redirect (s_minishell);
 	if (fd_redirect.fd_in <= -1 || fd_redirect.fd_out <= -1)
 	{
@@ -27,7 +29,7 @@ void	bt_or_exec(t_minishell *s_minishell)
 		return ;
 	}
 	free_redirect(s_minishell->current_cmd);
-	if (ft_strchr(s_minishell->current_cmd[0], ' ') != NULL)
+	if (ft_strchr(s_minishell->current_cmd[0], ' ') != NULL && need_to_expand)
 		expand_with_command(s_minishell);
 	if (s_minishell->current_cmd != NULL
 		&& s_minishell->current_cmd[0] != NULL)
